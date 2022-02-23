@@ -22,6 +22,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Table;
 
 public class Main {
 
@@ -45,6 +46,24 @@ public class Main {
 	private Text searchAddressError;
 	private Text searchEmailError;
 	private Text txtCurrentCustomer;
+	private Text txtInvSearchBar;
+	private Table tableInv;
+	private Text searchAddInvBrand;
+	private Text searchAddInvBrandError;
+	private Text searchAddInvModel;
+	private Text searchAddInvModelError;
+	private Text searchAddInvSize;
+	private Text searchAddInvSizeError;
+	private Text searchAddInvQuantity;
+	private Text searchAddInvQuantityError;
+	private Text searchAddInvPrice;
+	private Text searchAddInvPriceError;
+	private Text searchRmvInvBrand;
+	private Text searchRmvInvBrandError;
+	private Text searchRmvInvModel;
+	private Text searchRmvInvModelError;
+	private Text searchRmvInvSize;
+	private Text searchRmvInvSizeError;
 
 	/**
 	 * Launch the application.
@@ -318,8 +337,161 @@ public class Main {
 		TabItem tbtmNewItem_3 = new TabItem(tabFolder, 0);
 		tbtmNewItem_3.setText("Inventory");
 
-		Composite composite_3 = new Composite(tabFolder, SWT.NONE);
-		tbtmNewItem_3.setControl(composite_3);
+		Composite InventoryComposite = new Composite(tabFolder, SWT.NONE);
+		InventoryComposite.setLocation(-48, -329);
+		tbtmNewItem_3.setControl(InventoryComposite);
+		
+		Composite RmvInvComp = new Composite(InventoryComposite, SWT.NONE);
+		RmvInvComp.setBounds(436, 290, 328, 219);
+		
+		Label lblRmvInv = new Label(RmvInvComp, SWT.NONE);
+		lblRmvInv.setBounds(113, 20, 102, 16);
+		lblRmvInv.setText("Remove Inventory");
+		
+		Label lblRmvInvBrand = new Label(RmvInvComp, SWT.NONE);
+		lblRmvInvBrand.setBounds(14, 51, 56, 16);
+		lblRmvInvBrand.setText("Brand:");
+		
+		Label lblRmvInvModel = new Label(RmvInvComp, SWT.NONE);
+		lblRmvInvModel.setBounds(10, 95, 56, 16);
+		lblRmvInvModel.setText("Model:");
+		
+		Label lblRmvInvSize = new Label(RmvInvComp, SWT.NONE);
+		lblRmvInvSize.setBounds(22, 138, 56, 16);
+		lblRmvInvSize.setText("Size:");
+		
+		searchRmvInvBrand = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvBrand.setBounds(58, 51, 247, 19);
+		
+		searchRmvInvBrandError = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvBrandError.setBounds(58, 73, 247, 19);
+		
+		searchRmvInvModel = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvModel.setBounds(58, 95, 247, 19);
+		
+		searchRmvInvModelError = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvModelError.setBounds(58, 117, 247, 19);
+		
+		searchRmvInvSize = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvSize.setBounds(58, 139, 247, 19);
+		
+		searchRmvInvSizeError = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvSizeError.setBounds(58, 161, 247, 19);
+		
+		Button btnRmvInvSubmit = new Button(RmvInvComp, SWT.NONE);
+		btnRmvInvSubmit.setBounds(68, 186, 70, 21);
+		btnRmvInvSubmit.setText("Submit");
+		
+		Button btnRmvInvClear = new Button(RmvInvComp, SWT.NONE);
+		btnRmvInvClear.setBounds(225, 186, 70, 21);
+		btnRmvInvClear.setText("Clear");
+		
+		Button btnXRmvInv = new Button(RmvInvComp, SWT.NONE);
+		btnXRmvInv.setBounds(297, 10, 21, 21);
+		btnXRmvInv.setText("X");
+		
+		Composite Inv2ButtonComp = new Composite(InventoryComposite, SWT.NONE);
+		Inv2ButtonComp.setBounds(10, 10, 328, 265);
+		
+		Button btnAddInv = new Button(Inv2ButtonComp, SWT.NONE);
+		btnAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		btnAddInv.setBounds(31, 24, 93, 51);
+		btnAddInv.setText("Add Inventory");
+		
+		Button btnRmvInv = new Button(Inv2ButtonComp, SWT.NONE);
+		btnRmvInv.setBounds(181, 24, 110, 51);
+		btnRmvInv.setText("Remove Inventory");
+		
+		txtInvSearchBar = new Text(Inv2ButtonComp, SWT.BORDER);
+		txtInvSearchBar.setText("Type tire brand, model, or size to search");
+		txtInvSearchBar.setBounds(10, 98, 249, 19);
+		
+		Button btnInvSearch = new Button(Inv2ButtonComp, SWT.NONE);
+		btnInvSearch.setBounds(265, 98, 53, 20);
+		btnInvSearch.setText("Search");
+		
+		tableInv = new Table(Inv2ButtonComp, SWT.BORDER | SWT.FULL_SELECTION);
+		tableInv.setBounds(36, 142, 255, 87);
+		tableInv.setHeaderVisible(true);
+		tableInv.setLinesVisible(true);
+		
+		Composite AddInvComp = new Composite(InventoryComposite, SWT.NONE);
+		AddInvComp.setBounds(10, 290, 328, 308);
+		
+		Label lblAddInventory = new Label(AddInvComp, SWT.NONE);
+		lblAddInventory.setBounds(124, 20, 82, 16);
+		lblAddInventory.setText("Add Inventory");
+		
+		Label lblAddInvBrand = new Label(AddInvComp, SWT.NONE);
+		lblAddInvBrand.setBounds(24, 51, 56, 16);
+		lblAddInvBrand.setText("Brand:");
+		
+		Label lblAddInvModel = new Label(AddInvComp, SWT.NONE);
+		lblAddInvModel.setBounds(20, 96, 56, 16);
+		lblAddInvModel.setText("Model:");
+		
+		Label lblAddInvSize = new Label(AddInvComp, SWT.NONE);
+		lblAddInvSize.setBounds(34, 140, 56, 16);
+		lblAddInvSize.setText("Size:");
+		
+		Label lblAddInvQuantity = new Label(AddInvComp, SWT.NONE);
+		lblAddInvQuantity.setBounds(10, 184, 56, 16);
+		lblAddInvQuantity.setText("Quantity:");
+		
+		Label lblAddInvPrice = new Label(AddInvComp, SWT.NONE);
+		lblAddInvPrice.setBounds(32, 227, 56, 16);
+		lblAddInvPrice.setText("Price:");
+		
+		searchAddInvBrand = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvBrand.setBounds(66, 51, 240, 19);
+		
+		searchAddInvBrandError = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvBrandError.setBounds(66, 73, 240, 19);
+		
+		searchAddInvModel = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvModel.setBounds(66, 95, 240, 19);
+		
+		searchAddInvModelError = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvModelError.setBounds(66, 117, 240, 19);
+		
+		searchAddInvSize = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvSize.setBounds(66, 139, 240, 19);
+		
+		searchAddInvSizeError = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvSizeError.setBounds(66, 161, 240, 19);
+		
+		searchAddInvQuantity = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvQuantity.setBounds(66, 183, 240, 19);
+		
+		searchAddInvQuantityError = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvQuantityError.setBounds(66, 205, 240, 19);
+		
+		searchAddInvPrice = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvPrice.setBounds(66, 227, 240, 19);
+		
+		searchAddInvPriceError = new Text(AddInvComp, SWT.BORDER);
+		searchAddInvPriceError.setBounds(66, 249, 240, 19);
+		
+		Button btnAddInvSubmit = new Button(AddInvComp, SWT.NONE);
+		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		btnAddInvSubmit.setBounds(76, 277, 70, 21);
+		btnAddInvSubmit.setText("Submit");
+		
+		Button btnClearAddInv = new Button(AddInvComp, SWT.NONE);
+		btnClearAddInv.setBounds(226, 277, 70, 21);
+		btnClearAddInv.setText("Clear");
+		
+		Button btnXAddInv = new Button(AddInvComp, SWT.NONE);
+		btnXAddInv.setBounds(297, 10, 21, 21);
+		btnXAddInv.setText("X");
 
 		TabItem tbtmNewItem_4 = new TabItem(tabFolder, 0);
 		tbtmNewItem_4.setText("Work Orders");
@@ -360,6 +532,42 @@ public class Main {
 				System.out.println("Button : X (Search Account");
 				SearchAcctComp.setVisible(false);
 				Cust2ButtonComp.setEnabled(true);
+			}
+		});
+		
+		btnAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Add Inventory");
+				AddInvComp.setVisible(true);
+				Inv2ButtonComp.setEnabled(false);
+			}
+		});
+		
+		btnRmvInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Remove Inventory");
+				RmvInvComp.setVisible(true);
+				Cust2ButtonComp.setEnabled(false);
+			}
+		});
+		
+		btnXAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : X (Add Inventory)");
+				AddInvComp.setVisible(false);
+				Inv2ButtonComp.setEnabled(true);
+			}
+		});
+		
+		btnXRmvInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : X (Remove Inventory)");
+				RmvInvComp.setVisible(false);
+				Inv2ButtonComp.setEnabled(true);
 			}
 		});
 	}
