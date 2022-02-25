@@ -3,6 +3,9 @@ package seniorproject;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import javax.swing.JLabel;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
@@ -23,6 +26,10 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.widgets.List;
 
 public class Main {
 
@@ -64,6 +71,22 @@ public class Main {
 	private Text searchRmvInvModelError;
 	private Text searchRmvInvSize;
 	private Text searchRmvInvSizeError;
+	private Text text_7;
+	private Text text_8;
+	private Text text_9;
+	private Text text_10;
+	private Text text_11;
+	private Text text_12;
+	private Text text;
+	private Text text_1;
+	private Text text_3;
+	private Text text_4;
+	private Text text_5;
+	private Text text_6;
+	private Text text_13;
+	private Text text_14;
+	private Text text_15;
+	private Text text_16;
 
 	/**
 	 * Launch the application.
@@ -114,19 +137,19 @@ public class Main {
 		
 		Composite SearchAcctComp = new Composite(CustomerComposite, SWT.NONE);
 		FormData fd_SearchAcctComp = new FormData();
-		fd_SearchAcctComp.left = new FormAttachment(0, 51);
-		fd_SearchAcctComp.bottom = new FormAttachment(100, -46);
-		fd_SearchAcctComp.right = new FormAttachment(0, 468);
+		fd_SearchAcctComp.bottom = new FormAttachment(100, -28);
+		fd_SearchAcctComp.left = new FormAttachment(0, 50);
 		SearchAcctComp.setLayoutData(fd_SearchAcctComp);
 		SearchAcctComp.setLayout(new GridLayout(3, false));
 
 		Composite NewAcctComp = new Composite(CustomerComposite, SWT.NONE);
+		fd_SearchAcctComp.right = new FormAttachment(NewAcctComp, -29);
 		NewAcctComp.setLayout(new GridLayout(4, false));
 		FormData fd_NewAcctComp = new FormData();
-		fd_NewAcctComp.bottom = new FormAttachment(SearchAcctComp, 0, SWT.BOTTOM);
-		fd_NewAcctComp.top = new FormAttachment(SearchAcctComp, 0, SWT.TOP);
-		fd_NewAcctComp.left = new FormAttachment(SearchAcctComp, 28);
-		fd_NewAcctComp.right = new FormAttachment(0, 896);
+		fd_NewAcctComp.top = new FormAttachment(0, 267);
+		fd_NewAcctComp.bottom = new FormAttachment(100, -46);
+		fd_NewAcctComp.right = new FormAttachment(100, -47);
+		fd_NewAcctComp.left = new FormAttachment(0, 496);
 		NewAcctComp.setLayoutData(fd_NewAcctComp);
 																new Label(NewAcctComp, SWT.NONE);
 																
@@ -223,7 +246,7 @@ public class Main {
 		new Label(NewAcctComp, SWT.NONE);
 
 		Composite Cust2ButtonComp = new Composite(CustomerComposite, SWT.NONE);
-		fd_SearchAcctComp.top = new FormAttachment(Cust2ButtonComp, 35);
+		fd_SearchAcctComp.top = new FormAttachment(Cust2ButtonComp, 53);
 		new Label(SearchAcctComp, SWT.NONE);
 		new Label(SearchAcctComp, SWT.NONE);
 		new Label(SearchAcctComp, SWT.NONE);
@@ -323,10 +346,124 @@ public class Main {
 
 		TabItem tbtmNewItem_1 = new TabItem(tabFolder, 0);
 		tbtmNewItem_1.setText("Products");
-
-		Composite composite_1 = new Composite(tabFolder, SWT.NONE);
-		tbtmNewItem_1.setControl(composite_1);
-
+		
+		Composite ProductsComposite_1 = new Composite(tabFolder, SWT.NONE);
+		tbtmNewItem_1.setControl(ProductsComposite_1);
+		
+		Composite TireSearchComp_1 = new Composite(ProductsComposite_1, SWT.NONE);
+		TireSearchComp_1.setBounds(0, 10, 473, 23);
+		
+		Combo BrandCombo_1 = new Combo(TireSearchComp_1, SWT.NONE);
+		BrandCombo_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		BrandCombo_1.setBounds(0, 0, 94, 23);
+		BrandCombo_1.setText("            Brand");
+		
+		Combo WidthCombo_1 = new Combo(TireSearchComp_1, SWT.NONE);
+		WidthCombo_1.setBounds(93, 0, 87, 23);
+		WidthCombo_1.setText(" Tire Width");
+		
+		Combo RatioCombo_1 = new Combo(TireSearchComp_1, SWT.NONE);
+		RatioCombo_1.setBounds(180, 0, 94, 23);
+		RatioCombo_1.setText(" Aspect Ratio");
+		
+		Combo DiameterCombo_1 = new Combo(TireSearchComp_1, SWT.NONE);
+		DiameterCombo_1.setBounds(274, 0, 87, 23);
+		DiameterCombo_1.setText(" Diameter");
+		
+		Button ProdBtnSearch_1 = new Button(TireSearchComp_1, SWT.NONE);
+		ProdBtnSearch_1.setText("Search");
+		ProdBtnSearch_1.setBounds(388, 0, 75, 25);
+		
+		Composite composite_1 = new Composite(ProductsComposite_1, SWT.NONE);
+		composite_1.setBounds(0, 54, 535, 313);
+		
+		Label lblNewLabel_9_4 = new Label(composite_1, SWT.NONE);
+		lblNewLabel_9_4.setText("Brand");
+		lblNewLabel_9_4.setAlignment(SWT.CENTER);
+		lblNewLabel_9_4.setBounds(10, 10, 93, 26);
+		
+		text_7 = new Text(composite_1, SWT.BORDER);
+		text_7.setBounds(10, 38, 93, 21);
+		
+		Label lblNewLabel_9_1_1 = new Label(composite_1, SWT.NONE);
+		lblNewLabel_9_1_1.setText("Model");
+		lblNewLabel_9_1_1.setAlignment(SWT.CENTER);
+		lblNewLabel_9_1_1.setBounds(109, 10, 93, 26);
+		
+		Label lblNewLabel_9_2_1 = new Label(composite_1, SWT.NONE);
+		lblNewLabel_9_2_1.setText("Size");
+		lblNewLabel_9_2_1.setAlignment(SWT.CENTER);
+		lblNewLabel_9_2_1.setBounds(198, 10, 93, 26);
+		
+		Label lblNewLabel_9_3_2 = new Label(composite_1, SWT.NONE);
+		lblNewLabel_9_3_2.setText("Inventory");
+		lblNewLabel_9_3_2.setAlignment(SWT.CENTER);
+		lblNewLabel_9_3_2.setBounds(291, 10, 93, 26);
+		
+		text_8 = new Text(composite_1, SWT.BORDER);
+		text_8.setBounds(99, 38, 103, 21);
+		
+		text_9 = new Text(composite_1, SWT.BORDER);
+		text_9.setBounds(198, 38, 103, 21);
+		
+		text_10 = new Text(composite_1, SWT.BORDER);
+		text_10.setBounds(301, 38, 69, 21);
+		
+		Label lblNewLabel_9_3_1_2 = new Label(composite_1, SWT.NONE);
+		lblNewLabel_9_3_1_2.setText("Price");
+		lblNewLabel_9_3_1_2.setAlignment(SWT.CENTER);
+		lblNewLabel_9_3_1_2.setBounds(369, 10, 93, 26);
+		
+		text_11 = new Text(composite_1, SWT.BORDER);
+		text_11.setBounds(369, 38, 69, 21);
+		
+		Label lblNewLabel_9_3_1_1_1 = new Label(composite_1, SWT.NONE);
+		lblNewLabel_9_3_1_1_1.setText("Add to Cart");
+		lblNewLabel_9_3_1_1_1.setAlignment(SWT.CENTER);
+		lblNewLabel_9_3_1_1_1.setBounds(442, 10, 93, 26);
+		
+		text_12 = new Text(composite_1, SWT.BORDER);
+		text_12.setBounds(482, 38, 20, 21);
+		
+		Button button_1 = new Button(composite_1, SWT.NONE);
+		button_1.setBounds(452, 38, 24, 21);
+		button_1.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
+		button_1.setText("-");
+		
+		Button button_1_1 = new Button(composite_1, SWT.NONE);
+		button_1_1.setBounds(508, 36, 24, 23);
+		button_1_1.setText("+");
+		button_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
+		
+		text = new Text(composite_1, SWT.BORDER);
+		text.setBounds(10, 60, 93, 21);
+		
+		text_1 = new Text(composite_1, SWT.BORDER);
+		text_1.setBounds(99, 60, 103, 21);
+		
+		text_3 = new Text(composite_1, SWT.BORDER);
+		text_3.setBounds(198, 60, 103, 21);
+		
+		text_4 = new Text(composite_1, SWT.BORDER);
+		text_4.setBounds(301, 60, 69, 21);
+		
+		text_5 = new Text(composite_1, SWT.BORDER);
+		text_5.setBounds(369, 60, 69, 21);
+		
+		text_6 = new Text(composite_1, SWT.BORDER);
+		text_6.setBounds(10, 82, 93, 21);
+		
+		text_13 = new Text(composite_1, SWT.BORDER);
+		text_13.setBounds(99, 82, 103, 21);
+		
+		text_14 = new Text(composite_1, SWT.BORDER);
+		text_14.setBounds(198, 82, 103, 21);
+		
+		text_15 = new Text(composite_1, SWT.BORDER);
+		text_15.setBounds(301, 82, 69, 21);
+		
+		text_16 = new Text(composite_1, SWT.BORDER);
+		text_16.setBounds(369, 82, 69, 21);
 		TabItem tbtmNewItem_2 = new TabItem(tabFolder, 0);
 		tbtmNewItem_2.setText("Cart");
 
@@ -391,7 +528,7 @@ public class Main {
 		btnXRmvInv.setText("X");
 		
 		Composite Inv2ButtonComp = new Composite(InventoryComposite, SWT.NONE);
-		Inv2ButtonComp.setBounds(10, 10, 328, 265);
+		Inv2ButtonComp.setBounds(24, 10, 328, 265);
 		
 		Button btnAddInv = new Button(Inv2ButtonComp, SWT.NONE);
 		btnAddInv.addSelectionListener(new SelectionAdapter() {
