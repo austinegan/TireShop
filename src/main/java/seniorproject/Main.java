@@ -87,6 +87,11 @@ public class Main {
 	private Text text_14;
 	private Text text_15;
 	private Text text_16;
+	private Text searchCust;
+	private Table table;
+	private Text txtCustomer;
+	private Text txtPhoneNumber;
+	private Table table_1;
 
 	/**
 	 * Launch the application.
@@ -633,8 +638,80 @@ public class Main {
 		TabItem tbtmNewItem_4 = new TabItem(tabFolder, 0);
 		tbtmNewItem_4.setText("Work Orders");
 
-		Composite composite_4 = new Composite(tabFolder, SWT.NONE);
-		tbtmNewItem_4.setControl(composite_4);
+		Composite WorkOrderComposite = new Composite(tabFolder, SWT.NONE);
+		tbtmNewItem_4.setControl(WorkOrderComposite);
+		
+		Composite allWorkOrders = new Composite(WorkOrderComposite, SWT.NONE);
+		allWorkOrders.setBounds(10, 10, 413, 279);
+		
+		searchCust = new Text(allWorkOrders, SWT.BORDER);
+		searchCust.setText("Search by customer name, phone number, or address");
+		searchCust.setBounds(15, 25, 304, 19);
+		
+		Button btnSearchCust = new Button(allWorkOrders, SWT.NONE);
+		btnSearchCust.setBounds(325, 24, 70, 21);
+		btnSearchCust.setText("Search");
+		
+		table = new Table(allWorkOrders, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setBounds(15, 102, 380, 155);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		
+		Label lblStatus = new Label(allWorkOrders, SWT.NONE);
+		lblStatus.setBounds(23, 72, 56, 16);
+		lblStatus.setText("Status");
+		
+		Label lblCustomer = new Label(allWorkOrders, SWT.NONE);
+		lblCustomer.setBounds(107, 72, 56, 16);
+		lblCustomer.setText("Customer");
+		
+		Label lblPhone = new Label(allWorkOrders, SWT.NONE);
+		lblPhone.setBounds(232, 72, 56, 16);
+		lblPhone.setText("Phone ");
+		
+		Label lblService = new Label(allWorkOrders, SWT.NONE);
+		lblService.setBounds(339, 72, 56, 16);
+		lblService.setText("Service");
+		
+		Composite specificWorkOrders = new Composite(WorkOrderComposite, SWT.NONE);
+		specificWorkOrders.setBounds(10, 314, 413, 270);
+		
+		txtCustomer = new Text(specificWorkOrders, SWT.BORDER);
+		txtCustomer.setText("Customer: ");
+		txtCustomer.setBounds(10, 25, 219, 19);
+		
+		txtPhoneNumber = new Text(specificWorkOrders, SWT.BORDER);
+		txtPhoneNumber.setText("Phone Number:");
+		txtPhoneNumber.setBounds(10, 50, 219, 19);
+		
+		Label lblDescription = new Label(specificWorkOrders, SWT.NONE);
+		lblDescription.setBounds(10, 91, 72, 16);
+		lblDescription.setText("Description");
+		
+		Label lblQuantity = new Label(specificWorkOrders, SWT.NONE);
+		lblQuantity.setBounds(173, 91, 56, 16);
+		lblQuantity.setText("Quantity");
+		
+		Label lblPartNumber = new Label(specificWorkOrders, SWT.NONE);
+		lblPartNumber.setBounds(304, 91, 79, 16);
+		lblPartNumber.setText("Part Number");
+		
+		table_1 = new Table(specificWorkOrders, SWT.BORDER | SWT.FULL_SELECTION);
+		table_1.setBounds(10, 113, 373, 95);
+		table_1.setHeaderVisible(true);
+		table_1.setLinesVisible(true);
+		
+		Button btnCompleted = new Button(specificWorkOrders, SWT.NONE);
+		btnCompleted.setBounds(32, 227, 70, 21);
+		btnCompleted.setText("Completed");
+		
+		Button btnUnableToComplete = new Button(specificWorkOrders, SWT.NONE);
+		btnUnableToComplete.setBounds(246, 227, 119, 21);
+		btnUnableToComplete.setText("Unable to Complete");
+		
+		Button btnXSpecificWorkOrders = new Button(specificWorkOrders, SWT.NONE);
+		btnXSpecificWorkOrders.setBounds(382, 10, 21, 21);
+		btnXSpecificWorkOrders.setText("X");
 
 		btnNewAccount.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -690,6 +767,13 @@ public class Main {
 			}
 		});
 		
+		btnInvSearch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Search Inventory");
+			}
+		});
+		
 		btnXAddInv.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -699,12 +783,70 @@ public class Main {
 			}
 		});
 		
+		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Submit (Add Inventory)");
+			}
+		});
+		
+		btnClearAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear (Add Inventory)");
+			}
+		});
+		
 		btnXRmvInv.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : X (Remove Inventory)");
 				RmvInvComp.setVisible(false);
 				Inv2ButtonComp.setEnabled(true);
+			}
+		});
+		
+		btnRmvInvSubmit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Submit (Remove Inventory)");
+			}
+		});
+		
+		btnRmvInvClear.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear (Remove Inventory)");
+			}
+		});
+		
+		btnSearchCust.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Search (All Work Orders)");
+			}
+		});
+		
+		btnCompleted.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Complete (Specific Work Orders)");
+			}
+		});
+		
+		btnUnableToComplete.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Unable to Complete (Specific Work Orders)");
+			}
+		});
+		
+		btnXSpecificWorkOrders.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : X (Specific Work Orders)");
+				specificWorkOrders.setVisible(false);
+				allWorkOrders.setEnabled(true);
 			}
 		});
 	}
