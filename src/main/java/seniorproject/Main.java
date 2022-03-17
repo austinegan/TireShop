@@ -87,7 +87,7 @@ public class Main {
 	private Text text_14;
 	private Text text_15;
 	private Text text_16;
-<<<<<<< HEAD
+
 	private Text txtCart;
 	private Text currentCustomerText;
 	private Text TireDescriptionText;
@@ -96,13 +96,13 @@ public class Main {
 	private Text SubtotalText;
 	private Text TaxText;
 	private Text CartTotalText;
-=======
+
 	private Text searchCust;
 	private Table table;
 	private Text txtCustomer;
 	private Text txtPhoneNumber;
 	private Table table_1;
->>>>>>> branch 'madeCustomerPageEditingEasy' of https://github.com/austinegan/TireShop
+// branch 'madeCustomerPageEditingEasy' of https://github.com/austinegan/TireShop
 
 	/**
 	 * Launch the application.
