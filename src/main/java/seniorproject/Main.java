@@ -150,6 +150,11 @@ public class Main {
 		    }
 		}
 		
+
+//		Txt.setup();
+//		Txt.sendMessage();
+//		Txt.sendMessage("+17279027098", "now with custom messages! :)");
+
 		try {
 			Main window = new Main();
 			window.open();
