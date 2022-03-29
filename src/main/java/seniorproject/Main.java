@@ -75,23 +75,17 @@ public class Main {
 	private Text searchRmvInvModelError;
 	private Text searchRmvInvSize;
 	private Text searchRmvInvSizeError;
-	private Text text_7;
-	private Text text_8;
-	private Text text_9;
-	private Text text_10;
-	private Text text_11;
+	private Text text1_1;
+	private Text text1_2;
+	private Text text1_3;
+	private Text text1_4;
+	private Text text1_5;
 	private Text text_12;
-	private Text text;
-	private Text text_1;
-	private Text text_3;
-	private Text text_4;
-	private Text text_5;
-	private Text text_6;
-	private Text text_13;
-	private Text text_14;
-	private Text text_15;
-	private Text text_16;
-
+	private Text text1;
+	private Text text2;
+	private Text text3;
+	private Text text4;
+	private Text text5;
 	private Text txtCart;
 	private Text currentCustomerText;
 	private Text TireDescriptionText;
@@ -100,6 +94,7 @@ public class Main {
 	private Text SubtotalText;
 	private Text TaxText;
 	private Text CartTotalText;
+	int plusCounter=0;
 
 	private Text searchCust;
 	private Table table;
@@ -114,7 +109,6 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
 		String url = "jdbc:mysql://database-2.cgeho1qoscbs.us-east-1.rds.amazonaws.com:3306/myDB2";
 		String username = "admin";
 		String password = "49Ug2pJ1OcxGrbvDdDxE";
@@ -426,10 +420,12 @@ public class Main {
 		Combo RatioCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
 		RatioCombo_1.setBounds(180, 0, 94, 23);
 		RatioCombo_1.setText(" Aspect Ratio");
+
 		
 		Combo DiameterCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
 		DiameterCombo_1.setBounds(274, 0, 87, 23);
 		DiameterCombo_1.setText(" Diameter");
+		
 		
 		Button ProdBtnSearch_1 = new Button(SearchMenuComp_1, SWT.NONE);
 		ProdBtnSearch_1.setText("Search");
@@ -437,14 +433,21 @@ public class Main {
 		
 		Composite SearchResultsComp = new Composite(ProductsComposite_1, SWT.NONE);
 		SearchResultsComp.setBounds(0, 54, 535, 313);
+		SearchResultsComp.setVisible(false);
 		
 		Label lblNewLabel_9_4 = new Label(SearchResultsComp, SWT.NONE);
 		lblNewLabel_9_4.setText("Brand");
 		lblNewLabel_9_4.setAlignment(SWT.CENTER);
 		lblNewLabel_9_4.setBounds(10, 10, 93, 26);
 		
-		text_7 = new Text(SearchResultsComp, SWT.BORDER);
-		text_7.setBounds(10, 38, 93, 21);
+		
+		
+		Text[][] text= new Text[50][50];
+		Button[][] button = new Button[50][50];
+		int[][] plusInt = new int [50][50];
+		
+		//text1_1 = new Text(SearchResultsComp, SWT.BORDER);
+		//text1_1.setBounds(10, 38, 93, 21);
 		
 		Label lblNewLabel_9_1_1 = new Label(SearchResultsComp, SWT.NONE);
 		lblNewLabel_9_1_1.setText("Model");
@@ -461,70 +464,43 @@ public class Main {
 		lblNewLabel_9_3_2.setAlignment(SWT.CENTER);
 		lblNewLabel_9_3_2.setBounds(291, 10, 93, 26);
 		
-		text_8 = new Text(SearchResultsComp, SWT.BORDER);
-		text_8.setBounds(99, 38, 103, 21);
+		//text1_2 = new Text(SearchResultsComp, SWT.BORDER);
+		//text1_2.setBounds(99, 38, 103, 21);
 		
-		text_9 = new Text(SearchResultsComp, SWT.BORDER);
-		text_9.setBounds(198, 38, 103, 21);
+		//text1_3 = new Text(SearchResultsComp, SWT.BORDER);
+		//text1_3.setBounds(198, 38, 103, 21);
 		
-		text_10 = new Text(SearchResultsComp, SWT.BORDER);
-		text_10.setBounds(301, 38, 69, 21);
+		//text1_4 = new Text(SearchResultsComp, SWT.BORDER);
+		//text1_4.setBounds(301, 38, 69, 21);
 		
 		Label lblNewLabel_9_3_1_2 = new Label(SearchResultsComp, SWT.NONE);
 		lblNewLabel_9_3_1_2.setText("Price");
 		lblNewLabel_9_3_1_2.setAlignment(SWT.CENTER);
 		lblNewLabel_9_3_1_2.setBounds(369, 10, 93, 26);
 		
-		text_11 = new Text(SearchResultsComp, SWT.BORDER);
-		text_11.setBounds(369, 38, 69, 21);
+		//text1_5 = new Text(SearchResultsComp, SWT.BORDER);
+		//text1_5.setBounds(369, 38, 69, 21);
 		
 		Label lblNewLabel_9_3_1_1_1 = new Label(SearchResultsComp, SWT.NONE);
-		lblNewLabel_9_3_1_1_1.setText("Add to Cart");
+		lblNewLabel_9_3_1_1_1.setText("    Add to Cart");
 		lblNewLabel_9_3_1_1_1.setAlignment(SWT.CENTER);
 		lblNewLabel_9_3_1_1_1.setBounds(442, 10, 93, 26);
 		
-		text_12 = new Text(SearchResultsComp, SWT.BORDER);
-		text_12.setBounds(482, 38, 20, 21);
+		//int counter = 0;
+		//text_12 = new Text(SearchResultsComp, SWT.BORDER);
+		//String s=Integer.toString(counter);
+		//text_12.setText(s);
+		//text_12.setBounds(482, 38, 20, 21);
 		
-		Button button_1 = new Button(SearchResultsComp, SWT.NONE);
+		/*Button button_1 = new Button(SearchResultsComp, SWT.NONE);
 		button_1.setBounds(452, 38, 24, 21);
 		button_1.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
-		button_1.setText("-");
+		button_1.setText("-"); */
 		
 		Button button_1_1 = new Button(SearchResultsComp, SWT.NONE);
-		button_1_1.setBounds(508, 36, 24, 23);
-		button_1_1.setText("+");
-		button_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
-		
-		text = new Text(SearchResultsComp, SWT.BORDER);
-		text.setBounds(10, 60, 93, 21);
-		
-		text_1 = new Text(SearchResultsComp, SWT.BORDER);
-		text_1.setBounds(99, 60, 103, 21);
-		
-		text_3 = new Text(SearchResultsComp, SWT.BORDER);
-		text_3.setBounds(198, 60, 103, 21);
-		
-		text_4 = new Text(SearchResultsComp, SWT.BORDER);
-		text_4.setBounds(301, 60, 69, 21);
-		
-		text_5 = new Text(SearchResultsComp, SWT.BORDER);
-		text_5.setBounds(369, 60, 69, 21);
-		
-		text_6 = new Text(SearchResultsComp, SWT.BORDER);
-		text_6.setBounds(10, 82, 93, 21);
-		
-		text_13 = new Text(SearchResultsComp, SWT.BORDER);
-		text_13.setBounds(99, 82, 103, 21);
-		
-		text_14 = new Text(SearchResultsComp, SWT.BORDER);
-		text_14.setBounds(198, 82, 103, 21);
-		
-		text_15 = new Text(SearchResultsComp, SWT.BORDER);
-		text_15.setBounds(301, 82, 69, 21);
-		
-		text_16 = new Text(SearchResultsComp, SWT.BORDER);
-		text_16.setBounds(369, 82, 69, 21);
+		//button_1_1.setBounds(508, 36, 24, 23);
+		// button_1_1.setText("+");
+		//button_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
 		TabItem tbtmNewItem_2 = new TabItem(tabFolder, 0);
 		tbtmNewItem_2.setText("Cart");
 
@@ -911,6 +887,58 @@ public class Main {
 				System.out.println("Button : Search Inventory");
 			}
 		});
+		
+		
+		button_1_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				plusCounter++;
+				String s2=Integer.toString(plusCounter);	
+				//text_12.setText(s2);
+			}
+		});
+		
+		
+		
+		ProdBtnSearch_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				SearchResultsComp.setVisible(true);
+
+				int m =38;
+				for(int i=1;i<5;i++){
+					text[i][i]=new Text(SearchResultsComp, SWT.BORDER);
+					text[i][i].setBounds(10, m, 93, 21);
+					text[i][i+1]=new Text(SearchResultsComp, SWT.BORDER);
+					text[i][i+1].setBounds(99, m, 103, 21);
+					text[i][i+2]=new Text(SearchResultsComp, SWT.BORDER);
+					text[i][i+2].setBounds(198, m, 103, 21);
+					//text[i][i+2].setText("Im here");
+					text[i][i+3]=new Text(SearchResultsComp, SWT.BORDER);
+					text[i][i+3].setBounds(301, m, 69, 21);
+					text[i][i+4]=new Text(SearchResultsComp, SWT.BORDER);
+					text[i][i+4].setBounds(369, m, 69, 21);
+					text[i][i+5] = new Text(SearchResultsComp, SWT.BORDER);
+					text[i][i+5].setBounds(482, m, 20, 21);
+					button[i][i] = new Button(SearchResultsComp, SWT.NONE);
+					button[i][i].setBounds(452, m, 24, 21);
+					button[i][i].setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
+					button[i][i].setText("-");
+					//button[i][i].button
+					
+					button[i][i+1] = new Button(SearchResultsComp, SWT.NONE);
+					button[i][i+1].setBounds(508, m, 24, 23);
+					button[i][i+1].setText("+");
+					button[i][i+1].setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
+					m=m+22;
+				}
+				text[2][3].setText("Hello");
+				text[2][7].setText("25");
+			}});
+		
+		
+		
 		
 		btnXAddInv.addSelectionListener(new SelectionAdapter() {
 			@Override
