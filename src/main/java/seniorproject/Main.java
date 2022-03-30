@@ -28,11 +28,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.wb.swt.SWTResourceManager;
+import net.proteanit.sql.DbUtils;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Main {
@@ -101,7 +103,6 @@ public class Main {
 	private Text txtCustomer;
 	private Text txtPhoneNumber;
 	private Table table_1;
-// branch 'madeCustomerPageEditingEasy' of https://github.com/austinegan/TireShop
 
 	/**
 	 * Launch the application.
@@ -109,41 +110,10 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String url = "jdbc:mysql://database-2.cgeho1qoscbs.us-east-1.rds.amazonaws.com:3306/myDB2";
-		String username = "admin";
-		String password = "49Ug2pJ1OcxGrbvDdDxE";
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection(url, username, password);
-			System.out.println("Connected to database");
-			
-			/*
-			// Test for updating Employee table
-			String sql = "INSERT INTO Employee (number, name, username, password) VALUES (?, ?, ?, ?)";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, "6");
-			statement.setString(2, "Sam Jackson");
-			statement.setString(3, "Jacksons");
-			statement.setString(4, "123456789");
-			int rows = statement.executeUpdate();
-			if (rows > 0) {
-				System.out.println("Row inserted");
-			}
-			*/
-			
-		} catch (SQLException e) {
-			System.out.println("Database connection error");
-			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-		        try {
-		            connection.close();
-		            System.out.println("Database connection closed");
-		        } catch (SQLException e) { 
-		        }
-		    }
-		}
 		
+		Connection connection = null;
+		connection = database.connect(connection);
+		database.disconnect(connection);
 
 //		Txt.setup();
 //		Txt.sendMessage();
@@ -885,6 +855,18 @@ public class Main {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Search Inventory");
+				try {
+					Connection connection = null;
+					database.connect(connection);
+					String query = "SELECT id, brand, model_number, sale_price, count FROM Inventory";
+					PreparedStatement pst = connection.prepareStatement(query);
+					ResultSet rs = pst.executeQuery();
+					tableInv.setModel(DbUtils.resultSetToTableModel(rs));
+					database.disconnect(connection);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} finally {	
+				}
 			}
 		});
 		
