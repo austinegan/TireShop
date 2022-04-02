@@ -20,7 +20,6 @@ public class ProductList {
 			}
 		}
 		list.add(addThis);
-		//need to set the count in the list of the new item to 1.
 	}
 	
 	
@@ -33,7 +32,7 @@ public class ProductList {
 					System.out.println("Subtracted to new count " + check.count);
 				}
 				if (check.count == 0) {
-					//make a pop-up appear on screen. "Count reduced to 0. Would you like to remove this item from your cart?"
+					//make a popup appear on screen. "Count reduced to 0. Would you like to remove this item from your cart?"
 					//if yes, remove item from list. For now, the item is just removed automatically.
 					list.remove(check);
 				}
