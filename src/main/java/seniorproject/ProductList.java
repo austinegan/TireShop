@@ -1,7 +1,9 @@
 package seniorproject;
 
 import java.util.*;
+import java.util.List;
 import java.lang.*;
+import org.eclipse.swt.widgets.*;
 public class ProductList {
 
 	List<Item> list = new ArrayList<Item>();
@@ -49,6 +51,10 @@ public class ProductList {
 		list.clear();
 	}
 	
+	
+	public void populateTable(Table t) {
+		
+	}
 	
 	
 }

@@ -29,7 +29,34 @@ public Item(int id, String brand, int modelNum, double salePrice, double purchas
 	this.diameter = diameter;
 }
 
-public void print() {	//for testing contents of an item
+@Override
+public String toString() {
+	return "\nid: " + id + 
+	"\nbrand: " + brand + 
+	"\nmodelNum: " + modelNum + 
+	"\nsalePrice: " + salePrice + 
+	"\npurchasePrice: " + purchasePrice + 
+	"\ncount: " + count + 
+	"\nwidth: " + width + 
+	"\nsize: " + size + 
+	"\naspectRatio: " + aspectRatio +
+	"\ndiameter: " + diameter + "\n";
 	
 }
+
+
+
+//public void print() {	//for testing contents of an item
+//	System.out.println("\nid: " + id + 
+//						"\nbrand: " + brand + 
+//						"\nmodelNum: " + modelNum + 
+//						"\nsalePrice: " + salePrice + 
+//						"\npurchasePrice: " + purchasePrice + 
+//						"\ncount: " + count + 
+//						"\nwidth: " + width + 
+//						"\nsize: " + size + 
+//						"\naspectRatio: " + aspectRatio +
+//						"\ndiameter: " + diameter + "\n");
+//	
+//}
 }

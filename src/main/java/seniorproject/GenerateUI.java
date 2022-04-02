@@ -105,7 +105,7 @@ public class GenerateUI {
 	private Text txtCustomer;
 	private Text txtPhoneNumber;
 	private Table table_1;
-	private Table table_2;
+	private Table productsTable;
 
 	/**
 	 * Launch the application.
@@ -423,31 +423,11 @@ public class GenerateUI {
 		SearchResultsComp.setBounds(0, 54, 838, 536);
 		SearchResultsComp.setVisible(false);
 		
-		table_2 = new Table(SearchResultsComp, SWT.BORDER | SWT.FULL_SELECTION);
-		table_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
-		table_2.setBounds(0, 0, 681, 403);
-		table_2.setHeaderVisible(true);
-		table_2.setLinesVisible(true);
-		
-		TableColumn tblclmnNewColumn = new TableColumn(table_2, SWT.NONE);
-		tblclmnNewColumn.setWidth(100);
-		tblclmnNewColumn.setText("New Column");
-		
-		TableColumn tblclmnNewColumn_1 = new TableColumn(table_2, SWT.NONE);
-		tblclmnNewColumn_1.setWidth(100);
-		tblclmnNewColumn_1.setText("New Column");
-		
-		TableColumn tblclmnNewColumn_2 = new TableColumn(table_2, SWT.NONE);
-		tblclmnNewColumn_2.setWidth(100);
-		tblclmnNewColumn_2.setText("New Column");
-		
-		TableColumn tblclmnNewColumn_3 = new TableColumn(table_2, SWT.NONE);
-		tblclmnNewColumn_3.setWidth(100);
-		tblclmnNewColumn_3.setText("New Column");
-		
-		TableColumn tblclmnNewColumn_4 = new TableColumn(table_2, SWT.NONE);
-		tblclmnNewColumn_4.setWidth(100);
-		tblclmnNewColumn_4.setText("New Column");
+		productsTable = new Table(SearchResultsComp, SWT.BORDER | SWT.FULL_SELECTION);
+		productsTable.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
+		productsTable.setBounds(0, 0, 681, 403);
+		productsTable.setHeaderVisible(true);
+		productsTable.setLinesVisible(true);
 		
 		
 		
