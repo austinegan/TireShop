@@ -28,11 +28,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.wb.swt.SWTResourceManager;
-import net.proteanit.sql.DbUtils;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.widgets.List;
+//import net.proteanit.sql.DbUtils;
+import seniorproject.dao.InventoryDao;
+import seniorproject.model.Inventory;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -111,20 +111,30 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		Connection connection = null;
-		connection = database.connect(connection);
-		database.disconnect(connection);
+		InventoryDao inventoryDao = new InventoryDao();
+		//add inventory
+		//inventoryDao.addInventory(new Inventory("modrhdbtdzdel","g",1.0,2.0,3,"t",7,8,9));
+		
+		//remove inventory
+		//inventoryDao.deleteInventory(inventoryDao.getAllInventory().get(0));
+		
+		//update inventory
+		Inventory change = inventoryDao.getInventory(3);
+		change.setCount(9001);
+		inventoryDao.updateInventory(change);
 
 //		Txt.setup();
 //		Txt.sendMessage();
 //		Txt.sendMessage("+17279027098", "now with custom messages! :)");
 
+		/*
 		try {
 			Main window = new Main();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	/**
@@ -861,7 +871,7 @@ public class Main {
 					String query = "SELECT id, brand, model_number, sale_price, count FROM Inventory";
 					PreparedStatement pst = connection.prepareStatement(query);
 					ResultSet rs = pst.executeQuery();
-					tableInv.setModel(DbUtils.resultSetToTableModel(rs));
+					//tableInv.setModel(DbUtils.resultSetToTableModel(rs));
 					database.disconnect(connection);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
