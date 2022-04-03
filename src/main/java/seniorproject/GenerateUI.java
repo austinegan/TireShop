@@ -7,6 +7,8 @@ import org.eclipse.swt.widgets.Text;
 
 import javax.swing.JLabel;
 
+import org.eclipse.swt.widgets.*;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
@@ -393,6 +395,56 @@ public class GenerateUI {
 		Composite ProductsComposite_1 = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_1.setControl(ProductsComposite_1);
 		
+		Composite SearchResultsComp = new Composite(ProductsComposite_1, SWT.NONE);
+		SearchResultsComp.setBounds(0, 54, 1076, 519);
+		SearchResultsComp.setVisible(true);
+		
+		productsTable = new Table(SearchResultsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.VIRTUAL);
+		productsTable.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
+		productsTable.setBounds(10, 0, 960, 403);
+		productsTable.setHeaderVisible(true);
+		productsTable.setLinesVisible(true);
+		
+		TableColumn tblclmnId = new TableColumn(productsTable, SWT.NONE);
+		tblclmnId.setWidth(100);
+		tblclmnId.setText("ID");
+		
+		TableColumn tblclmnBrand = new TableColumn(productsTable, SWT.NONE);
+		tblclmnBrand.setWidth(100);
+		tblclmnBrand.setText("Brand");
+		
+		TableColumn tblclmnModelNumber = new TableColumn(productsTable, SWT.NONE);
+		tblclmnModelNumber.setWidth(100);
+		tblclmnModelNumber.setText("Model Number");
+		
+		TableColumn tblclmnSalePrice = new TableColumn(productsTable, SWT.NONE);
+		tblclmnSalePrice.setWidth(100);
+		tblclmnSalePrice.setText("Sale Price");
+		
+		TableColumn tblclmnPurchasePrice = new TableColumn(productsTable, SWT.NONE);
+		tblclmnPurchasePrice.setWidth(100);
+		tblclmnPurchasePrice.setText("Purchase Price");
+		
+		TableColumn tblclmnCount = new TableColumn(productsTable, SWT.NONE);
+		tblclmnCount.setWidth(100);
+		tblclmnCount.setText("Count");
+		
+		TableColumn tblclmnWidth = new TableColumn(productsTable, SWT.NONE);
+		tblclmnWidth.setWidth(100);
+		tblclmnWidth.setText("Width");
+		
+		TableColumn tblclmnSize = new TableColumn(productsTable, SWT.NONE);
+		tblclmnSize.setWidth(100);
+		tblclmnSize.setText("Size");
+		
+		TableColumn tblclmnAspectRatio = new TableColumn(productsTable, SWT.NONE);
+		tblclmnAspectRatio.setWidth(100);
+		tblclmnAspectRatio.setText("Aspect Ratio");
+		
+		TableColumn tblclmnDiameter = new TableColumn(productsTable, SWT.NONE);
+		tblclmnDiameter.setWidth(100);
+		tblclmnDiameter.setText("Diameter");
+		
 		Composite SearchMenuComp_1 = new Composite(ProductsComposite_1, SWT.NONE);
 		SearchMenuComp_1.setBounds(0, 10, 473, 23);
 		
@@ -418,16 +470,6 @@ public class GenerateUI {
 		Button ProdBtnSearch_1 = new Button(SearchMenuComp_1, SWT.NONE);
 		ProdBtnSearch_1.setText("Search");
 		ProdBtnSearch_1.setBounds(388, 0, 75, 25);
-		
-		Composite SearchResultsComp = new Composite(ProductsComposite_1, SWT.NONE);
-		SearchResultsComp.setBounds(0, 54, 838, 536);
-		SearchResultsComp.setVisible(false);
-		
-		productsTable = new Table(SearchResultsComp, SWT.BORDER | SWT.FULL_SELECTION);
-		productsTable.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
-		productsTable.setBounds(0, 0, 681, 403);
-		productsTable.setHeaderVisible(true);
-		productsTable.setLinesVisible(true);
 		
 		
 		
@@ -953,4 +995,9 @@ public class GenerateUI {
 			}
 		});
 	}
+
+public void fillProductsTable(Thing myThing){ //not the final method. just proof of concept
+	TableItem item = new TableItem(productsTable, SWT.NONE);
+	item.setText(Integer.toString(myThing.id));
+}
 }

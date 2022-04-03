@@ -2,7 +2,7 @@ package seniorproject;
 
 import java.util.*;
 import java.lang.*;
-public class Item {
+public class Thing {
 int id;
 String brand;
 int modelNum;
@@ -14,7 +14,7 @@ int size;
 int aspectRatio;
 int diameter;
 
-public Item(int id, String brand, int modelNum, double salePrice, double purchasePrice, int count, int width, int size,
+public Thing(int id, String brand, int modelNum, double salePrice, double purchasePrice, int count, int width, int size,
 		int aspectRatio, int diameter) {
 	super();
 	this.id = id;

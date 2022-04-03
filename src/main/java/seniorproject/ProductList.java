@@ -6,7 +6,7 @@ import java.lang.*;
 import org.eclipse.swt.widgets.*;
 public class ProductList {
 
-	List<Item> list = new ArrayList<Item>();
+	List<Thing> list = new ArrayList<Thing>();
 	/* A more efficient implementation than list, but not as familiar.
 	 * Map will instantly go to the value needed instead of iterating through the list.
 	 * May implement later. 
@@ -14,8 +14,8 @@ public class ProductList {
 	*/
 	
 	
-	public void addItem(Item addThis){
-		for (Item check : list) {
+	public void addItem(Thing addThis){
+		for (Thing check : list) {
 			if (check.id == addThis.id) {
 				check.count++;
 				return;
@@ -26,8 +26,8 @@ public class ProductList {
 	}
 	
 	
-	public void subtractItem(Item subtractThis){
-		for (Item check : list) {
+	public void subtractItem(Thing subtractThis){
+		for (Thing check : list) {
 			if (check.id == subtractThis.id) {
 				if (check.count > 0) {
 					System.out.println("Old count " + check.count);
