@@ -139,6 +139,7 @@ public class GenerateUI {
 		Display display = Display.getDefault();
 		createContents();
 		fillInvTable();
+		fillProductTable();
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -995,7 +996,16 @@ public class GenerateUI {
 		}
 	}
 	
-	
+	public void fillProductTable(){
+		InventoryDao inventoryDao = new InventoryDao();
+		for (Inventory inv : inventoryDao.getAllInventory()) {
+			TableItem tableItem = new TableItem(productsTable, SWT.NONE);
+			tableItem.setText(new String[] {String.valueOf(inv.getId()), inv.getBrand(), inv.getModel_number(), 
+					String.valueOf(inv.getSale_price()), String.valueOf(inv.getPurchase_price()), String.valueOf(inv.getCount()), 
+					String.valueOf(inv.getWidth()), inv.getSize(), String.valueOf(inv.getAspectratio()), 
+					String.valueOf(inv.getDiameter())});
+		}
+	}
 
 	public void fillProductsTable(Thing myThing){ //not the final method. just proof of concept
 		TableItem item = new TableItem(productsTable, SWT.NONE);
