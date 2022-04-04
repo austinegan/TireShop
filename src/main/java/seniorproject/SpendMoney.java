@@ -24,7 +24,7 @@ public class SpendMoney {
 				    .familyName("DoeJava2")
 				    .address(address)
 				    .build();
-				//CustomersApi customersApi;
+				
 				CustomersApi customersApi = client.getCustomersApi();
 				customersApi.createCustomerAsync(request)
 				    .thenAccept(result -> {
