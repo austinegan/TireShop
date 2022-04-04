@@ -996,6 +996,7 @@ public class GenerateUI {
 		}
 	}
 	
+	//fill product table (Can Austin see this?)
 	public void fillProductTable(){
 		InventoryDao inventoryDao = new InventoryDao();
 		for (Inventory inv : inventoryDao.getAllInventory()) {
