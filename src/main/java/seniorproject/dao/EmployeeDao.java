@@ -3,17 +3,17 @@ package seniorproject.dao;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import seniorproject.model.Inventory;
+import seniorproject.model.Employee;
 import seniorproject.util.HibernateUtil;
 
-public class InventoryDao {
-	public Inventory getInventory(int id) {
+public class EmployeeDao {
+	public Employee getEmployee(int id) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			Inventory inventory = session.get(Inventory.class, id);
+			Employee employee = session.get(Employee.class, id);
 			transaction.commit();
-			return inventory;
+			return employee;
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -23,11 +23,11 @@ public class InventoryDao {
 		}
 	}
 
-	public void addInventory(Inventory inv) {
+	public void addEmployee(Employee emp) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			session.save(inv);
+			session.save(emp);
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -37,11 +37,11 @@ public class InventoryDao {
 		}
 	}
 	
-	public void deleteInventory(Inventory inv) {
+	public void deleteEmployee(Employee emp) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			session.delete(inv);
+			session.delete(emp);
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -51,11 +51,11 @@ public class InventoryDao {
 		}
 	}
 	
-	public void updateInventory(Inventory inv) {
+	public void updateEmployee(Employee emp) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			session.update(inv);
+			session.update(emp);
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -65,13 +65,13 @@ public class InventoryDao {
 		}
 	}
 
-	public List<Inventory> getAllInventory() {
+	public List<Employee> getAllEmployee() {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			List<Inventory> inventory = session.createNativeQuery("SELECT * FROM inventory", Inventory.class).getResultList();
+			List<Employee> employee = session.createNativeQuery("SELECT * FROM employee", Employee.class).getResultList();
 			transaction.commit();
-			return inventory;
+			return employee;
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();

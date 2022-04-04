@@ -1,7 +1,6 @@
 package seniorproject.model;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name = "inventory")
-public class Inventory implements Serializable{
+public class Inventory implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
