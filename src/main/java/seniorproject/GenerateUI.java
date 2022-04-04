@@ -183,14 +183,7 @@ public class GenerateUI {
 														txtCurrentCustomer.setText("Current Customer : ");
 														
 																
-		btnSearchAccount.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-																System.out.println("Button : Search Customer");
-																Cust2ButtonComp.setEnabled(false);
-																SearchAcctComp.setVisible(true);
-			}
-		});
+
 		
 //		btnInvSearch.addSelectionListener(new SelectionAdapter() {
 //			@Override
@@ -251,14 +244,7 @@ public class GenerateUI {
 //		
 		
 		
-		btnNewAccount.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : New Account");
-				NewAcctComp.setVisible(true);
-				Cust2ButtonComp.setEnabled(false);
-			}
-		});
+
 		
 		Composite SearchAcctComp = new Composite(CustomerComposite, SWT.NONE);
 		GridData gd_SearchAcctComp = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
@@ -1009,7 +995,27 @@ public class GenerateUI {
 				allWorkOrders.setEnabled(true);
 			}
 		});
+		
+		btnSearchAccount.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+																System.out.println("Button : Search Customer");
+																Cust2ButtonComp.setEnabled(false);
+																SearchAcctComp.setVisible(true);
+			}
+		});
+		
+		btnNewAccount.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : New Account");
+				NewAcctComp.setVisible(true);
+				Cust2ButtonComp.setEnabled(false);
+			}
+		});
 	}
+	
+	
 	
 	public void fillInvTable(){
 		InventoryDao inventoryDao = new InventoryDao();
