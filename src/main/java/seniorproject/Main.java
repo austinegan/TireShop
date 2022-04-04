@@ -1,7 +1,7 @@
 package seniorproject;
 
-//import seniorproject.dao.*;
-//import seniorproject.model.*;
+import seniorproject.dao.*;
+import seniorproject.model.*;
 
 public class Main {
 
@@ -13,7 +13,9 @@ public class Main {
 
 		//InventoryDao inventoryDao = new InventoryDao();
 		
-		//add inventory
+		
+		
+		//add inventory to database
 		//inventoryDao.addInventory(new Inventory("Continental","Contiprocontact",120.00,80.00,4,"225/45R17",225,45,17));
 		//inventoryDao.addInventory(new Inventory("Michelin","Primacy",220.00,180.00,16,"225/45R17",225,45,17));
 		//inventoryDao.addInventory(new Inventory("Sailun","Atrezzo",100.00,60.00,8,"215/45R16",215,45,16));
@@ -56,8 +58,8 @@ public class Main {
 		*/
 		
 		GenerateUI.main(args);
-		//GenerateUI myGen = new GenerateUI();
-			
+		
+		//GenerateUI myGen = new GenerateUI();	
 		//myGen.fillProductsTable(first);
 	}
 }

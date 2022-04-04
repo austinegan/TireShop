@@ -44,6 +44,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.eclipse.swt.widgets.TableColumn;
+import swing2swt.layout.BoxLayout;
 
 public class GenerateUI {
 
@@ -152,7 +153,7 @@ public class GenerateUI {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.setSize(967, 695);
+		shell.setSize(1151, 811);
 		shell.setText("SWT Application");
 		shell.setLayout(new FillLayout(SWT.HORIZONTAL));
 
@@ -163,24 +164,48 @@ public class GenerateUI {
 
 		Composite CustomerComposite = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem.setControl(CustomerComposite);
-		CustomerComposite.setLayout(new FormLayout());
+		GridLayout gl_CustomerComposite = new GridLayout(3, true);
+		CustomerComposite.setLayout(gl_CustomerComposite);
 		
 		Composite SearchAcctComp = new Composite(CustomerComposite, SWT.NONE);
-		FormData fd_SearchAcctComp = new FormData();
-		fd_SearchAcctComp.bottom = new FormAttachment(100, -28);
-		fd_SearchAcctComp.left = new FormAttachment(0, 50);
-		SearchAcctComp.setLayoutData(fd_SearchAcctComp);
 		SearchAcctComp.setLayout(new GridLayout(3, false));
+		
+				Composite Cust2ButtonComp = new Composite(CustomerComposite, SWT.NONE);
+				
+						Button btnSearchAccount = new Button(Cust2ButtonComp, SWT.NONE);
+						
+								btnSearchAccount.setText("Search");
+								btnSearchAccount.setBounds(57, 82, 113, 85);
+								
+										Button btnNewAccount = new Button(Cust2ButtonComp, SWT.NONE);
+										
+												btnNewAccount.setText("New Account");
+												btnNewAccount.setBounds(232, 86, 150, 77);
+												
+												txtCurrentCustomer = new Text(Cust2ButtonComp, SWT.BORDER);
+												txtCurrentCustomer.setText("Current Customer : ");
+												txtCurrentCustomer.setBounds(154, 186, 129, 21);
+												
+														btnNewAccount.addSelectionListener(new SelectionAdapter() {
+															@Override
+															public void widgetSelected(SelectionEvent e) {
+																System.out.println("Button : New Account");
+																NewAcctComp.setVisible(true);
+																Cust2ButtonComp.setEnabled(false);
+															}
+														});
+														
+		btnSearchAccount.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+														System.out.println("Button : Search Customer");
+														Cust2ButtonComp.setEnabled(false);
+														SearchAcctComp.setVisible(true);
+			}
+		});
 
 		Composite NewAcctComp = new Composite(CustomerComposite, SWT.NONE);
-		fd_SearchAcctComp.right = new FormAttachment(NewAcctComp, -29);
 		NewAcctComp.setLayout(new GridLayout(4, false));
-		FormData fd_NewAcctComp = new FormData();
-		fd_NewAcctComp.top = new FormAttachment(0, 267);
-		fd_NewAcctComp.bottom = new FormAttachment(100, -46);
-		fd_NewAcctComp.right = new FormAttachment(100, -47);
-		fd_NewAcctComp.left = new FormAttachment(0, 496);
-		NewAcctComp.setLayoutData(fd_NewAcctComp);
 																new Label(NewAcctComp, SWT.NONE);
 																
 																CLabel lblCreateANew = new CLabel(NewAcctComp, SWT.NONE);
@@ -274,9 +299,6 @@ public class GenerateUI {
 		txtThisIsWhere.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 3, 1));
 		txtThisIsWhere.setText("This is where to create a new customer account");
 		new Label(NewAcctComp, SWT.NONE);
-
-		Composite Cust2ButtonComp = new Composite(CustomerComposite, SWT.NONE);
-		fd_SearchAcctComp.top = new FormAttachment(Cust2ButtonComp, 53);
 		new Label(SearchAcctComp, SWT.NONE);
 		new Label(SearchAcctComp, SWT.NONE);
 		new Label(SearchAcctComp, SWT.NONE);
@@ -350,43 +372,10 @@ public class GenerateUI {
 		Button btnNewButton_3 = new Button(SearchAcctComp, SWT.NONE);
 		btnNewButton_3.setText("Search");
 		new Label(SearchAcctComp, SWT.NONE);
-		FormData fd_Cust2ButtonComp = new FormData();
-		fd_Cust2ButtonComp.bottom = new FormAttachment(0, 232);
-		fd_Cust2ButtonComp.right = new FormAttachment(0, 426);
-		fd_Cust2ButtonComp.top = new FormAttachment(0);
-		fd_Cust2ButtonComp.left = new FormAttachment(0);
-		Cust2ButtonComp.setLayoutData(fd_Cust2ButtonComp);
-
-		Button btnSearchAccount = new Button(Cust2ButtonComp, SWT.NONE);
-
-		btnSearchAccount.setText("Search");
-		btnSearchAccount.setBounds(57, 82, 113, 85);
-
-		Button btnNewAccount = new Button(Cust2ButtonComp, SWT.NONE);
-
-		btnNewAccount.setText("New Account");
-		btnNewAccount.setBounds(232, 86, 150, 77);
-		
-		txtCurrentCustomer = new Text(Cust2ButtonComp, SWT.BORDER);
-		txtCurrentCustomer.setText("Current Customer : ");
-		txtCurrentCustomer.setBounds(154, 186, 129, 21);
 		
 		text_2 = new Text(CustomerComposite, SWT.BORDER);
-		text_2.setLayoutData(new FormData());
-		
-		Label lblTestingThatI = new Label(CustomerComposite, SWT.NONE);
-		FormData fd_lblTestingThatI = new FormData();
-		fd_lblTestingThatI.top = new FormAttachment(0, 91);
-		fd_lblTestingThatI.left = new FormAttachment(Cust2ButtonComp, 152);
-		lblTestingThatI.setLayoutData(fd_lblTestingThatI);
-		lblTestingThatI.setText("Testing that I can still add stuff #1");
-		
-		Label lblTestingThatI_1 = new Label(CustomerComposite, SWT.NONE);
-		FormData fd_lblTestingThatI_1 = new FormData();
-		fd_lblTestingThatI_1.top = new FormAttachment(lblTestingThatI, 61);
-		fd_lblTestingThatI_1.left = new FormAttachment(Cust2ButtonComp, 196);
-		lblTestingThatI_1.setLayoutData(fd_lblTestingThatI_1);
-		lblTestingThatI_1.setText("Testing that I can still add stuff #2");
+		new Label(CustomerComposite, SWT.NONE);
+		new Label(CustomerComposite, SWT.NONE);
 
 		TabItem tbtmNewItem_1 = new TabItem(tabFolder, 0);
 		tbtmNewItem_1.setText("Products");
@@ -813,15 +802,6 @@ public class GenerateUI {
 		btnXSpecificWorkOrders.setBounds(382, 10, 21, 21);
 		btnXSpecificWorkOrders.setText("X");
 
-		btnNewAccount.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : New Account");
-				NewAcctComp.setVisible(true);
-				Cust2ButtonComp.setEnabled(false);
-			}
-		});
-
 		
 		btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -830,15 +810,6 @@ public class GenerateUI {
 				TireDescriptionText.setText(" ");
 				ItemTotalCost.setText(" ");
 				QuantityText.setText(" ");
-			}
-		});
-				
-		btnSearchAccount.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Search Customer");
-				Cust2ButtonComp.setEnabled(false);
-				SearchAcctComp.setVisible(true);
 			}
 		});
 		
@@ -1023,6 +994,8 @@ public class GenerateUI {
 					inv.getSize(), String.valueOf(inv.getCount()), String.valueOf(inv.getSale_price())});
 		}
 	}
+	
+	
 
 	public void fillProductsTable(Thing myThing){ //not the final method. just proof of concept
 		TableItem item = new TableItem(productsTable, SWT.NONE);
