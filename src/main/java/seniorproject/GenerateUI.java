@@ -181,6 +181,7 @@ public class GenerateUI {
 														
 														txtCurrentCustomer = new Text(Cust2ButtonComp, SWT.BORDER);
 														txtCurrentCustomer.setText("Current Customer : ");
+														new Label(Cust2ButtonComp, SWT.NONE);
 														
 																
 
@@ -631,58 +632,10 @@ public class GenerateUI {
 		Composite InventoryComposite = new Composite(tabFolder, SWT.NONE);
 		InventoryComposite.setLocation(-48, -329);
 		tbtmNewItem_3.setControl(InventoryComposite);
-		
-		Composite RmvInvComp = new Composite(InventoryComposite, SWT.NONE);
-		RmvInvComp.setBounds(436, 290, 328, 219);
-		
-		Label lblRmvInv = new Label(RmvInvComp, SWT.NONE);
-		lblRmvInv.setBounds(113, 20, 102, 16);
-		lblRmvInv.setText("Remove Inventory");
-		
-		Label lblRmvInvBrand = new Label(RmvInvComp, SWT.NONE);
-		lblRmvInvBrand.setBounds(14, 51, 56, 16);
-		lblRmvInvBrand.setText("Brand:");
-		
-		Label lblRmvInvModel = new Label(RmvInvComp, SWT.NONE);
-		lblRmvInvModel.setBounds(10, 95, 56, 16);
-		lblRmvInvModel.setText("Model:");
-		
-		Label lblRmvInvSize = new Label(RmvInvComp, SWT.NONE);
-		lblRmvInvSize.setBounds(22, 138, 56, 16);
-		lblRmvInvSize.setText("Size:");
-		
-		searchRmvInvBrand = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvBrand.setBounds(58, 51, 247, 19);
-		
-		searchRmvInvBrandError = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvBrandError.setBounds(58, 73, 247, 19);
-		
-		searchRmvInvModel = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvModel.setBounds(58, 95, 247, 19);
-		
-		searchRmvInvModelError = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvModelError.setBounds(58, 117, 247, 19);
-		
-		searchRmvInvSize = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvSize.setBounds(58, 139, 247, 19);
-		
-		searchRmvInvSizeError = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvSizeError.setBounds(58, 161, 247, 19);
-		
-		Button btnRmvInvSubmit = new Button(RmvInvComp, SWT.NONE);
-		btnRmvInvSubmit.setBounds(68, 186, 70, 21);
-		btnRmvInvSubmit.setText("Submit");
-		
-		Button btnRmvInvClear = new Button(RmvInvComp, SWT.NONE);
-		btnRmvInvClear.setBounds(225, 186, 70, 21);
-		btnRmvInvClear.setText("Clear");
-		
-		Button btnXRmvInv = new Button(RmvInvComp, SWT.NONE);
-		btnXRmvInv.setBounds(297, 10, 21, 21);
-		btnXRmvInv.setText("X");
+		InventoryComposite.setLayout(new GridLayout(2, false));
 		
 		Composite Inv2ButtonComp = new Composite(InventoryComposite, SWT.NONE);
-		Inv2ButtonComp.setBounds(24, 10, 339, 265);
+		Inv2ButtonComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		
 		Button btnAddInv = new Button(Inv2ButtonComp, SWT.NONE);
 		btnAddInv.addSelectionListener(new SelectionAdapter() {
@@ -730,8 +683,25 @@ public class GenerateUI {
 		tblclmnPrice.setWidth(60);
 		tblclmnPrice.setText("Price");
 		
+		btnAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Add Inventory");
+				AddInvComp.setVisible(true);
+				Inv2ButtonComp.setEnabled(false);
+			}
+		});
+		
+		btnRmvInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Remove Inventory");
+				RmvInvComp.setVisible(true);
+				Cust2ButtonComp.setEnabled(false);
+			}
+		});
+		
 		Composite AddInvComp = new Composite(InventoryComposite, SWT.NONE);
-		AddInvComp.setBounds(10, 290, 328, 308);
 		
 		Label lblAddInventory = new Label(AddInvComp, SWT.NONE);
 		lblAddInventory.setBounds(124, 20, 82, 16);
@@ -803,6 +773,77 @@ public class GenerateUI {
 		Button btnXAddInv = new Button(AddInvComp, SWT.NONE);
 		btnXAddInv.setBounds(297, 10, 21, 21);
 		btnXAddInv.setText("X");
+		
+		btnXAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : X (Add Inventory)");
+				AddInvComp.setVisible(false);
+				Inv2ButtonComp.setEnabled(true);
+			}
+		});
+		
+		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Submit (Add Inventory)");
+			}
+		});
+		
+		btnClearAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear (Add Inventory)");
+			}
+		});
+		
+		Composite RmvInvComp = new Composite(InventoryComposite, SWT.NONE);
+		
+		Label lblRmvInv = new Label(RmvInvComp, SWT.NONE);
+		lblRmvInv.setBounds(113, 20, 102, 16);
+		lblRmvInv.setText("Remove Inventory");
+		
+		Label lblRmvInvBrand = new Label(RmvInvComp, SWT.NONE);
+		lblRmvInvBrand.setBounds(14, 51, 56, 16);
+		lblRmvInvBrand.setText("Brand:");
+		
+		Label lblRmvInvModel = new Label(RmvInvComp, SWT.NONE);
+		lblRmvInvModel.setBounds(10, 95, 56, 16);
+		lblRmvInvModel.setText("Model:");
+		
+		Label lblRmvInvSize = new Label(RmvInvComp, SWT.NONE);
+		lblRmvInvSize.setBounds(22, 138, 56, 16);
+		lblRmvInvSize.setText("Size:");
+		
+		searchRmvInvBrand = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvBrand.setBounds(58, 51, 247, 19);
+		
+		searchRmvInvBrandError = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvBrandError.setBounds(58, 73, 247, 19);
+		
+		searchRmvInvModel = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvModel.setBounds(58, 95, 247, 19);
+		
+		searchRmvInvModelError = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvModelError.setBounds(58, 117, 247, 19);
+		
+		searchRmvInvSize = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvSize.setBounds(58, 139, 247, 19);
+		
+		searchRmvInvSizeError = new Text(RmvInvComp, SWT.BORDER);
+		searchRmvInvSizeError.setBounds(58, 161, 247, 19);
+		
+		Button btnRmvInvSubmit = new Button(RmvInvComp, SWT.NONE);
+		btnRmvInvSubmit.setBounds(68, 186, 70, 21);
+		btnRmvInvSubmit.setText("Submit");
+		
+		Button btnRmvInvClear = new Button(RmvInvComp, SWT.NONE);
+		btnRmvInvClear.setBounds(225, 186, 70, 21);
+		btnRmvInvClear.setText("Clear");
+		
+		Button btnXRmvInv = new Button(RmvInvComp, SWT.NONE);
+		btnXRmvInv.setBounds(297, 10, 21, 21);
+		btnXRmvInv.setText("X");
 
 		TabItem tbtmNewItem_4 = new TabItem(tabFolder, 0);
 		tbtmNewItem_4.setText("Work Orders");
@@ -899,47 +940,6 @@ public class GenerateUI {
 				System.out.println("Button : X (Create Account)");
 				NewAcctComp.setVisible(false);
 				Cust2ButtonComp.setEnabled(true);
-			}
-		});
-		
-		btnAddInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Add Inventory");
-				AddInvComp.setVisible(true);
-				Inv2ButtonComp.setEnabled(false);
-			}
-		});
-		
-		btnRmvInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Remove Inventory");
-				RmvInvComp.setVisible(true);
-				Cust2ButtonComp.setEnabled(false);
-			}
-		});
-		
-		btnXAddInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : X (Add Inventory)");
-				AddInvComp.setVisible(false);
-				Inv2ButtonComp.setEnabled(true);
-			}
-		});
-		
-		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Submit (Add Inventory)");
-			}
-		});
-		
-		btnClearAddInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Clear (Add Inventory)");
 			}
 		});
 		
