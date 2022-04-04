@@ -31,6 +31,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import seniorproject.dao.InventoryDao;
+import seniorproject.model.Inventory;
+
 //import net.proteanit.sql.DbUtils;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.List;
@@ -108,14 +112,13 @@ public class GenerateUI {
 	private Text txtPhoneNumber;
 	private Table table_1;
 	private Table productsTable;
-
+	
 	/**
 	 * Launch the application.
 	 * 
 	 * @param args
 	 */
 
-	
 	
 	public static void main(String[] args) {
 		
@@ -128,17 +131,13 @@ public class GenerateUI {
 	}
 	
 	
-	
-	
-	
-	
-	
 	/**
 	 * Open the window.
 	 */
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
+		fillInvTable();
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -614,7 +613,7 @@ public class GenerateUI {
 		btnXRmvInv.setText("X");
 		
 		Composite Inv2ButtonComp = new Composite(InventoryComposite, SWT.NONE);
-		Inv2ButtonComp.setBounds(24, 10, 328, 265);
+		Inv2ButtonComp.setBounds(24, 10, 339, 265);
 		
 		Button btnAddInv = new Button(Inv2ButtonComp, SWT.NONE);
 		btnAddInv.addSelectionListener(new SelectionAdapter() {
@@ -638,9 +637,29 @@ public class GenerateUI {
 		btnInvSearch.setText("Search");
 		
 		tableInv = new Table(Inv2ButtonComp, SWT.BORDER | SWT.FULL_SELECTION);
-		tableInv.setBounds(36, 142, 255, 87);
+		tableInv.setBounds(15, 142, 303, 113);
 		tableInv.setHeaderVisible(true);
 		tableInv.setLinesVisible(true);
+		
+		TableColumn tblclmnBrand_1 = new TableColumn(tableInv, SWT.NONE);
+		tblclmnBrand_1.setWidth(60);
+		tblclmnBrand_1.setText("Brand");
+		
+		TableColumn tblclmnModel = new TableColumn(tableInv, SWT.NONE);
+		tblclmnModel.setWidth(60);
+		tblclmnModel.setText("Model");
+		
+		TableColumn tblclmnSize_1 = new TableColumn(tableInv, SWT.NONE);
+		tblclmnSize_1.setWidth(60);
+		tblclmnSize_1.setText("Size");
+		
+		TableColumn tblclmnQuantity = new TableColumn(tableInv, SWT.NONE);
+		tblclmnQuantity.setWidth(60);
+		tblclmnQuantity.setText("Quantity");
+		
+		TableColumn tblclmnPrice = new TableColumn(tableInv, SWT.NONE);
+		tblclmnPrice.setWidth(60);
+		tblclmnPrice.setText("Price");
 		
 		Composite AddInvComp = new Composite(InventoryComposite, SWT.NONE);
 		AddInvComp.setBounds(10, 290, 328, 308);
@@ -995,9 +1014,18 @@ public class GenerateUI {
 			}
 		});
 	}
+	
+	public void fillInvTable(){
+		InventoryDao inventoryDao = new InventoryDao();
+		for (Inventory inv : inventoryDao.getAllInventory()) {
+			TableItem tableItem = new TableItem(tableInv, SWT.NONE);
+			tableItem.setText(new String[] {inv.getBrand(), inv.getModel_number(), 
+					inv.getSize(), String.valueOf(inv.getCount()), String.valueOf(inv.getSale_price())});
+		}
+	}
 
-public void fillProductsTable(Thing myThing){ //not the final method. just proof of concept
-	TableItem item = new TableItem(productsTable, SWT.NONE);
-	item.setText(Integer.toString(myThing.id));
-}
+	public void fillProductsTable(Thing myThing){ //not the final method. just proof of concept
+		TableItem item = new TableItem(productsTable, SWT.NONE);
+		item.setText(Integer.toString(myThing.id));
+	}
 }
