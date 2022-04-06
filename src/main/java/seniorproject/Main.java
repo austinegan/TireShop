@@ -7,6 +7,22 @@ public class Main {
 
 	public static void main(String[] args) {
 
+		
+		SpendMoney.initialize();
+		SpendMoney.customerCreateAndPush("givenName", "FamilyName", "123 Second St", "Defaulty City, USA 54321");
+		
+		//GenerateUI.main(args);
+		
+		//GenerateUI myGen = new GenerateUI();	
+		//myGen.fillProductsTable(first);
+	}
+}
+
+
+
+
+
+
 		//Txt.setup();
 		//Txt.sendMessage();
 		//Txt.sendMessage("+17279027098", "now with custom messages! :)");
@@ -56,12 +72,3 @@ public class Main {
 		myList.clearList();
 		System.out.println(myList.list);
 		*/
-		SpendMoney.initialize();
-		SpendMoney.customerCreateAndPush("givenName", "FamilyName", "123 Second St", "Defaulty City, USA 54321");
-		
-		//GenerateUI.main(args);
-		
-		//GenerateUI myGen = new GenerateUI();	
-		//myGen.fillProductsTable(first);
-	}
-}
