@@ -56,8 +56,10 @@ public class Main {
 		myList.clearList();
 		System.out.println(myList.list);
 		*/
+		SpendMoney.initialize();
+		SpendMoney.customerCreateAndPush("givenName", "FamilyName", "123 Second St", "Defaulty City, USA 54321");
 		
-		GenerateUI.main(args);
+		//GenerateUI.main(args);
 		
 		//GenerateUI myGen = new GenerateUI();	
 		//myGen.fillProductsTable(first);

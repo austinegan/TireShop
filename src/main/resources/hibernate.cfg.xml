@@ -1,14 +1,14 @@
 <hibernate-configuration>
 	<session-factory>
-		<property name = "hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name = "hibernate.connection.driver.class">com.mysql.jdbc.Driver</property>
-		<property name = "hibernate.dialect.connection.url">jdbc:mysql://database-2.cgeho1qoscbs.us-east-1.rds.amazonaws.com:3306/myDB2</property>
-		<property name = "hibernate.connection.connection.username">admin</property>
-		<property name = "hibernate.connection.connection.password">49Ug2pJ1OcxGrbvDdDxE</property>
-		<property name = "hibernate.show_sql">true</property>
-		<property name = "hbm2ddl.auto">create</property>
-		<property name = "hibernate.hbm2ddl.auto">update</property>
-		<mapping class = "seniorproject.model.Inventory"></mapping>
-		
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.connection.driver.class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.dialect.connection.url">jdbc:mysql://database-2.cgeho1qoscbs.us-east-1.rds.amazonaws.com:3306/myDB2</property>
+		<property name="hibernate.connection.connection.username">admin</property>
+		<property name="hibernate.connection.connection.password">49Ug2pJ1OcxGrbvDdDxE</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hbm2ddl.auto">create</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<mapping class="seniorproject.model.Inventory"></mapping>
+
 	</session-factory>
 </hibernate-configuration>
