@@ -9,7 +9,7 @@ public class Main {
 
 		
 		SpendMoney.initialize();
-		SpendMoney.customerCreateAndPush("givenName", "FamilyName", "123 Second St", "Defaulty City, USA 54321");
+		//SpendMoney.customerCreateAndPush("givenName", "FamilyName", "123 Second St", "Defaulty City, USA 54321");
 		
 		//GenerateUI.main(args);
 		
