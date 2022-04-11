@@ -12,6 +12,8 @@ public class SpendMoney {
 	private static SquareClient client;
 	private static CustomersApi customersApi;
 	private static TerminalApi terminalApi;
+	private static TipSettings tipSettings;
+	private static DeviceCheckoutOptions deviceOptions;
 	
 	public static void initialize() {
         InputStream inputStream = SpendMoney.class.getResourceAsStream("/config.properties");
@@ -29,51 +31,56 @@ public class SpendMoney {
 				  .build();
 		customersApi = client.getCustomersApi();
 		terminalApi = client.getTerminalApi();
+		tipSettings = new TipSettings.Builder()
+				.build();
+		deviceOptions = new DeviceCheckoutOptions.Builder("204CS149A9004201")
+				  .tipSettings(tipSettings)
+				  .skipReceiptScreen(false)
+				  .build();
 	}
-
+/*
 	public static void main(String[] args) {
 		
-		Money amountMoney = new Money.Builder()
-				  .amount(2500L)
-				  .currency("USD")
-				  .build();
-
-				TipSettings tipSettings = new TipSettings.Builder()
-				  .build();
-
-				DeviceCheckoutOptions deviceOptions = new DeviceCheckoutOptions.Builder("devide_id")
-				  .tipSettings(tipSettings)
-				  .build();
-
-				TerminalCheckout checkout = new TerminalCheckout.Builder(amountMoney, deviceOptions)
-				  .referenceId("database reference")
-				  .note("note about the transaction")
-				  .paymentType("CARD_PRESENT")
-				  .customerId("")
-				  .build();
-
-				CreateTerminalCheckoutRequest body = new CreateTerminalCheckoutRequest.Builder(newUUID(), checkout)
-				  .build();
-
-				terminalApi.createTerminalCheckoutAsync(body)
-				  .thenAccept(result -> {
-				    System.out.println("Success!");
-				  })
-				  .exceptionally(exception -> {
-				    System.out.println("Failed to make the request");
-				    System.out.println(String.format("Exception: %s", exception.getMessage()));
-				    return null;
-				  });
-		
-		
-		
 	}
-	
+*/
 	public static String newUUID() {
 		return UUID.randomUUID().toString();
 	}
+	
+	public static void payWithTerminal(long amountInCents) {
+		payWithTerminal(amountInCents, "No ID");
+	}
+			
+	public static void payWithTerminal(long amountInCents, String customerID) {
+		payWithTerminal(amountInCents, customerID, "No note");
+	}
+	
+	public static void payWithTerminal(long amountInCents, String customerID, String note) {
+		Money amountMoney = new Money.Builder()
+				  .amount(amountInCents)
+				  .currency("USD")
+				  .build();
 
+		TerminalCheckout checkout = new TerminalCheckout.Builder(amountMoney, deviceOptions)
+		  //.referenceId("database reference")
+		  .note("note about the transaction")
+		  .paymentType("CARD_PRESENT")
+		  .customerId("")
+		  .build();
 
+		CreateTerminalCheckoutRequest body = new CreateTerminalCheckoutRequest.Builder(newUUID(), checkout)
+		  .build();
+
+		terminalApi.createTerminalCheckoutAsync(body)
+		  .thenAccept(result -> {
+		    System.out.println("Success!");
+		  })
+		  .exceptionally(exception -> {
+		    System.out.println("Failed to make the request");
+		    System.out.println(String.format("Exception: %s", exception.getMessage()));
+		    return null;
+		  });
+	}
 	
 	public static Address addressMethod(String line1, String line2CityStateZip) {
 		return new Address.Builder()

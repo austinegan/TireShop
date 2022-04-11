@@ -9,6 +9,7 @@ public class Main {
 
 		
 		SpendMoney.initialize();
+		SpendMoney.payWithTerminal(100);
 		//SpendMoney.customerCreateAndPush("givenName", "FamilyName", "123 Second St", "Defaulty City, USA 54321");
 		
 		//GenerateUI.main(args);
