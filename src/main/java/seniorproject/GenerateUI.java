@@ -74,22 +74,22 @@ public class GenerateUI {
 	private Text txtCurrentCustomer;
 	private Text txtInvSearchBar;
 	private Table tableInv;
-	private Text searchAddInvBrand;
-	private Text searchAddInvBrandError;
-	private Text searchAddInvModel;
-	private Text searchAddInvModelError;
-	private Text searchAddInvSize;
-	private Text searchAddInvSizeError;
-	private Text searchAddInvQuantity;
-	private Text searchAddInvQuantityError;
-	private Text searchAddInvPrice;
-	private Text searchAddInvPriceError;
-	private Text searchRmvInvBrand;
-	private Text searchRmvInvBrandError;
-	private Text searchRmvInvModel;
-	private Text searchRmvInvModelError;
-	private Text searchRmvInvSize;
-	private Text searchRmvInvSizeError;
+	private Text addInvBrand;
+	private Text addInvBrandError;
+	private Text addInvModel;
+	private Text addInvModelError;
+	private Text addInvSize;
+	private Text addInvSizeError;
+	private Text addInvQuantity;
+	private Text addInvQuantityError;
+	private Text addInvPrice;
+	private Text addInvPriceError;
+	private Text rmvInvBrand;
+	private Text rmvInvBrandError;
+	private Text rmvInvModel;
+	private Text rmvInvModelError;
+	private Text rmvInvSize;
+	private Text rmvInvSizeError;
 	private Text text1_1;
 	private Text text1_2;
 	private Text text1_3;
@@ -526,26 +526,26 @@ public class GenerateUI {
 		Composite SearchMenuComp_1 = new Composite(ProductsComposite_1, SWT.NONE);
 		SearchMenuComp_1.setBounds(0, 10, 473, 23);
 
-		Combo BrandCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
-		BrandCombo_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
-		BrandCombo_1.setBounds(0, 0, 94, 23);
-		BrandCombo_1.setText("            Brand");
+		Combo BrandCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		BrandCombo.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		BrandCombo.setBounds(0, 0, 94, 23);
+		BrandCombo.setText("Brand");
 
-		Combo WidthCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
-		WidthCombo_1.setBounds(93, 0, 87, 23);
-		WidthCombo_1.setText(" Tire Width");
+		Combo WidthCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		WidthCombo.setBounds(93, 0, 87, 23);
+		WidthCombo.setText("Tire Width");
 
-		Combo RatioCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
-		RatioCombo_1.setBounds(180, 0, 94, 23);
-		RatioCombo_1.setText(" Aspect Ratio");
+		Combo RatioCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		RatioCombo.setBounds(180, 0, 94, 23);
+		RatioCombo.setText("Aspect Ratio");
 
-		Combo DiameterCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
-		DiameterCombo_1.setBounds(274, 0, 87, 23);
-		DiameterCombo_1.setText(" Diameter");
+		Combo DiameterCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		DiameterCombo.setBounds(274, 0, 87, 23);
+		DiameterCombo.setText("Diameter");
 
-		Button ProdBtnSearch_1 = new Button(SearchMenuComp_1, SWT.NONE);
-		ProdBtnSearch_1.setText("Search");
-		ProdBtnSearch_1.setBounds(388, 0, 75, 25);
+		Button ProdBtnSearch = new Button(SearchMenuComp_1, SWT.NONE);
+		ProdBtnSearch.setText("Search");
+		ProdBtnSearch.setBounds(388, 0, 75, 25);
 
 		Text[][] text= new Text[50][50];
 		Button[][] button = new Button[50][50];
@@ -643,11 +643,6 @@ public class GenerateUI {
 		Inv2ButtonComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 
 		Button btnAddInv = new Button(Inv2ButtonComp, SWT.NONE);
-		btnAddInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
 		btnAddInv.setBounds(31, 24, 93, 51);
 		btnAddInv.setText("Add Inventory");
 
@@ -714,42 +709,42 @@ public class GenerateUI {
 		lblAddInvPrice.setBounds(32, 227, 56, 16);
 		lblAddInvPrice.setText("Price:");
 
-		searchAddInvBrand = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvBrand.setBounds(66, 51, 240, 19);
+		addInvBrand = new Text(AddInvComp, SWT.BORDER);
+		addInvBrand.setBounds(66, 51, 240, 19);
 
-		searchAddInvBrandError = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvBrandError.setBounds(66, 73, 240, 19);
+		addInvBrandError = new Text(AddInvComp, SWT.BORDER);
+		addInvBrandError.setBounds(66, 73, 240, 19);
+		addInvBrandError.setEditable(false);
 
-		searchAddInvModel = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvModel.setBounds(66, 95, 240, 19);
+		addInvModel = new Text(AddInvComp, SWT.BORDER);
+		addInvModel.setBounds(66, 95, 240, 19);
 
-		searchAddInvModelError = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvModelError.setBounds(66, 117, 240, 19);
+		addInvModelError = new Text(AddInvComp, SWT.BORDER);
+		addInvModelError.setBounds(66, 117, 240, 19);
+		addInvModelError.setEditable(false);
 
-		searchAddInvSize = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvSize.setBounds(66, 139, 240, 19);
+		addInvSize = new Text(AddInvComp, SWT.BORDER);
+		addInvSize.setBounds(66, 139, 240, 19);
 
-		searchAddInvSizeError = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvSizeError.setBounds(66, 161, 240, 19);
+		addInvSizeError = new Text(AddInvComp, SWT.BORDER);
+		addInvSizeError.setBounds(66, 161, 240, 19);
+		addInvSizeError.setEditable(false);
 
-		searchAddInvQuantity = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvQuantity.setBounds(66, 183, 240, 19);
+		addInvQuantity = new Text(AddInvComp, SWT.BORDER);
+		addInvQuantity.setBounds(66, 183, 240, 19);
 
-		searchAddInvQuantityError = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvQuantityError.setBounds(66, 205, 240, 19);
+		addInvQuantityError = new Text(AddInvComp, SWT.BORDER);
+		addInvQuantityError.setBounds(66, 205, 240, 19);
+		addInvQuantityError.setEditable(false);
 
-		searchAddInvPrice = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvPrice.setBounds(66, 227, 240, 19);
+		addInvPrice = new Text(AddInvComp, SWT.BORDER);
+		addInvPrice.setBounds(66, 227, 240, 19);
 
-		searchAddInvPriceError = new Text(AddInvComp, SWT.BORDER);
-		searchAddInvPriceError.setBounds(66, 249, 240, 19);
+		addInvPriceError = new Text(AddInvComp, SWT.BORDER);
+		addInvPriceError.setBounds(66, 249, 240, 19);
+		addInvPriceError.setEditable(false);
 
 		Button btnAddInvSubmit = new Button(AddInvComp, SWT.NONE);
-		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
 		btnAddInvSubmit.setBounds(76, 277, 70, 21);
 		btnAddInvSubmit.setText("Submit");
 
@@ -760,29 +755,6 @@ public class GenerateUI {
 		Button btnXAddInv = new Button(AddInvComp, SWT.NONE);
 		btnXAddInv.setBounds(297, 10, 21, 21);
 		btnXAddInv.setText("X");
-
-		btnXAddInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : X (Add Inventory)");
-				AddInvComp.setVisible(false);
-				Inv2ButtonComp.setEnabled(true);
-			}
-		});
-
-		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Submit (Add Inventory)");
-			}
-		});
-
-		btnClearAddInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Clear (Add Inventory)");
-			}
-		});
 
 		Composite RmvInvComp = new Composite(InventoryComposite, SWT.NONE);
 
@@ -802,23 +774,26 @@ public class GenerateUI {
 		lblRmvInvSize.setBounds(22, 138, 56, 16);
 		lblRmvInvSize.setText("Size:");
 
-		searchRmvInvBrand = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvBrand.setBounds(58, 51, 247, 19);
+		rmvInvBrand = new Text(RmvInvComp, SWT.BORDER);
+		rmvInvBrand.setBounds(58, 51, 247, 19);
 
-		searchRmvInvBrandError = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvBrandError.setBounds(58, 73, 247, 19);
+		rmvInvBrandError = new Text(RmvInvComp, SWT.BORDER);
+		rmvInvBrandError.setBounds(58, 73, 247, 19);
+		rmvInvBrandError.setEditable(false);
 
-		searchRmvInvModel = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvModel.setBounds(58, 95, 247, 19);
+		rmvInvModel = new Text(RmvInvComp, SWT.BORDER);
+		rmvInvModel.setBounds(58, 95, 247, 19);
 
-		searchRmvInvModelError = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvModelError.setBounds(58, 117, 247, 19);
+		rmvInvModelError = new Text(RmvInvComp, SWT.BORDER);
+		rmvInvModelError.setBounds(58, 117, 247, 19);
+		rmvInvModelError.setEditable(false);
 
-		searchRmvInvSize = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvSize.setBounds(58, 139, 247, 19);
+		rmvInvSize = new Text(RmvInvComp, SWT.BORDER);
+		rmvInvSize.setBounds(58, 139, 247, 19);
 
-		searchRmvInvSizeError = new Text(RmvInvComp, SWT.BORDER);
-		searchRmvInvSizeError.setBounds(58, 161, 247, 19);
+		rmvInvSizeError = new Text(RmvInvComp, SWT.BORDER);
+		rmvInvSizeError.setBounds(58, 161, 247, 19);
+		rmvInvSizeError.setEditable(false);
 
 		Button btnRmvInvSubmit = new Button(RmvInvComp, SWT.NONE);
 		btnRmvInvSubmit.setBounds(68, 186, 70, 21);
@@ -949,6 +924,12 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Clear (Remove Inventory)");
+				rmvInvBrand.setText("");
+				rmvInvBrandError.setText("");
+				rmvInvModel.setText("");
+				rmvInvModelError.setText("");
+				rmvInvSize.setText("");
+				rmvInvSizeError.setText("");
 			}
 		});
 
@@ -1050,6 +1031,41 @@ public class GenerateUI {
 			    cus.setLast_update(ts);
 			    session.save(cus);
 			    session.getTransaction().commit();
+			}
+		});
+		
+		btnXAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : X (Add Inventory)");
+				AddInvComp.setVisible(false);
+				Inv2ButtonComp.setEnabled(true);
+			}
+		});
+
+		
+		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Submit (Add Inventory)");
+			}
+		});
+		
+
+		btnClearAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear (Add Inventory)");
+				addInvBrand.setText("");
+				addInvBrandError.setText("");
+				addInvModel.setText("");
+				addInvModelError.setText("");
+				addInvSize.setText("");
+				addInvSizeError.setText("");
+				addInvQuantity.setText("");
+				addInvQuantityError.setText("");
+				addInvPrice.setText("");
+				addInvPriceError.setText("");
 			}
 		});
 	}
