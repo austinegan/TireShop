@@ -31,9 +31,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.hibernate.Session;
 
 import seniorproject.dao.InventoryDao;
+import seniorproject.model.Customer;
 import seniorproject.model.Inventory;
+import seniorproject.util.HibernateUtil;
 
 //import net.proteanit.sql.DbUtils;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -43,6 +46,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+
 import org.eclipse.swt.widgets.TableColumn;
 import swing2swt.layout.BoxLayout;
 
@@ -50,22 +55,22 @@ public class GenerateUI {
 
 	protected Shell shell;
 	private Text txtThisIsWhere;
+	private Text newName;
+	private Text newPhone;
 	private Text searchName;
 	private Text searchPhone;
-	private Text newNameTextbox;
-	private Text newPhoneNumber;
-	private Text newAddress;
-	private Text newEmail;
-	private Text newNameErrorTextbox;
-	private Text newPhoneNumberError;
-	private Text newAddressError;
-	private Text newEmailError;
 	private Text searchAddress;
 	private Text searchEmail;
 	private Text searchNameError;
 	private Text searchPhoneError;
 	private Text searchAddressError;
 	private Text searchEmailError;
+	private Text newAddress;
+	private Text newEmail;
+	private Text newNameError;
+	private Text newPhoneError;
+	private Text newAddressError;
+	private Text newEmailError;
 	private Text txtCurrentCustomer;
 	private Text txtInvSearchBar;
 	private Table tableInv;
@@ -112,16 +117,16 @@ public class GenerateUI {
 	private Text txtPhoneNumber;
 	private Table table_1;
 	private Table productsTable;
-	
+
 	/**
 	 * Launch the application.
 	 * 
 	 * @param args
 	 */
 
-	
+
 	public static void main(String[] args) {
-		
+
 		try {
 			GenerateUI window = new GenerateUI();
 			window.open();
@@ -129,8 +134,8 @@ public class GenerateUI {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	/**
 	 * Open the window.
 	 */
@@ -146,6 +151,7 @@ public class GenerateUI {
 				display.sleep();
 			}
 		}
+		HibernateUtil.closeFactory();
 	}
 
 	/**
@@ -166,87 +172,87 @@ public class GenerateUI {
 		tbtmNewItem.setControl(CustomerComposite);
 		GridLayout gl_CustomerComposite = new GridLayout(2, true);
 		CustomerComposite.setLayout(gl_CustomerComposite);
-				
-						Composite Cust2ButtonComp = new Composite(CustomerComposite, SWT.NONE);
-						Cust2ButtonComp.setLayout(new GridLayout(2, false));
-						Cust2ButtonComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
-						
-								Button btnSearchAccount = new Button(Cust2ButtonComp, SWT.NONE);
-								
-										btnSearchAccount.setText("Search");
-										
-												Button btnNewAccount = new Button(Cust2ButtonComp, SWT.NONE);
-												
-														btnNewAccount.setText("New Account");
-														
-														txtCurrentCustomer = new Text(Cust2ButtonComp, SWT.BORDER);
-														txtCurrentCustomer.setText("Current Customer : ");
-														new Label(Cust2ButtonComp, SWT.NONE);
-														
-																
 
-		
-//		btnInvSearch.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				System.out.println("Button : Search Inventory");
-//				try {
-//					Connection connection = null;
-//					database.connect(connection);
-//					String query = "SELECT id, brand, model_number, sale_price, count FROM Inventory";
-//					PreparedStatement pst = connection.prepareStatement(query);
-//					ResultSet rs = pst.executeQuery();
-//					tableInv.setModel(DbUtils.resultSetToTableModel(rs));
-//					database.disconnect(connection);
-//				} catch (SQLException e1) {
-//					e1.printStackTrace();
-//				} finally {	
-//				}
-//			}
-//		});
-		
-		
-//		
-//		ProdBtnSearch_1.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				SearchResultsComp.setVisible(true);
-//
-//				int m =38;
-//				for(int i=1;i<5;i++){
-//					text[i][i]=new Text(SearchResultsComp, SWT.BORDER);
-//					text[i][i].setBounds(10, m, 93, 21);
-//					text[i][i+1]=new Text(SearchResultsComp, SWT.BORDER);
-//					text[i][i+1].setBounds(99, m, 103, 21);
-//					text[i][i+2]=new Text(SearchResultsComp, SWT.BORDER);
-//					text[i][i+2].setBounds(198, m, 103, 21);
-//					//text[i][i+2].setText("Im here");
-//					text[i][i+3]=new Text(SearchResultsComp, SWT.BORDER);
-//					text[i][i+3].setBounds(301, m, 69, 21);
-//					text[i][i+4]=new Text(SearchResultsComp, SWT.BORDER);
-//					text[i][i+4].setBounds(369, m, 69, 21);
-//					text[i][i+5] = new Text(SearchResultsComp, SWT.BORDER);
-//					text[i][i+5].setBounds(482, m, 20, 21);
-//					button[i][i] = new Button(SearchResultsComp, SWT.NONE);
-//					button[i][i].setBounds(452, m, 24, 21);
-//					button[i][i].setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
-//					button[i][i].setText("-");
-//					//button[i][i].button
-//					
-//					button[i][i+1] = new Button(SearchResultsComp, SWT.NONE);
-//					button[i][i+1].setBounds(508, m, 24, 23);
-//					button[i][i+1].setText("+");
-//					button[i][i+1].setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
-//					m=m+22;
-//				}
-//				text[2][3].setText("Hello");
-//				text[2][7].setText("25");
-//			}});
-//		
-		
-		
+		Composite Cust2ButtonComp = new Composite(CustomerComposite, SWT.NONE);
+		Cust2ButtonComp.setLayout(new GridLayout(2, false));
+		Cust2ButtonComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1));
 
-		
+		Button btnSearchAccount = new Button(Cust2ButtonComp, SWT.NONE);
+
+		btnSearchAccount.setText("Search");
+
+		Button btnNewAccount = new Button(Cust2ButtonComp, SWT.NONE);
+
+		btnNewAccount.setText("New Account");
+
+		txtCurrentCustomer = new Text(Cust2ButtonComp, SWT.BORDER);
+		txtCurrentCustomer.setText("Current Customer : ");
+		new Label(Cust2ButtonComp, SWT.NONE);
+
+
+
+
+		//		btnInvSearch.addSelectionListener(new SelectionAdapter() {
+		//			@Override
+		//			public void widgetSelected(SelectionEvent e) {
+		//				System.out.println("Button : Search Inventory");
+		//				try {
+		//					Connection connection = null;
+		//					database.connect(connection);
+		//					String query = "SELECT id, brand, model_number, sale_price, count FROM Inventory";
+		//					PreparedStatement pst = connection.prepareStatement(query);
+		//					ResultSet rs = pst.executeQuery();
+		//					tableInv.setModel(DbUtils.resultSetToTableModel(rs));
+		//					database.disconnect(connection);
+		//				} catch (SQLException e1) {
+		//					e1.printStackTrace();
+		//				} finally {	
+		//				}
+		//			}
+		//		});
+
+
+		//		
+		//		ProdBtnSearch_1.addSelectionListener(new SelectionAdapter() {
+		//			@Override
+		//			public void widgetSelected(SelectionEvent e) {
+		//				SearchResultsComp.setVisible(true);
+		//
+		//				int m =38;
+		//				for(int i=1;i<5;i++){
+		//					text[i][i]=new Text(SearchResultsComp, SWT.BORDER);
+		//					text[i][i].setBounds(10, m, 93, 21);
+		//					text[i][i+1]=new Text(SearchResultsComp, SWT.BORDER);
+		//					text[i][i+1].setBounds(99, m, 103, 21);
+		//					text[i][i+2]=new Text(SearchResultsComp, SWT.BORDER);
+		//					text[i][i+2].setBounds(198, m, 103, 21);
+		//					//text[i][i+2].setText("Im here");
+		//					text[i][i+3]=new Text(SearchResultsComp, SWT.BORDER);
+		//					text[i][i+3].setBounds(301, m, 69, 21);
+		//					text[i][i+4]=new Text(SearchResultsComp, SWT.BORDER);
+		//					text[i][i+4].setBounds(369, m, 69, 21);
+		//					text[i][i+5] = new Text(SearchResultsComp, SWT.BORDER);
+		//					text[i][i+5].setBounds(482, m, 20, 21);
+		//					button[i][i] = new Button(SearchResultsComp, SWT.NONE);
+		//					button[i][i].setBounds(452, m, 24, 21);
+		//					button[i][i].setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
+		//					button[i][i].setText("-");
+		//					//button[i][i].button
+		//					
+		//					button[i][i+1] = new Button(SearchResultsComp, SWT.NONE);
+		//					button[i][i+1].setBounds(508, m, 24, 23);
+		//					button[i][i+1].setText("+");
+		//					button[i][i+1].setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
+		//					m=m+22;
+		//				}
+		//				text[2][3].setText("Hello");
+		//				text[2][7].setText("25");
+		//			}});
+		//		
+
+
+
+
 		Composite SearchAcctComp = new Composite(CustomerComposite, SWT.NONE);
 		GridData gd_SearchAcctComp = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_SearchAcctComp.heightHint = 254;
@@ -254,7 +260,7 @@ public class GenerateUI {
 		SearchAcctComp.setLayoutData(gd_SearchAcctComp);
 		SearchAcctComp.setVisible(true);
 		SearchAcctComp.setLayout(new GridLayout(1, false));
-		
+
 		Composite SearchCustomerTitleComposite = new Composite(SearchAcctComp, SWT.NONE);
 		SearchCustomerTitleComposite.setLayout(new GridLayout(3, false));
 		SearchCustomerTitleComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -262,12 +268,12 @@ public class GenerateUI {
 		lblNewLabel_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 		lblNewLabel_2.setAlignment(SWT.CENTER);
 		lblNewLabel_2.setText("Search Customer");
-		
+
 		Button btnXSearchAccount = new Button(SearchCustomerTitleComposite, SWT.NONE);
 		btnXSearchAccount.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		
+
 		btnXSearchAccount.setText("X");
-		
+
 		btnXSearchAccount.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -277,72 +283,72 @@ public class GenerateUI {
 			}
 		});
 		new Label(SearchCustomerTitleComposite, SWT.NONE);
-		
+
 		Composite SearchCustomerEverythingElseComposite = new Composite(SearchAcctComp, SWT.NONE);
 		SearchCustomerEverythingElseComposite.setLayout(new GridLayout(4, false));
 		GridData gd_SearchCustomerEverythingElseComposite = new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
 		gd_SearchCustomerEverythingElseComposite.heightHint = 328;
 		SearchCustomerEverythingElseComposite.setLayoutData(gd_SearchCustomerEverythingElseComposite);
-		
+
 		Label lblNewLabel_3 = new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		lblNewLabel_3.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 2));
 		lblNewLabel_3.setText("Name");
-		
-		newNameTextbox = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
-		GridData gd_newNameTextbox = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
-		gd_newNameTextbox.widthHint = 300;
-		newNameTextbox.setLayoutData(gd_newNameTextbox);
-		
-		newNameErrorTextbox = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
-		GridData gd_newNameErrorTextbox = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
-		gd_newNameErrorTextbox.widthHint = 300;
-		newNameErrorTextbox.setLayoutData(gd_newNameErrorTextbox);
-		newNameErrorTextbox.setEditable(false);
-		
+
+		searchName = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
+		GridData gd_searchName = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_searchName.widthHint = 300;
+		searchName.setLayoutData(gd_searchName);
+
+		searchNameError = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
+		GridData gd_searchNameError = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_searchNameError.widthHint = 300;
+		searchNameError.setLayoutData(gd_searchNameError);
+		searchNameError.setEditable(false);
+
 		Label lblNewLabel_4 = new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		lblNewLabel_4.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 2));
 		lblNewLabel_4.setText("Phone #");
-		
-		newPhoneNumber = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
-		GridData gd_newPhoneNumber = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
-		gd_newPhoneNumber.widthHint = 300;
-		newPhoneNumber.setLayoutData(gd_newPhoneNumber);
-		
-		newPhoneNumberError = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
-		GridData gd_newPhoneNumberError = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
-		gd_newPhoneNumberError.widthHint = 300;
-		newPhoneNumberError.setLayoutData(gd_newPhoneNumberError);
-		newPhoneNumberError.setEditable(false);
-		
+
+		searchPhone = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
+		GridData gd_searchPhone = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_searchPhone.widthHint = 300;
+		searchPhone.setLayoutData(gd_searchPhone);
+
+		searchPhoneError = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
+		GridData gd_searchPhoneError = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_searchPhoneError.widthHint = 300;
+		searchPhoneError.setLayoutData(gd_searchPhoneError);
+		searchPhoneError.setEditable(false);
+
 		Label lblNewLabel_5 = new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		lblNewLabel_5.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 2));
 		lblNewLabel_5.setText("Address");
-		
-		newAddress = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
-		GridData gd_newAddress = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
-		gd_newAddress.widthHint = 300;
-		newAddress.setLayoutData(gd_newAddress);
-		
-		newAddressError = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
-		GridData gd_newAddressError = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
-		gd_newAddressError.widthHint = 300;
-		newAddressError.setLayoutData(gd_newAddressError);
-		newAddressError.setEditable(false);
-		
+
+		searchAddress = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
+		GridData gd_searchAddress = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_searchAddress.widthHint = 300;
+		searchAddress.setLayoutData(gd_searchAddress);
+
+		searchAddressError = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
+		GridData gd_searchAddressError = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_searchAddressError.widthHint = 300;
+		searchAddressError.setLayoutData(gd_searchAddressError);
+		searchAddressError.setEditable(false);
+
 		Label lblNewLabel_6 = new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		lblNewLabel_6.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 2));
 		lblNewLabel_6.setText("Email");
-		
-		newEmail = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
-		GridData gd_newEmail = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
-		gd_newEmail.widthHint = 300;
-		newEmail.setLayoutData(gd_newEmail);
-		
-		newEmailError = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
-		GridData gd_newEmailError = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
-		gd_newEmailError.widthHint = 300;
-		newEmailError.setLayoutData(gd_newEmailError);
-		newEmailError.setEditable(false);
+
+		searchEmail = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
+		GridData gd_searchEmail = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_searchEmail.widthHint = 300;
+		searchEmail.setLayoutData(gd_searchEmail);
+
+		searchEmailError = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER);
+		GridData gd_searchEmailError = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_searchEmailError.widthHint = 300;
+		searchEmailError.setLayoutData(gd_searchEmailError);
+		searchEmailError.setEditable(false);
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
@@ -356,7 +362,7 @@ public class GenerateUI {
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-		
+
 		Button btnNewButton_3 = new Button(SearchCustomerEverythingElseComposite, SWT.NONE);
 		btnNewButton_3.setText("Search");
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
@@ -365,183 +371,182 @@ public class GenerateUI {
 		Composite NewAcctComp = new Composite(CustomerComposite, SWT.NONE);
 		NewAcctComp.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
 		NewAcctComp.setLayout(new GridLayout(4, false));
-																new Label(NewAcctComp, SWT.NONE);
-																
-																CLabel lblCreateANew = new CLabel(NewAcctComp, SWT.NONE);
-																lblCreateANew.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
-																lblCreateANew.setText("Create a New Customer Account");
-																
-																		Button btnXCreateAccount = new Button(NewAcctComp, SWT.NONE);
-																		btnXCreateAccount.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-																		btnXCreateAccount.setText("X");
-																		
-																				
-														
-																Label lblNewLabel = new Label(NewAcctComp, SWT.NONE);
-																lblNewLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-																lblNewLabel.setText("Name");
-												
-														searchName = new Text(NewAcctComp, SWT.BORDER);
-														searchName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
-										new Label(NewAcctComp, SWT.NONE);
-										new Label(NewAcctComp, SWT.NONE);
-										
-										searchNameError = new Text(NewAcctComp, SWT.BORDER);
-										searchNameError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-										new Label(NewAcctComp, SWT.NONE);
-								
-										Label lblNewLabel_1 = new Label(NewAcctComp, SWT.NONE);
-										lblNewLabel_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-										lblNewLabel_1.setText("Phone #");
-						
-								searchPhone = new Text(NewAcctComp, SWT.BORDER);
-								searchPhone.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
-						new Label(NewAcctComp, SWT.NONE);
-						new Label(NewAcctComp, SWT.NONE);
-						
-						searchPhoneError = new Text(NewAcctComp, SWT.BORDER);
-						searchPhoneError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-						new Label(NewAcctComp, SWT.NONE);
-						
-						Label lblNewLabel_7 = new Label(NewAcctComp, SWT.NONE);
-						lblNewLabel_7.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-						lblNewLabel_7.setText("Address");
-						
-						searchAddress = new Text(NewAcctComp, SWT.BORDER);
-						searchAddress.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-						new Label(NewAcctComp, SWT.NONE);
-						new Label(NewAcctComp, SWT.NONE);
-						
-						searchAddressError = new Text(NewAcctComp, SWT.BORDER);
-						searchAddressError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-						new Label(NewAcctComp, SWT.NONE);
-						
-						Label lblNewLabel_8 = new Label(NewAcctComp, SWT.NONE);
-						lblNewLabel_8.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-						lblNewLabel_8.setText("Email");
-						
-						searchEmail = new Text(NewAcctComp, SWT.BORDER);
-						GridData gd_searchEmail = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
-						gd_searchEmail.widthHint = 325;
-						searchEmail.setLayoutData(gd_searchEmail);
-						new Label(NewAcctComp, SWT.NONE);
-						new Label(NewAcctComp, SWT.NONE);
-						
-						searchEmailError = new Text(NewAcctComp, SWT.BORDER);
-						searchEmailError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-						new Label(NewAcctComp, SWT.NONE);
-				
-						Button btnNewButton_2 = new Button(NewAcctComp, SWT.NONE);
-						btnNewButton_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
-						btnNewButton_2.setText("Create Customer");
-		
-				Button btnClear = new Button(NewAcctComp, SWT.NONE);
-				btnClear.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-				btnClear.setText("Clear");
 		new Label(NewAcctComp, SWT.NONE);
-		
-		
-		
-		
-		
-		
+
+		CLabel lblCreateANew = new CLabel(NewAcctComp, SWT.NONE);
+		lblCreateANew.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		lblCreateANew.setText("Create a New Customer Account");
+
+		Button btnXCreateAccount = new Button(NewAcctComp, SWT.NONE);
+		btnXCreateAccount.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		btnXCreateAccount.setText("X");
+
+		Label lblNewCustomer = new Label(NewAcctComp, SWT.NONE);
+		lblNewCustomer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblNewCustomer.setText("Name");
+
+		newName = new Text(NewAcctComp, SWT.BORDER);
+		newName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+		new Label(NewAcctComp, SWT.NONE);
+		new Label(NewAcctComp, SWT.NONE);
+
+		newNameError = new Text(NewAcctComp, SWT.BORDER);
+		newNameError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		new Label(NewAcctComp, SWT.NONE);
+		newNameError.setEditable(false);
+
+		Label lblNewPhone = new Label(NewAcctComp, SWT.NONE);
+		lblNewPhone.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblNewPhone.setText("Phone #");
+
+		newPhone = new Text(NewAcctComp, SWT.BORDER);
+		newPhone.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+		new Label(NewAcctComp, SWT.NONE);
+		new Label(NewAcctComp, SWT.NONE);
+
+		newPhoneError = new Text(NewAcctComp, SWT.BORDER);
+		newPhoneError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		new Label(NewAcctComp, SWT.NONE);
+		newPhoneError.setEditable(false);
+
+		Label lblNewAddress = new Label(NewAcctComp, SWT.NONE);
+		lblNewAddress.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblNewAddress.setText("Address");
+
+		newAddress = new Text(NewAcctComp, SWT.BORDER);
+		newAddress.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		new Label(NewAcctComp, SWT.NONE);
+		new Label(NewAcctComp, SWT.NONE);
+
+		newAddressError = new Text(NewAcctComp, SWT.BORDER);
+		newAddressError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		new Label(NewAcctComp, SWT.NONE);
+		newAddressError.setEditable(false);
+
+		Label lblNewEmail = new Label(NewAcctComp, SWT.NONE);
+		lblNewEmail.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblNewEmail.setText("Email");
+
+		newEmail = new Text(NewAcctComp, SWT.BORDER);
+		GridData gd_newEmail = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
+		gd_newEmail.widthHint = 325;
+		newEmail.setLayoutData(gd_newEmail);
+		new Label(NewAcctComp, SWT.NONE);
+		new Label(NewAcctComp, SWT.NONE);
+
+		newEmailError = new Text(NewAcctComp, SWT.BORDER);
+		newEmailError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		new Label(NewAcctComp, SWT.NONE);
+		newEmailError.setEditable(false);
+
+		Button btnCreateCustomer = new Button(NewAcctComp, SWT.NONE);
+		btnCreateCustomer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
+		btnCreateCustomer.setText("Create Customer");
+
+		Button btnClear = new Button(NewAcctComp, SWT.NONE);
+		btnClear.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		btnClear.setText("Clear");
+		new Label(NewAcctComp, SWT.NONE);
+
+
+
+
+
+
 		/*          This following 2 lines are a temporary solution to allow the creators to edit the composites as they work :)             */
 		NewAcctComp.setVisible(true);
 
-		
-		
-		
-		
-		
+
+
+
+
+
 		txtThisIsWhere = new Text(NewAcctComp, SWT.BORDER);
 		txtThisIsWhere.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 3, 1));
 		txtThisIsWhere.setText("This is where to create a new customer account");
 		new Label(NewAcctComp, SWT.NONE);
+		txtThisIsWhere.setEditable(false);
 
 		TabItem tbtmNewItem_1 = new TabItem(tabFolder, 0);
 		tbtmNewItem_1.setText("Products");
-		
+
 		Composite ProductsComposite_1 = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_1.setControl(ProductsComposite_1);
-		
+
 		Composite SearchResultsComp = new Composite(ProductsComposite_1, SWT.NONE);
 		SearchResultsComp.setBounds(0, 54, 1076, 519);
 		SearchResultsComp.setVisible(true);
-		
+
 		productsTable = new Table(SearchResultsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.VIRTUAL);
 		productsTable.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
 		productsTable.setBounds(10, 0, 960, 403);
 		productsTable.setHeaderVisible(true);
 		productsTable.setLinesVisible(true);
-		
+
 		TableColumn tblclmnId = new TableColumn(productsTable, SWT.NONE);
 		tblclmnId.setWidth(100);
 		tblclmnId.setText("ID");
-		
+
 		TableColumn tblclmnBrand = new TableColumn(productsTable, SWT.NONE);
 		tblclmnBrand.setWidth(100);
 		tblclmnBrand.setText("Brand");
-		
+
 		TableColumn tblclmnModelNumber = new TableColumn(productsTable, SWT.NONE);
 		tblclmnModelNumber.setWidth(100);
 		tblclmnModelNumber.setText("Model Number");
-		
+
 		TableColumn tblclmnSalePrice = new TableColumn(productsTable, SWT.NONE);
 		tblclmnSalePrice.setWidth(100);
 		tblclmnSalePrice.setText("Sale Price");
-		
+
 		TableColumn tblclmnPurchasePrice = new TableColumn(productsTable, SWT.NONE);
 		tblclmnPurchasePrice.setWidth(100);
 		tblclmnPurchasePrice.setText("Purchase Price");
-		
+
 		TableColumn tblclmnCount = new TableColumn(productsTable, SWT.NONE);
 		tblclmnCount.setWidth(100);
 		tblclmnCount.setText("Count");
-		
+
 		TableColumn tblclmnWidth = new TableColumn(productsTable, SWT.NONE);
 		tblclmnWidth.setWidth(100);
 		tblclmnWidth.setText("Width");
-		
+
 		TableColumn tblclmnSize = new TableColumn(productsTable, SWT.NONE);
 		tblclmnSize.setWidth(100);
 		tblclmnSize.setText("Size");
-		
+
 		TableColumn tblclmnAspectRatio = new TableColumn(productsTable, SWT.NONE);
 		tblclmnAspectRatio.setWidth(100);
 		tblclmnAspectRatio.setText("Aspect Ratio");
-		
+
 		TableColumn tblclmnDiameter = new TableColumn(productsTable, SWT.NONE);
 		tblclmnDiameter.setWidth(100);
 		tblclmnDiameter.setText("Diameter");
-		
+
 		Composite SearchMenuComp_1 = new Composite(ProductsComposite_1, SWT.NONE);
 		SearchMenuComp_1.setBounds(0, 10, 473, 23);
-		
+
 		Combo BrandCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
 		BrandCombo_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		BrandCombo_1.setBounds(0, 0, 94, 23);
 		BrandCombo_1.setText("            Brand");
-		
+
 		Combo WidthCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
 		WidthCombo_1.setBounds(93, 0, 87, 23);
 		WidthCombo_1.setText(" Tire Width");
-		
+
 		Combo RatioCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
 		RatioCombo_1.setBounds(180, 0, 94, 23);
 		RatioCombo_1.setText(" Aspect Ratio");
 
-		
 		Combo DiameterCombo_1 = new Combo(SearchMenuComp_1, SWT.NONE);
 		DiameterCombo_1.setBounds(274, 0, 87, 23);
 		DiameterCombo_1.setText(" Diameter");
-		
-		
+
 		Button ProdBtnSearch_1 = new Button(SearchMenuComp_1, SWT.NONE);
 		ProdBtnSearch_1.setText("Search");
 		ProdBtnSearch_1.setBounds(388, 0, 75, 25);
-		
-		
-		
+
 		Text[][] text= new Text[50][50];
 		Button[][] button = new Button[50][50];
 		int[][] plusInt = new int [50][50];
@@ -554,74 +559,74 @@ public class GenerateUI {
 		Composite CartComposite = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_2.setControl(CartComposite);
 		CartComposite.setLayout(null);
-		
+
 		Composite CheckoutComp = new Composite(CartComposite, SWT.NONE);
 		CheckoutComp.setBounds(0, 0, 619, 416);
-		
+
 		txtCart = new Text(CheckoutComp, SWT.BORDER);
 		txtCart.setText("Current Customer:");
 		txtCart.setBounds(39, 10, 110, 26);
-		
+
 		currentCustomerText = new Text(CheckoutComp, SWT.BORDER);
 		currentCustomerText.setEnabled(false);
 		currentCustomerText.setBounds(145, 10, 184, 26);
-		
+
 		Label lblNewLabel_9 = new Label(CheckoutComp, SWT.NONE);
 		lblNewLabel_9.setBounds(10, 72, 55, 20);
 		lblNewLabel_9.setText("Cart:");
-		
+
 		TireDescriptionText = new Text(CheckoutComp, SWT.BORDER);
 		TireDescriptionText.setBounds(30, 107, 288, 25);
-		
+
 		Button btnXSearchAccount_1 = new Button(CheckoutComp, SWT.NONE);
 		btnXSearchAccount_1.setText("X");
 		btnXSearchAccount_1.setBounds(10, 107, 19, 25);
-		
+
 		Button button_1_2 = new Button(CheckoutComp, SWT.NONE);
 		button_1_2.setText("-");
 		button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
 		button_1_2.setBounds(324, 107, 24, 21);
-		
+
 		QuantityText = new Text(CheckoutComp, SWT.BORDER);
 		QuantityText.setBounds(379, 107, 20, 21);
-		
+
 		Button button_1_1_1 = new Button(CheckoutComp, SWT.NONE);
 		button_1_1_1.setText("+");
 		button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
 		button_1_1_1.setBounds(405, 107, 24, 23);
-		
+
 		Label lblNewLabel_10 = new Label(CheckoutComp, SWT.NONE);
 		lblNewLabel_10.setBounds(349, 110, 24, 15);
 		lblNewLabel_10.setText("Qty.");
-		
+
 		ItemTotalCost = new Text(CheckoutComp, SWT.BORDER);
 		ItemTotalCost.setBounds(451, 107, 60, 21);
-		
+
 		SubtotalText = new Text(CheckoutComp, SWT.BORDER);
 		SubtotalText.setBounds(451, 218, 60, 21);
-		
+
 		TaxText = new Text(CheckoutComp, SWT.BORDER);
 		TaxText.setBounds(451, 245, 60, 21);
-		
+
 		Label lblNewLabel_11 = new Label(CheckoutComp, SWT.NONE);
 		lblNewLabel_11.setBounds(390, 224, 55, 15);
 		lblNewLabel_11.setText("Subtotal:");
-		
+
 		Label lblNewLabel_11_1 = new Label(CheckoutComp, SWT.NONE);
 		lblNewLabel_11_1.setText("Tax(7.5%)");
 		lblNewLabel_11_1.setBounds(390, 251, 55, 15);
-		
+
 		Label lblNewLabel_11_1_1 = new Label(CheckoutComp, SWT.NONE);
 		lblNewLabel_11_1_1.setText("Total:");
 		lblNewLabel_11_1_1.setBounds(390, 276, 55, 15);
-		
+
 		CartTotalText = new Text(CheckoutComp, SWT.BORDER);
 		CartTotalText.setBounds(451, 272, 60, 21);
-		
+
 		Button btnNewButton = new Button(CheckoutComp, SWT.NONE);
 		btnNewButton.setBounds(436, 318, 75, 25);
 		btnNewButton.setText("Checkout");
-		
+
 		Button btnClearCart = new Button(CheckoutComp, SWT.NONE);
 		btnClearCart.setText("Clear Cart");
 		btnClearCart.setBounds(354, 318, 75, 25);
@@ -633,10 +638,10 @@ public class GenerateUI {
 		InventoryComposite.setLocation(-48, -329);
 		tbtmNewItem_3.setControl(InventoryComposite);
 		InventoryComposite.setLayout(new GridLayout(2, false));
-		
+
 		Composite Inv2ButtonComp = new Composite(InventoryComposite, SWT.NONE);
 		Inv2ButtonComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
-		
+
 		Button btnAddInv = new Button(Inv2ButtonComp, SWT.NONE);
 		btnAddInv.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -645,118 +650,100 @@ public class GenerateUI {
 		});
 		btnAddInv.setBounds(31, 24, 93, 51);
 		btnAddInv.setText("Add Inventory");
-		
+
 		Button btnRmvInv = new Button(Inv2ButtonComp, SWT.NONE);
 		btnRmvInv.setBounds(181, 24, 110, 51);
 		btnRmvInv.setText("Remove Inventory");
-		
+
 		txtInvSearchBar = new Text(Inv2ButtonComp, SWT.BORDER);
 		txtInvSearchBar.setText("Type tire brand, model, or size to search");
 		txtInvSearchBar.setBounds(10, 98, 249, 19);
-		
+
 		Button btnInvSearch = new Button(Inv2ButtonComp, SWT.NONE);
 		btnInvSearch.setBounds(265, 98, 53, 20);
 		btnInvSearch.setText("Search");
-		
+
 		tableInv = new Table(Inv2ButtonComp, SWT.BORDER | SWT.FULL_SELECTION);
 		tableInv.setBounds(15, 142, 303, 113);
 		tableInv.setHeaderVisible(true);
 		tableInv.setLinesVisible(true);
-		
+
 		TableColumn tblclmnBrand_1 = new TableColumn(tableInv, SWT.NONE);
 		tblclmnBrand_1.setWidth(60);
 		tblclmnBrand_1.setText("Brand");
-		
+
 		TableColumn tblclmnModel = new TableColumn(tableInv, SWT.NONE);
 		tblclmnModel.setWidth(60);
 		tblclmnModel.setText("Model");
-		
+
 		TableColumn tblclmnSize_1 = new TableColumn(tableInv, SWT.NONE);
 		tblclmnSize_1.setWidth(60);
 		tblclmnSize_1.setText("Size");
-		
+
 		TableColumn tblclmnQuantity = new TableColumn(tableInv, SWT.NONE);
 		tblclmnQuantity.setWidth(60);
 		tblclmnQuantity.setText("Quantity");
-		
+
 		TableColumn tblclmnPrice = new TableColumn(tableInv, SWT.NONE);
 		tblclmnPrice.setWidth(60);
 		tblclmnPrice.setText("Price");
-		
-		btnAddInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Add Inventory");
-				AddInvComp.setVisible(true);
-				Inv2ButtonComp.setEnabled(false);
-			}
-		});
-		
-		btnRmvInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Remove Inventory");
-				RmvInvComp.setVisible(true);
-				Cust2ButtonComp.setEnabled(false);
-			}
-		});
-		
+
 		Composite AddInvComp = new Composite(InventoryComposite, SWT.NONE);
-		
+
 		Label lblAddInventory = new Label(AddInvComp, SWT.NONE);
 		lblAddInventory.setBounds(124, 20, 82, 16);
 		lblAddInventory.setText("Add Inventory");
-		
+
 		Label lblAddInvBrand = new Label(AddInvComp, SWT.NONE);
 		lblAddInvBrand.setBounds(24, 51, 56, 16);
 		lblAddInvBrand.setText("Brand:");
-		
+
 		Label lblAddInvModel = new Label(AddInvComp, SWT.NONE);
 		lblAddInvModel.setBounds(20, 96, 56, 16);
 		lblAddInvModel.setText("Model:");
-		
+
 		Label lblAddInvSize = new Label(AddInvComp, SWT.NONE);
 		lblAddInvSize.setBounds(34, 140, 56, 16);
 		lblAddInvSize.setText("Size:");
-		
+
 		Label lblAddInvQuantity = new Label(AddInvComp, SWT.NONE);
 		lblAddInvQuantity.setBounds(10, 184, 56, 16);
 		lblAddInvQuantity.setText("Quantity:");
-		
+
 		Label lblAddInvPrice = new Label(AddInvComp, SWT.NONE);
 		lblAddInvPrice.setBounds(32, 227, 56, 16);
 		lblAddInvPrice.setText("Price:");
-		
+
 		searchAddInvBrand = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvBrand.setBounds(66, 51, 240, 19);
-		
+
 		searchAddInvBrandError = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvBrandError.setBounds(66, 73, 240, 19);
-		
+
 		searchAddInvModel = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvModel.setBounds(66, 95, 240, 19);
-		
+
 		searchAddInvModelError = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvModelError.setBounds(66, 117, 240, 19);
-		
+
 		searchAddInvSize = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvSize.setBounds(66, 139, 240, 19);
-		
+
 		searchAddInvSizeError = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvSizeError.setBounds(66, 161, 240, 19);
-		
+
 		searchAddInvQuantity = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvQuantity.setBounds(66, 183, 240, 19);
-		
+
 		searchAddInvQuantityError = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvQuantityError.setBounds(66, 205, 240, 19);
-		
+
 		searchAddInvPrice = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvPrice.setBounds(66, 227, 240, 19);
-		
+
 		searchAddInvPriceError = new Text(AddInvComp, SWT.BORDER);
 		searchAddInvPriceError.setBounds(66, 249, 240, 19);
-		
+
 		Button btnAddInvSubmit = new Button(AddInvComp, SWT.NONE);
 		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -765,15 +752,15 @@ public class GenerateUI {
 		});
 		btnAddInvSubmit.setBounds(76, 277, 70, 21);
 		btnAddInvSubmit.setText("Submit");
-		
+
 		Button btnClearAddInv = new Button(AddInvComp, SWT.NONE);
 		btnClearAddInv.setBounds(226, 277, 70, 21);
 		btnClearAddInv.setText("Clear");
-		
+
 		Button btnXAddInv = new Button(AddInvComp, SWT.NONE);
 		btnXAddInv.setBounds(297, 10, 21, 21);
 		btnXAddInv.setText("X");
-		
+
 		btnXAddInv.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -782,65 +769,65 @@ public class GenerateUI {
 				Inv2ButtonComp.setEnabled(true);
 			}
 		});
-		
+
 		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Submit (Add Inventory)");
 			}
 		});
-		
+
 		btnClearAddInv.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Clear (Add Inventory)");
 			}
 		});
-		
+
 		Composite RmvInvComp = new Composite(InventoryComposite, SWT.NONE);
-		
+
 		Label lblRmvInv = new Label(RmvInvComp, SWT.NONE);
 		lblRmvInv.setBounds(113, 20, 102, 16);
 		lblRmvInv.setText("Remove Inventory");
-		
+
 		Label lblRmvInvBrand = new Label(RmvInvComp, SWT.NONE);
 		lblRmvInvBrand.setBounds(14, 51, 56, 16);
 		lblRmvInvBrand.setText("Brand:");
-		
+
 		Label lblRmvInvModel = new Label(RmvInvComp, SWT.NONE);
 		lblRmvInvModel.setBounds(10, 95, 56, 16);
 		lblRmvInvModel.setText("Model:");
-		
+
 		Label lblRmvInvSize = new Label(RmvInvComp, SWT.NONE);
 		lblRmvInvSize.setBounds(22, 138, 56, 16);
 		lblRmvInvSize.setText("Size:");
-		
+
 		searchRmvInvBrand = new Text(RmvInvComp, SWT.BORDER);
 		searchRmvInvBrand.setBounds(58, 51, 247, 19);
-		
+
 		searchRmvInvBrandError = new Text(RmvInvComp, SWT.BORDER);
 		searchRmvInvBrandError.setBounds(58, 73, 247, 19);
-		
+
 		searchRmvInvModel = new Text(RmvInvComp, SWT.BORDER);
 		searchRmvInvModel.setBounds(58, 95, 247, 19);
-		
+
 		searchRmvInvModelError = new Text(RmvInvComp, SWT.BORDER);
 		searchRmvInvModelError.setBounds(58, 117, 247, 19);
-		
+
 		searchRmvInvSize = new Text(RmvInvComp, SWT.BORDER);
 		searchRmvInvSize.setBounds(58, 139, 247, 19);
-		
+
 		searchRmvInvSizeError = new Text(RmvInvComp, SWT.BORDER);
 		searchRmvInvSizeError.setBounds(58, 161, 247, 19);
-		
+
 		Button btnRmvInvSubmit = new Button(RmvInvComp, SWT.NONE);
 		btnRmvInvSubmit.setBounds(68, 186, 70, 21);
 		btnRmvInvSubmit.setText("Submit");
-		
+
 		Button btnRmvInvClear = new Button(RmvInvComp, SWT.NONE);
 		btnRmvInvClear.setBounds(225, 186, 70, 21);
 		btnRmvInvClear.setText("Clear");
-		
+
 		Button btnXRmvInv = new Button(RmvInvComp, SWT.NONE);
 		btnXRmvInv.setBounds(297, 10, 21, 21);
 		btnXRmvInv.setText("X");
@@ -850,80 +837,79 @@ public class GenerateUI {
 
 		Composite WorkOrderComposite = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_4.setControl(WorkOrderComposite);
-		
+
 		Composite allWorkOrders = new Composite(WorkOrderComposite, SWT.NONE);
 		allWorkOrders.setBounds(10, 10, 413, 279);
-		
+
 		searchCust = new Text(allWorkOrders, SWT.BORDER);
 		searchCust.setText("Search by customer name, phone number, or address");
 		searchCust.setBounds(15, 25, 304, 19);
-		
+
 		Button btnSearchCust = new Button(allWorkOrders, SWT.NONE);
 		btnSearchCust.setBounds(325, 24, 70, 21);
 		btnSearchCust.setText("Search");
-		
+
 		table = new Table(allWorkOrders, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setBounds(15, 102, 380, 155);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+
 		Label lblStatus = new Label(allWorkOrders, SWT.NONE);
 		lblStatus.setBounds(23, 72, 56, 16);
 		lblStatus.setText("Status");
-		
+
 		Label lblCustomer = new Label(allWorkOrders, SWT.NONE);
 		lblCustomer.setBounds(107, 72, 56, 16);
 		lblCustomer.setText("Customer");
-		
+
 		Label lblPhone = new Label(allWorkOrders, SWT.NONE);
 		lblPhone.setBounds(232, 72, 56, 16);
 		lblPhone.setText("Phone ");
-		
+
 		Label lblService = new Label(allWorkOrders, SWT.NONE);
 		lblService.setBounds(339, 72, 56, 16);
 		lblService.setText("Service");
-		
+
 		Composite specificWorkOrders = new Composite(WorkOrderComposite, SWT.NONE);
 		specificWorkOrders.setBounds(10, 314, 413, 270);
-		
+
 		txtCustomer = new Text(specificWorkOrders, SWT.BORDER);
 		txtCustomer.setText("Customer: ");
 		txtCustomer.setBounds(10, 25, 219, 19);
-		
+
 		txtPhoneNumber = new Text(specificWorkOrders, SWT.BORDER);
 		txtPhoneNumber.setText("Phone Number:");
 		txtPhoneNumber.setBounds(10, 50, 219, 19);
-		
+
 		Label lblDescription = new Label(specificWorkOrders, SWT.NONE);
 		lblDescription.setBounds(10, 91, 72, 16);
 		lblDescription.setText("Description");
-		
+
 		Label lblQuantity = new Label(specificWorkOrders, SWT.NONE);
 		lblQuantity.setBounds(173, 91, 56, 16);
 		lblQuantity.setText("Quantity");
-		
+
 		Label lblPartNumber = new Label(specificWorkOrders, SWT.NONE);
 		lblPartNumber.setBounds(304, 91, 79, 16);
 		lblPartNumber.setText("Part Number");
-		
+
 		table_1 = new Table(specificWorkOrders, SWT.BORDER | SWT.FULL_SELECTION);
 		table_1.setBounds(10, 113, 373, 95);
 		table_1.setHeaderVisible(true);
 		table_1.setLinesVisible(true);
-		
+
 		Button btnCompleted = new Button(specificWorkOrders, SWT.NONE);
 		btnCompleted.setBounds(32, 227, 70, 21);
 		btnCompleted.setText("Completed");
-		
+
 		Button btnUnableToComplete = new Button(specificWorkOrders, SWT.NONE);
 		btnUnableToComplete.setBounds(246, 227, 119, 21);
 		btnUnableToComplete.setText("Unable to Complete");
-		
+
 		Button btnXSpecificWorkOrders = new Button(specificWorkOrders, SWT.NONE);
 		btnXSpecificWorkOrders.setBounds(382, 10, 21, 21);
 		btnXSpecificWorkOrders.setText("X");
 
-		
 		btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -933,7 +919,7 @@ public class GenerateUI {
 				QuantityText.setText(" ");
 			}
 		});
-		
+
 		btnXCreateAccount.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -942,7 +928,7 @@ public class GenerateUI {
 				Cust2ButtonComp.setEnabled(true);
 			}
 		});
-		
+
 		btnXRmvInv.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -951,42 +937,42 @@ public class GenerateUI {
 				Inv2ButtonComp.setEnabled(true);
 			}
 		});
-		
+
 		btnRmvInvSubmit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Submit (Remove Inventory)");
 			}
 		});
-		
+
 		btnRmvInvClear.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Clear (Remove Inventory)");
 			}
 		});
-		
+
 		btnSearchCust.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Search (All Work Orders)");
 			}
 		});
-		
+
 		btnCompleted.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Complete (Specific Work Orders)");
 			}
 		});
-		
+
 		btnUnableToComplete.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Unable to Complete (Specific Work Orders)");
 			}
 		});
-		
+
 		btnXSpecificWorkOrders.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -995,16 +981,16 @@ public class GenerateUI {
 				allWorkOrders.setEnabled(true);
 			}
 		});
-		
+
 		btnSearchAccount.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-																System.out.println("Button : Search Customer");
-																Cust2ButtonComp.setEnabled(false);
-																SearchAcctComp.setVisible(true);
+				System.out.println("Button : Search Customer");
+				Cust2ButtonComp.setEnabled(false);
+				SearchAcctComp.setVisible(true);
 			}
 		});
-		
+
 		btnNewAccount.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1013,10 +999,61 @@ public class GenerateUI {
 				Cust2ButtonComp.setEnabled(false);
 			}
 		});
+
+		btnAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Add Inventory");
+				AddInvComp.setVisible(true);
+				Inv2ButtonComp.setEnabled(false);
+			}
+		});
+
+		btnRmvInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Remove Inventory");
+				RmvInvComp.setVisible(true);
+				Cust2ButtonComp.setEnabled(false);
+			}
+		});
+		
+		btnClear.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear (Add Customer)");
+				newName.setText("");
+				newPhone.setText("");
+				newAddress.setText("");
+				newEmail.setText("");
+				newNameError.setText("");
+				newPhoneError.setText("");
+				newAddressError.setText("");
+				newEmailError.setText("");
+			}
+		});
+		
+		btnCreateCustomer.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Create Customer");
+				Session session = HibernateUtil.getSessionFactory().openSession();
+			    session.beginTransaction();
+			    Customer cus = new Customer();
+			    cus.setName(newName.getText());
+			    cus.setPhone(newPhone.getText());
+			    cus.setEmail(newEmail.getText());
+			    cus.setAddress(newAddress.getText());
+			    Long datetime = System.currentTimeMillis();
+			    Timestamp ts = new Timestamp(datetime);
+			    cus.setCreate_time(ts);
+			    cus.setLast_update(ts);
+			    session.save(cus);
+			    session.getTransaction().commit();
+			}
+		});
 	}
-	
-	
-	
+
 	public void fillInvTable(){
 		InventoryDao inventoryDao = new InventoryDao();
 		for (Inventory inv : inventoryDao.getAllInventory()) {
@@ -1025,8 +1062,7 @@ public class GenerateUI {
 					inv.getSize(), String.valueOf(inv.getCount()), String.valueOf(inv.getSale_price())});
 		}
 	}
-	
-	//fill product table (Can Austin see this?) -- yes
+
 	public void fillProductTable(){
 		InventoryDao inventoryDao = new InventoryDao();
 		for (Inventory inv : inventoryDao.getAllInventory()) {

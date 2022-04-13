@@ -69,7 +69,7 @@ public class InventoryDao {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			List<Inventory> inventory = session.createNativeQuery("SELECT * FROM inventory", Inventory.class).getResultList();
+			List<Inventory> inventory = session.createNativeQuery("SELECT * FROM inventory ORDER BY id", Inventory.class).getResultList();
 			transaction.commit();
 			return inventory;
 		} catch (Exception e) {
