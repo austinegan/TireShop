@@ -82,8 +82,8 @@ public class GenerateUI {
 	private Text addInvSizeError;
 	private Text addInvQuantity;
 	private Text addInvQuantityError;
-	private Text addInvPrice;
-	private Text addInvPriceError;
+	private Text addInvPurchasePrice;
+	private Text addInvPurchasePriceError;
 	private Text rmvInvBrand;
 	private Text rmvInvBrandError;
 	private Text rmvInvModel;
@@ -117,8 +117,13 @@ public class GenerateUI {
 	private Text txtPhoneNumber;
 	private Table table_1;
 	private Table productsTable;
+
 	private static String[] allProductColumns;
 	private static String[] someProductColumns;
+
+	private Text addInvSalePrice;
+	private Text addInvSalePriceError;
+
 
 	/**
 	 * Launch the application.
@@ -694,77 +699,91 @@ public class GenerateUI {
 //		tblclmnPrice.setText("Price");
 
 		Composite AddInvComp = new Composite(InventoryComposite, SWT.NONE);
+		GridData gd_AddInvComp = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_AddInvComp.heightHint = 350;
+		AddInvComp.setLayoutData(gd_AddInvComp);
 
 		Label lblAddInventory = new Label(AddInvComp, SWT.NONE);
 		lblAddInventory.setBounds(124, 20, 82, 16);
 		lblAddInventory.setText("Add Inventory");
 
 		Label lblAddInvBrand = new Label(AddInvComp, SWT.NONE);
-		lblAddInvBrand.setBounds(24, 51, 56, 16);
+		lblAddInvBrand.setBounds(46, 51, 56, 16);
 		lblAddInvBrand.setText("Brand:");
 
 		Label lblAddInvModel = new Label(AddInvComp, SWT.NONE);
-		lblAddInvModel.setBounds(20, 96, 56, 16);
+		lblAddInvModel.setBounds(42, 96, 56, 16);
 		lblAddInvModel.setText("Model:");
 
 		Label lblAddInvSize = new Label(AddInvComp, SWT.NONE);
-		lblAddInvSize.setBounds(34, 140, 56, 16);
+		lblAddInvSize.setBounds(56, 140, 56, 16);
 		lblAddInvSize.setText("Size:");
 
 		Label lblAddInvQuantity = new Label(AddInvComp, SWT.NONE);
-		lblAddInvQuantity.setBounds(10, 184, 56, 16);
+		lblAddInvQuantity.setBounds(32, 184, 56, 16);
 		lblAddInvQuantity.setText("Quantity:");
 
-		Label lblAddInvPrice = new Label(AddInvComp, SWT.NONE);
-		lblAddInvPrice.setBounds(32, 227, 56, 16);
-		lblAddInvPrice.setText("Price:");
+		Label lblAddInvPurchasePrice = new Label(AddInvComp, SWT.NONE);
+		lblAddInvPurchasePrice.setBounds(2, 229, 88, 16);
+		lblAddInvPurchasePrice.setText("Purchase Price:");
 
 		addInvBrand = new Text(AddInvComp, SWT.BORDER);
-		addInvBrand.setBounds(66, 51, 240, 19);
+		addInvBrand.setBounds(87, 51, 219, 19);
 
 		addInvBrandError = new Text(AddInvComp, SWT.BORDER);
-		addInvBrandError.setBounds(66, 73, 240, 19);
+		addInvBrandError.setBounds(87, 73, 219, 19);
 		addInvBrandError.setEditable(false);
 
 		addInvModel = new Text(AddInvComp, SWT.BORDER);
-		addInvModel.setBounds(66, 95, 240, 19);
+		addInvModel.setBounds(87, 95, 219, 19);
 
 		addInvModelError = new Text(AddInvComp, SWT.BORDER);
-		addInvModelError.setBounds(66, 117, 240, 19);
+		addInvModelError.setBounds(87, 117, 219, 19);
 		addInvModelError.setEditable(false);
 
 		addInvSize = new Text(AddInvComp, SWT.BORDER);
-		addInvSize.setBounds(66, 139, 240, 19);
+		addInvSize.setBounds(87, 139, 219, 19);
 
 		addInvSizeError = new Text(AddInvComp, SWT.BORDER);
-		addInvSizeError.setBounds(66, 161, 240, 19);
+		addInvSizeError.setBounds(87, 161, 219, 19);
 		addInvSizeError.setEditable(false);
 
 		addInvQuantity = new Text(AddInvComp, SWT.BORDER);
-		addInvQuantity.setBounds(66, 183, 240, 19);
+		addInvQuantity.setBounds(87, 183, 219, 19);
 
 		addInvQuantityError = new Text(AddInvComp, SWT.BORDER);
-		addInvQuantityError.setBounds(66, 205, 240, 19);
+		addInvQuantityError.setBounds(87, 205, 219, 19);
 		addInvQuantityError.setEditable(false);
 
-		addInvPrice = new Text(AddInvComp, SWT.BORDER);
-		addInvPrice.setBounds(66, 227, 240, 19);
+		addInvPurchasePrice = new Text(AddInvComp, SWT.BORDER);
+		addInvPurchasePrice.setBounds(87, 227, 219, 19);
 
-		addInvPriceError = new Text(AddInvComp, SWT.BORDER);
-		addInvPriceError.setBounds(66, 249, 240, 19);
-		addInvPriceError.setEditable(false);
+		addInvPurchasePriceError = new Text(AddInvComp, SWT.BORDER);
+		addInvPurchasePriceError.setBounds(87, 249, 219, 19);
+		addInvPurchasePriceError.setEditable(false);
 
 		Button btnAddInvSubmit = new Button(AddInvComp, SWT.NONE);
-		btnAddInvSubmit.setBounds(76, 277, 70, 21);
+		btnAddInvSubmit.setBounds(97, 319, 70, 21);
 		btnAddInvSubmit.setText("Submit");
 
 		Button btnClearAddInv = new Button(AddInvComp, SWT.NONE);
-		btnClearAddInv.setBounds(226, 277, 70, 21);
+		btnClearAddInv.setBounds(224, 319, 70, 21);
 		btnClearAddInv.setText("Clear");
 
 		Button btnXAddInv = new Button(AddInvComp, SWT.NONE);
 		btnXAddInv.setBounds(297, 10, 21, 21);
 		btnXAddInv.setText("X");
+		
+		Label lblAddInvSalePrice = new Label(AddInvComp, SWT.NONE);
+		lblAddInvSalePrice.setText("Sale Price:");
+		lblAddInvSalePrice.setBounds(28, 272, 64, 16);
+		
+		addInvSalePrice = new Text(AddInvComp, SWT.BORDER);
+		addInvSalePrice.setBounds(87, 271, 219, 19);
+		
+		addInvSalePriceError = new Text(AddInvComp, SWT.BORDER);
+		addInvSalePriceError.setEditable(false);
+		addInvSalePriceError.setBounds(87, 293, 219, 19);
 
 		Composite RmvInvComp = new Composite(InventoryComposite, SWT.NONE);
 
@@ -923,13 +942,6 @@ public class GenerateUI {
 			}
 		});
 
-		btnRmvInvSubmit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Submit (Remove Inventory)");
-			}
-		});
-
 		btnRmvInvClear.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1058,9 +1070,35 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Submit (Add Inventory)");
+				Session session = HibernateUtil.getSessionFactory().openSession();
+			    session.beginTransaction();
+			    Inventory inv = new Inventory();
+			    inv.setBrand(addInvBrand.getText());
+			    inv.setModel_number(addInvModel.getText());
+			    inv.setSize(addInvSize.getText());
+			    int intQuantity = Integer.parseInt(addInvQuantity.getText());
+			    inv.setCount(intQuantity);
+			    Double purchasePrice = Double.parseDouble(addInvPurchasePrice.getText());
+			    inv.setPurchase_price(purchasePrice);
+			    Double salePrice = Double.parseDouble(addInvSalePrice.getText());
+			    inv.setSale_price(salePrice);
+			    int width = Integer.parseInt(addInvSize.getText().substring(0, 3));   
+			    inv.setWidth(width);
+			    int aspectRatio = Integer.parseInt(addInvSize.getText().substring(4, 6));   
+			    inv.setAspectratio(aspectRatio);
+			    int diameter = Integer.parseInt(addInvSize.getText().substring(7, 9));   
+			    inv.setDiameter(diameter);
+			    session.save(inv);
+			    session.getTransaction().commit();
 			}
 		});
 		
+		btnRmvInvSubmit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Submit (Remove Inventory)");
+			}
+		});
 
 		btnClearAddInv.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -1074,8 +1112,10 @@ public class GenerateUI {
 				addInvSizeError.setText("");
 				addInvQuantity.setText("");
 				addInvQuantityError.setText("");
-				addInvPrice.setText("");
-				addInvPriceError.setText("");
+				addInvPurchasePrice.setText("");
+				addInvPurchasePriceError.setText("");
+				addInvSalePrice.setText("");
+				addInvSalePriceError.setText("");
 			}
 		});
 	}
