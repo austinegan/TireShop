@@ -496,45 +496,7 @@ public class GenerateUI {
 
 		createAndNameColumns(productsTable, someProductColumns);
 		
-//		TableColumn tblclmnId = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnId.setWidth(100);
-//		tblclmnId.setText("ID");
-//
-//		TableColumn tblclmnBrand = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnBrand.setWidth(100);
-//		tblclmnBrand.setText("Brand");
-//
-//		TableColumn tblclmnModelNumber = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnModelNumber.setWidth(100);
-//		tblclmnModelNumber.setText("Model Number");
-//
-//		TableColumn tblclmnSalePrice = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnSalePrice.setWidth(100);
-//		tblclmnSalePrice.setText("Sale Price");
-//
-//		TableColumn tblclmnPurchasePrice = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnPurchasePrice.setWidth(100);
-//		tblclmnPurchasePrice.setText("Purchase Price");
-//
-//		TableColumn tblclmnCount = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnCount.setWidth(100);
-//		tblclmnCount.setText("Count");
-//
-//		TableColumn tblclmnWidth = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnWidth.setWidth(100);
-//		tblclmnWidth.setText("Width");
-//
-//		TableColumn tblclmnSize = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnSize.setWidth(100);
-//		tblclmnSize.setText("Size");
-//
-//		TableColumn tblclmnAspectRatio = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnAspectRatio.setWidth(100);
-//		tblclmnAspectRatio.setText("Aspect Ratio");
-//
-//		TableColumn tblclmnDiameter = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnDiameter.setWidth(100);
-//		tblclmnDiameter.setText("Diameter");
+
 
 		Composite SearchMenuComp_1 = new Composite(ProductsComposite_1, SWT.NONE);
 		SearchMenuComp_1.setBounds(0, 10, 473, 23);
@@ -678,25 +640,7 @@ public class GenerateUI {
 
 		
 		createAndNameColumns(tableInv, allProductColumns);
-//		TableColumn tblclmnBrand_1 = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnBrand_1.setWidth(60);
-//		tblclmnBrand_1.setText("Brand");
-//
-//		TableColumn tblclmnModel = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnModel.setWidth(60);
-//		tblclmnModel.setText("Model");
-//
-//		TableColumn tblclmnSize_1 = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnSize_1.setWidth(60);
-//		tblclmnSize_1.setText("Size");
-//
-//		TableColumn tblclmnQuantity = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnQuantity.setWidth(60);
-//		tblclmnQuantity.setText("Quantity");
-//
-//		TableColumn tblclmnPrice = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnPrice.setWidth(60);
-//		tblclmnPrice.setText("Price");
+
 
 		Composite AddInvComp = new Composite(InventoryComposite, SWT.NONE);
 		GridData gd_AddInvComp = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
