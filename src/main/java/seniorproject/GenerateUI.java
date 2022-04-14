@@ -117,8 +117,6 @@ public class GenerateUI {
 	private Text txtPhoneNumber;
 	private Table table_1;
 	private Table productsTable;
-	private static String[] allProductColumns;
-	private static String[] someProductColumns;
 
 	/**
 	 * Launch the application.
@@ -128,7 +126,7 @@ public class GenerateUI {
 
 
 	public static void main(String[] args) {
-		initialize();
+
 		try {
 			GenerateUI window = new GenerateUI();
 			window.open();
@@ -138,18 +136,14 @@ public class GenerateUI {
 	}
 
 
-	public static void initialize() {
-		allProductColumns = new String[] {"ID", "Brand", "Model Number", "Sale Price", "Purchase Price", "Count", "Width", "Size", "Aspect Ration", "Diameter"};
-		someProductColumns = new String[] {"Brand", "Model", "Size", "Quantity", "Sale Price"};
-	}
 	/**
 	 * Open the window.
 	 */
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		fillTableProductsSimple(productsTable);
-		fillTableProductsExtensive(tableInv);
+		fillInvTable();
+		fillProductTable();
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -489,47 +483,45 @@ public class GenerateUI {
 		productsTable.setHeaderVisible(true);
 		productsTable.setLinesVisible(true);
 
-		createAndNameColumns(productsTable, someProductColumns);
-		
-//		TableColumn tblclmnId = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnId.setWidth(100);
-//		tblclmnId.setText("ID");
-//
-//		TableColumn tblclmnBrand = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnBrand.setWidth(100);
-//		tblclmnBrand.setText("Brand");
-//
-//		TableColumn tblclmnModelNumber = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnModelNumber.setWidth(100);
-//		tblclmnModelNumber.setText("Model Number");
-//
-//		TableColumn tblclmnSalePrice = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnSalePrice.setWidth(100);
-//		tblclmnSalePrice.setText("Sale Price");
-//
-//		TableColumn tblclmnPurchasePrice = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnPurchasePrice.setWidth(100);
-//		tblclmnPurchasePrice.setText("Purchase Price");
-//
-//		TableColumn tblclmnCount = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnCount.setWidth(100);
-//		tblclmnCount.setText("Count");
-//
-//		TableColumn tblclmnWidth = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnWidth.setWidth(100);
-//		tblclmnWidth.setText("Width");
-//
-//		TableColumn tblclmnSize = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnSize.setWidth(100);
-//		tblclmnSize.setText("Size");
-//
-//		TableColumn tblclmnAspectRatio = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnAspectRatio.setWidth(100);
-//		tblclmnAspectRatio.setText("Aspect Ratio");
-//
-//		TableColumn tblclmnDiameter = new TableColumn(productsTable, SWT.NONE);
-//		tblclmnDiameter.setWidth(100);
-//		tblclmnDiameter.setText("Diameter");
+		TableColumn tblclmnId = new TableColumn(productsTable, SWT.NONE);
+		tblclmnId.setWidth(100);
+		tblclmnId.setText("ID");
+
+		TableColumn tblclmnBrand = new TableColumn(productsTable, SWT.NONE);
+		tblclmnBrand.setWidth(100);
+		tblclmnBrand.setText("Brand");
+
+		TableColumn tblclmnModelNumber = new TableColumn(productsTable, SWT.NONE);
+		tblclmnModelNumber.setWidth(100);
+		tblclmnModelNumber.setText("Model Number");
+
+		TableColumn tblclmnSalePrice = new TableColumn(productsTable, SWT.NONE);
+		tblclmnSalePrice.setWidth(100);
+		tblclmnSalePrice.setText("Sale Price");
+
+		TableColumn tblclmnPurchasePrice = new TableColumn(productsTable, SWT.NONE);
+		tblclmnPurchasePrice.setWidth(100);
+		tblclmnPurchasePrice.setText("Purchase Price");
+
+		TableColumn tblclmnCount = new TableColumn(productsTable, SWT.NONE);
+		tblclmnCount.setWidth(100);
+		tblclmnCount.setText("Count");
+
+		TableColumn tblclmnWidth = new TableColumn(productsTable, SWT.NONE);
+		tblclmnWidth.setWidth(100);
+		tblclmnWidth.setText("Width");
+
+		TableColumn tblclmnSize = new TableColumn(productsTable, SWT.NONE);
+		tblclmnSize.setWidth(100);
+		tblclmnSize.setText("Size");
+
+		TableColumn tblclmnAspectRatio = new TableColumn(productsTable, SWT.NONE);
+		tblclmnAspectRatio.setWidth(100);
+		tblclmnAspectRatio.setText("Aspect Ratio");
+
+		TableColumn tblclmnDiameter = new TableColumn(productsTable, SWT.NONE);
+		tblclmnDiameter.setWidth(100);
+		tblclmnDiameter.setText("Diameter");
 
 		Composite SearchMenuComp_1 = new Composite(ProductsComposite_1, SWT.NONE);
 		SearchMenuComp_1.setBounds(0, 10, 473, 23);
@@ -671,27 +663,25 @@ public class GenerateUI {
 		tableInv.setHeaderVisible(true);
 		tableInv.setLinesVisible(true);
 
-		
-		createAndNameColumns(tableInv, allProductColumns);
-//		TableColumn tblclmnBrand_1 = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnBrand_1.setWidth(60);
-//		tblclmnBrand_1.setText("Brand");
-//
-//		TableColumn tblclmnModel = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnModel.setWidth(60);
-//		tblclmnModel.setText("Model");
-//
-//		TableColumn tblclmnSize_1 = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnSize_1.setWidth(60);
-//		tblclmnSize_1.setText("Size");
-//
-//		TableColumn tblclmnQuantity = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnQuantity.setWidth(60);
-//		tblclmnQuantity.setText("Quantity");
-//
-//		TableColumn tblclmnPrice = new TableColumn(tableInv, SWT.NONE);
-//		tblclmnPrice.setWidth(60);
-//		tblclmnPrice.setText("Price");
+		TableColumn tblclmnBrand_1 = new TableColumn(tableInv, SWT.NONE);
+		tblclmnBrand_1.setWidth(60);
+		tblclmnBrand_1.setText("Brand");
+
+		TableColumn tblclmnModel = new TableColumn(tableInv, SWT.NONE);
+		tblclmnModel.setWidth(60);
+		tblclmnModel.setText("Model");
+
+		TableColumn tblclmnSize_1 = new TableColumn(tableInv, SWT.NONE);
+		tblclmnSize_1.setWidth(60);
+		tblclmnSize_1.setText("Size");
+
+		TableColumn tblclmnQuantity = new TableColumn(tableInv, SWT.NONE);
+		tblclmnQuantity.setWidth(60);
+		tblclmnQuantity.setText("Quantity");
+
+		TableColumn tblclmnPrice = new TableColumn(tableInv, SWT.NONE);
+		tblclmnPrice.setWidth(60);
+		tblclmnPrice.setText("Price");
 
 		Composite AddInvComp = new Composite(InventoryComposite, SWT.NONE);
 
@@ -1080,27 +1070,19 @@ public class GenerateUI {
 		});
 	}
 
-	public void createAndNameColumns(Table table, String[] titles) {
-		for (int i = 0; i< titles.length; i++) {
-			TableColumn column = new TableColumn(table, SWT.NONE);
-			column.setText(titles[i]);
-			column.setWidth(100);
-		}
-	}
-	
-	public void fillTableProductsSimple(Table table){
+	public void fillInvTable(){
 		InventoryDao inventoryDao = new InventoryDao();
 		for (Inventory inv : inventoryDao.getAllInventory()) {
-			TableItem tableItem = new TableItem(table, SWT.NONE);
+			TableItem tableItem = new TableItem(tableInv, SWT.NONE);
 			tableItem.setText(new String[] {inv.getBrand(), inv.getModel_number(), 
 					inv.getSize(), String.valueOf(inv.getCount()), String.valueOf(inv.getSale_price())});
 		}
 	}
 
-	public void fillTableProductsExtensive(Table table){
+	public void fillProductTable(){
 		InventoryDao inventoryDao = new InventoryDao();
 		for (Inventory inv : inventoryDao.getAllInventory()) {
-			TableItem tableItem = new TableItem(table, SWT.NONE);
+			TableItem tableItem = new TableItem(productsTable, SWT.NONE);
 			tableItem.setText(new String[] {String.valueOf(inv.getId()), inv.getBrand(), inv.getModel_number(), 
 					String.valueOf(inv.getSale_price()), String.valueOf(inv.getPurchase_price()), String.valueOf(inv.getCount()), 
 					String.valueOf(inv.getWidth()), inv.getSize(), String.valueOf(inv.getAspectratio()), 
