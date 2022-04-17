@@ -76,23 +76,6 @@ public class GenerateUI {
 	private Text addInvQuantityError;
 	private Text addInvPurchasePrice;
 	private Text addInvPurchasePriceError;
-//	private Text rmvInvBrand;
-//	private Text rmvInvBrandError;
-//	private Text rmvInvModel;
-//	private Text rmvInvModelError;
-//	private Text rmvInvSize;
-//	private Text rmvInvSizeError;
-//	private Text text1_1;
-//	private Text text1_2;
-//	private Text text1_3;
-//	private Text text1_4;
-//	private Text text1_5;
-//	private Text text_12;
-//	private Text text1;
-//	private Text text2;
-//	private Text text3;
-//	private Text text4;
-//	private Text text5;
 	private Text txtCart;
 	private Text currentCustomerText;
 	private Text TireDescriptionText;
@@ -117,6 +100,22 @@ public class GenerateUI {
 	private Text addInvSalePrice;
 	private Text addInvSalePriceError;
 	private Text NewCustomerError;
+	
+	
+	/*
+	 * \
+	 * Behind the scenes data for what the tables are currently showing
+	 * 
+	 * 
+	 * List<customer>
+	 * List<Inventory> products
+	 * List<Inventory> cart
+	 * List <Inventory> InvPage
+	 * List<Orders> workOrdersPage
+	 * 
+	 * 
+	 * 	 * 
+	 * */
 
 
 	/**
@@ -202,8 +201,8 @@ public class GenerateUI {
 		btnXSearchAccount.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
 		btnXSearchAccount.setText("X");
-		new Label(SearchCustomerTitleComposite, SWT.NONE);
-		new Label(SearchCustomerTitleComposite, SWT.NONE);
+		new Label(SearchCustomerTitleComposite, SWT.NONE).setText("Labelmaker 8");
+		new Label(SearchCustomerTitleComposite, SWT.NONE).setText("Labelmaker 7");
 
 		btnXSearchAccount.addSelectionListener(new SelectionAdapter() {
 			@Override

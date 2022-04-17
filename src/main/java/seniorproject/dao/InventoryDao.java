@@ -65,11 +65,11 @@ public class InventoryDao {
 		}
 	}
 
-	public List<Inventory> getAllInventory() {
+	public List<Inventory> getInventory(String query) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			List<Inventory> inventory = session.createNativeQuery("SELECT * FROM inventory ORDER BY id", Inventory.class).getResultList();
+			List<Inventory> inventory = session.createNativeQuery(query, Inventory.class).getResultList();
 			transaction.commit();
 			return inventory;
 		} catch (Exception e) {
@@ -79,5 +79,9 @@ public class InventoryDao {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public List<Inventory> getAllInventory() {
+		return getInventory("SELECT * FROM inventory ORDER BY id");
 	}
 }
