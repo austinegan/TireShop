@@ -34,6 +34,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.hibernate.Session;
 
 import seniorproject.dao.InventoryDao;
+import seniorproject.dao.CustomerDao;
 import seniorproject.model.Customer;
 import seniorproject.model.Inventory;
 import seniorproject.util.HibernateUtil;
@@ -111,6 +112,7 @@ public class GenerateUI {
 
 	private static String[] allProductColumns;
 	private static String[] someProductColumns;
+	private static String[] customerColumns;
 
 	private Text addInvSalePrice;
 	private Text addInvSalePriceError;
@@ -139,6 +141,7 @@ public class GenerateUI {
 	public static void initialize() {
 		allProductColumns = new String[] {"ID", "Brand", "Model Number", "Sale Price", "Purchase Price", "Count", "Width", "Size", "Aspect Ration", "Diameter"};
 		someProductColumns = new String[] {"Brand", "Model", "Size", "Quantity", "Sale Price"};
+		customerColumns = new String[] {"Name", "Phone", "Address", "Email"};
 	}
 	/**
 	 * Open the window.
@@ -211,7 +214,7 @@ public class GenerateUI {
 				//Cust2ButtonComp.setEnabled(true);
 			}
 		});
-//		new Label(SearchCustomerTitleComposite, SWT.NONE);
+
 
 		Composite SearchCustomerEverythingElseComposite = new Composite(SearchAcctComp, SWT.NONE);
 		SearchCustomerEverythingElseComposite.setLayout(new GridLayout(4, true));
@@ -255,33 +258,15 @@ public class GenerateUI {
 				gd_searchEmail.widthHint = 300;
 				searchEmail.setLayoutData(gd_searchEmail);
 										new Label(SearchCustomerEverythingElseComposite, SWT.NONE).setText("Labelmaker 4");
-						//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
+
 								
 										searchCustomerError = new Text(SearchCustomerEverythingElseComposite, SWT.BORDER | SWT.RIGHT);
 										GridData gd_searchCustomerError = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
 										gd_searchCustomerError.widthHint = 300;
 										searchCustomerError.setLayoutData(gd_searchCustomerError);
 										searchCustomerError.setEditable(false);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-		//				new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-		//				new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-				//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
+
+
 				
 						Button btnNewButton_3 = new Button(SearchCustomerEverythingElseComposite, SWT.NONE);
 						btnNewButton_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
@@ -298,14 +283,8 @@ public class GenerateUI {
 						new Label(SearchCustomerEverythingElseComposite, SWT.NONE).setText("Labelmaker 5?");
 						Label label = new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 						label.setText("Labelmaker 3");
-//						new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//						new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-//		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
+
+
 
 				
 				
@@ -318,7 +297,7 @@ public class GenerateUI {
 						customerTable.setHeaderVisible(true);
 						customerTable.setLinesVisible(true);
 				
-				
+						createAndNameColumns(customerTable, customerColumns);
 				
 				
 				
@@ -337,8 +316,7 @@ public class GenerateUI {
 		NewAcctComp.setLayoutData(gd_NewAcctComp);
 		NewAcctComp.setLayout(new GridLayout(4, true));
 																new Label(NewAcctComp, SWT.NONE).setText("Labelmaker 1");
-						//										new Label(NewAcctComp, SWT.NONE);
-														//		new Label(NewAcctComp, SWT.NONE);
+
 														
 																CLabel lblCreateANew = new CLabel(NewAcctComp, SWT.NONE);
 																lblCreateANew.setAlignment(SWT.RIGHT);
@@ -364,7 +342,6 @@ public class GenerateUI {
 						
 								newName = new Text(NewAcctComp, SWT.BORDER);
 								newName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-//		new Label(NewAcctComp, SWT.NONE);
 
 
 
@@ -397,7 +374,7 @@ public class GenerateUI {
 								gd_newEmail.widthHint = 325;
 								newEmail.setLayoutData(gd_newEmail);
 										new Label(NewAcctComp, SWT.NONE).setText("Labelmaker 9");
-								//				new Label(NewAcctComp, SWT.NONE);
+
 										
 										NewCustomerError = new Text(NewAcctComp, SWT.BORDER | SWT.READ_ONLY);
 										NewCustomerError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
@@ -423,7 +400,6 @@ public class GenerateUI {
 //								newEmailError.setText("");
 															}
 														});
-										//		new Label(NewAcctComp, SWT.NONE);
 												
 														Button btnCreateCustomer = new Button(NewAcctComp, SWT.NONE);
 														btnCreateCustomer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
@@ -449,10 +425,8 @@ public class GenerateUI {
 															}
 														});
 										new Label(NewAcctComp, SWT.NONE).setText("Labelmaker 6?");
-//		new Label(NewAcctComp, SWT.NONE);
-//		new Label(NewAcctComp, SWT.NONE);
-//		new Label(NewAcctComp, SWT.NONE);
-//		new Label(NewAcctComp, SWT.NONE);
+
+
 
 		TabItem tbtmNewItem_1 = new TabItem(tabFolder, 0);
 		tbtmNewItem_1.setText("Products");
@@ -928,6 +902,14 @@ public class GenerateUI {
 			column.setWidth(100);
 		}
 	}
+	//make this do subsets, not just spit everything out, possibly dao as parameter
+//	public void fillTableCustomer(Table table){
+//		CustomerDao customerDao = new CustomerDao();
+//		for (Customer cust : customerDao.getAllCustomer()) {
+//			TableItem tableItem = new TableItem(table, SWT.NONE);
+//			tableItem.setText(new String[] {cust.get});
+//		}
+//	}
 	
 	public void fillTableProductsSimple(Table table){
 		InventoryDao inventoryDao = new InventoryDao();
@@ -948,11 +930,6 @@ public class GenerateUI {
 					String.valueOf(inv.getDiameter())});
 		}
 	}
-
-	public void fillProductsTable(Thing myThing){ //not the final method. just proof of concept
-		TableItem item = new TableItem(productsTable, SWT.NONE);
-		item.setText(Integer.toString(myThing.id));
-	}
 }
 
 
@@ -966,7 +943,10 @@ public class GenerateUI {
 
 
 
-
+//public void fillProductsTable(Thing myThing){ //not the final method. just proof of concept
+//TableItem item = new TableItem(productsTable, SWT.NONE);
+//item.setText(Integer.toString(myThing.id));
+//}
 
 
 
