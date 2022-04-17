@@ -80,7 +80,8 @@ public class CustomerDao {
 		//for (int i = 1; i < myList.length; i++)
 			queryString += " AND " + myList[i];
 	
-		 */
+	 */
+		return queryString;
 	}
 
 	public List<Customer> getCustomer(String query) {
