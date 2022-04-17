@@ -117,7 +117,6 @@ public class GenerateUI {
 	private Text addInvSalePrice;
 	private Text addInvSalePriceError;
 	private Text NewCustomerError;
-	private Table customerTable;
 
 
 	/**
@@ -203,8 +202,8 @@ public class GenerateUI {
 		btnXSearchAccount.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
 		btnXSearchAccount.setText("X");
-		new Label(SearchCustomerTitleComposite, SWT.NONE).setText("Labelmaker 8");
-		new Label(SearchCustomerTitleComposite, SWT.NONE).setText("Labelmaker 7");
+		new Label(SearchCustomerTitleComposite, SWT.NONE);
+		new Label(SearchCustomerTitleComposite, SWT.NONE);
 
 		btnXSearchAccount.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -291,13 +290,6 @@ public class GenerateUI {
 						Composite compositeCustomerTable = new Composite(SearchAcctComp, SWT.NONE);
 						compositeCustomerTable.setLayout(new GridLayout(1, false));
 						compositeCustomerTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-						
-						customerTable = new Table(compositeCustomerTable, SWT.BORDER | SWT.FULL_SELECTION);
-						customerTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-						customerTable.setHeaderVisible(true);
-						customerTable.setLinesVisible(true);
-				
-						createAndNameColumns(customerTable, customerColumns);
 				
 				
 				

@@ -64,12 +64,30 @@ public class CustomerDao {
 			e.printStackTrace();
 		}
 	}
+	
+	public String generateQuery(String name, String address, String phone, String email) {
+		String queryString = "SELECT * FROM CUSTOMER";
+		/*
+		// List<String> myList;
+		//if (!empty of name)
+		//  myList.append( "Name CONTAINS " + name);
+		//repeat
+		//repeat
+		//repeat
+		//if myList.notEmpty
+		queryString +=" WHERE ";
+		queryString += myList[0]
+		//for (int i = 1; i < myList.length; i++)
+			queryString += " AND " + myList[i];
+	
+		 */
+	}
 
-	public List<Customer> getAllCustomer() {
+	public List<Customer> getCustomer(String query) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			List<Customer> Customer = session.createNativeQuery("SELECT * FROM customer", Customer.class).getResultList();
+			List<Customer> Customer = session.createNativeQuery(query, Customer.class).getResultList();
 			transaction.commit();
 			return Customer;
 		} catch (Exception e) {
@@ -80,4 +98,9 @@ public class CustomerDao {
 			return null;
 		}
 	}
+	
+	public List<Customer> getAllCustomer(){
+		return getCustomer("SELECT * FROM customer");
+	}
+	
 }
