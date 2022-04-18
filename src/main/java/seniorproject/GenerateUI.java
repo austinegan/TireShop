@@ -268,9 +268,10 @@ public class GenerateUI {
 
 
 				
-						Button btnNewButton_3 = new Button(SearchCustomerEverythingElseComposite, SWT.NONE);
-						btnNewButton_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-						btnNewButton_3.setText("Search");
+						Button searchCustomerButton = new Button(SearchCustomerEverythingElseComposite, SWT.NONE);
+						
+						searchCustomerButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+						searchCustomerButton.setText("Search");
 						
 						Button btnNewCustomerPageOpen = new Button(SearchCustomerEverythingElseComposite, SWT.NONE);
 						btnNewCustomerPageOpen.setText("Create New Customer Account");
@@ -298,7 +299,13 @@ public class GenerateUI {
 						createAndNameColumns(customerTable, customerColumns);
 						fillTableCustomer(customerTable, CustomerDao.getAllCustomer());
 				
-				
+						searchCustomerButton.addSelectionListener(new SelectionAdapter() {
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								customerTable.clearAll();
+								fillTableCustomer(customerTable, CustomerDao.generateQueryCustomer(searchName.getText(), searchAddress.getText(), searchPhone.getText(), searchEmail.getText()));
+							}
+						});
 				
 				
 				
