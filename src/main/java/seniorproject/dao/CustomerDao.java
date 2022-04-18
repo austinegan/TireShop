@@ -66,7 +66,7 @@ public class CustomerDao {
 	}
 	
 	public static String generateQueryCustomerTest(String name, String address, String phone, String email) {
-		String queryString = "SELECT * FROM CUSTOMER";
+		String queryString = "SELECT * FROM customer";
 		
 		 
 		 List<String> myList = new ArrayList<String>();
@@ -84,7 +84,7 @@ public class CustomerDao {
 	
 	public static List<Customer> generateQueryCustomer(String name, String address, String phone, String email) {
 		 
-		String queryString = "SELECT * FROM CUSTOMER";
+		String queryString = "SELECT * FROM customer";
 		List<Customer> myCustomerList;
 		List<String> myList = new ArrayList<String>();
 		 if(!name.isBlank()) {myList.add(" name LIKE '" + name + "'");}
@@ -100,7 +100,7 @@ public class CustomerDao {
 			myCustomerList = getCustomer(queryString);
 			if(myCustomerList.size() == 0) {
 				System.out.println("No results found. Expanding search results.");
-				queryString = "SELECT * FROM CUSTOMER";
+				queryString = "SELECT * FROM customer";
 				for (int i = 1; i < myList.size(); i++) {
 					queryString += " OR" + myList.get(i);
 				}
