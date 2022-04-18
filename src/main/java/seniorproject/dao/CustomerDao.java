@@ -1,6 +1,6 @@
 package seniorproject.dao;
 
-import java.util.List;
+import java.util.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import seniorproject.model.Customer;
@@ -65,26 +65,56 @@ public class CustomerDao {
 		}
 	}
 	
-	public String generateQuery(String name, String address, String phone, String email) {
+	public static String generateQueryCustomerTest(String name, String address, String phone, String email) {
 		String queryString = "SELECT * FROM CUSTOMER";
-		/*
-		// List<String> myList;
-		//if (!empty of name)
-		//  myList.append( "Name CONTAINS " + name);
-		//repeat
-		//repeat
-		//repeat
-		//if myList.notEmpty
-		queryString +=" WHERE ";
-		queryString += myList[0]
-		//for (int i = 1; i < myList.length; i++)
-			queryString += " AND " + myList[i];
-	
-	 */
+		
+		 
+		 List<String> myList = new ArrayList<String>();
+		 if(!name.isBlank()) {myList.add(" name LIKE '" + name + "'");}
+		 if(!address.isBlank()) {myList.add(" address LIKE '" + address + "'");}
+		 if(!phone.isBlank()) {myList.add(" phone LIKE '" + phone + "'");}
+		 if(!email.isBlank()) {myList.add(" email LIKE '" + email + "'");}
+
+		if(!myList.isEmpty()) {queryString += " WHERE" + myList.get(0);}
+		for (int i = 1; i < myList.size(); i++) {
+			queryString += " AND" + myList.get(i);
+		}
 		return queryString;
 	}
+	
+	public static List<Customer> generateQueryCustomer(String name, String address, String phone, String email) {
+		 
+		String queryString = "SELECT * FROM CUSTOMER";
+		List<Customer> myCustomerList;
+		List<String> myList = new ArrayList<String>();
+		 if(!name.isBlank()) {myList.add(" name LIKE '" + name + "'");}
+		 if(!address.isBlank()) {myList.add(" address LIKE '" + address + "'");}
+		 if(!phone.isBlank()) {myList.add(" phone LIKE '" + phone + "'");}
+		 if(!email.isBlank()) {myList.add(" email LIKE '" + email + "'");}
 
-	public List<Customer> getCustomer(String query) {
+		if(!myList.isEmpty()) {queryString += " WHERE" + myList.get(0);
+			for (int i = 1; i < myList.size(); i++) {
+				queryString += " AND" + myList.get(i);
+			}
+			System.out.println(queryString);
+			myCustomerList = getCustomer(queryString);
+			if(myCustomerList.size() == 0) {
+				System.out.println("No results found. Expanding search results.");
+				queryString = "SELECT * FROM CUSTOMER";
+				for (int i = 1; i < myList.size(); i++) {
+					queryString += " OR" + myList.get(i);
+				}
+				System.out.println(queryString);
+				myCustomerList = getCustomer(queryString);
+			}
+			return myCustomerList;
+		}
+		myCustomerList = getCustomer(queryString);
+		return myCustomerList;
+		//return queryString;
+	}
+
+	public static List<Customer> getCustomer(String query) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
@@ -100,8 +130,22 @@ public class CustomerDao {
 		}
 	}
 	
-	public List<Customer> getAllCustomer(){
+	public static List<Customer> getAllCustomer(){
 		return getCustomer("SELECT * FROM customer");
 	}
 	
 }
+
+
+
+
+
+/* if (!empty of name)
+//  myList.append( "Name CONTAINS " + name);
+//repeat
+//repeat
+//repeat
+//if myList.notEmpty
+queryString +=" WHERE ";
+queryString += myList[0]
+*/

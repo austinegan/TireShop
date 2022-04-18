@@ -1,5 +1,7 @@
 package seniorproject;
 
+import seniorproject.dao.CustomerDao;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -7,7 +9,9 @@ public class Main {
 		//SpendMoney.initialize();
 		//SpendMoney.payWithTerminal(100);
 		//SpendMoney.customerCreateAndPush("givenName", "FamilyName", "123 Second St", "Defaulty City, USA 54321");
-
+		
+		//System.out.println(CustomerDao.generateQueryCustomerTest("Jane", "23 Second St", "+18135552942", "firstname@email.com"));
+		
 		GenerateUI.main(args);
 
 		//GenerateUI myGen = new GenerateUI();	
@@ -26,8 +30,7 @@ public class Main {
 //add inventory to database
 //inventoryDao.addInventory(new Inventory("Continental","Contiprocontact",120.00,80.00,4,"225/45R17",225,45,17));
 //inventoryDao.addInventory(new Inventory("Michelin","Primacy",220.00,180.00,16,"225/45R17",225,45,17));
-//inventoryDao.addInventory(new Inventory("Sailun","Atrezzo",100.00,60.00,8,"215/45R16",215,45,16));
-//inventoryDao.addInventory(new Inventory("Continental","Contiprocontact",140.00,90.00,2,"265/55R18",265,55,18));
+//inventoryDao.addInventory(new Inventory("Sailun","Atrezzo",100.00,60.00,8,"215/45R16",215,45,16)); //inventoryDao.addInventory(new Inventory("Continental","Contiprocontact",140.00,90.00,2,"265/55R18",265,55,18));
 
 //remove inventory
 //inventoryDao.deleteInventory(inventoryDao.getAllInventory().get(0));
