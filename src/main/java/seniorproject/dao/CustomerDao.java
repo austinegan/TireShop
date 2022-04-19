@@ -100,7 +100,7 @@ public class CustomerDao {
 			myCustomerList = getCustomer(queryString);
 			if(myCustomerList.size() == 0) {
 				System.out.println("No results found. Expanding search results.");
-				queryString = "SELECT * FROM customer";
+				queryString = "SELECT * FROM customer WHERE" + myList.get(0);
 				for (int i = 1; i < myList.size(); i++) {
 					queryString += " OR" + myList.get(i);
 				}
@@ -118,9 +118,9 @@ public class CustomerDao {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			List<Customer> Customer = session.createNativeQuery(query, Customer.class).getResultList();
+			List<Customer> customers = session.createNativeQuery(query, Customer.class).getResultList();
 			transaction.commit();
-			return Customer;
+			return customers;
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
