@@ -303,6 +303,8 @@ public class GenerateUI {
 							@Override
 							public void widgetSelected(SelectionEvent e) {
 								customerTable.clearAll();
+								//fillTableCustomer(customerTable, CustomerDao.getAllCustomer());
+				//trying to get this line to work 4-20-22				//fillTableCustomer(customerTable, CustomerDao.getCustomerTestNamedParametersNative(searchName.getText(), searchAddress.getText(), searchPhone.getText(), searchEmail.getText(), "AND"));
 								fillTableCustomer(customerTable, CustomerDao.generateQueryCustomer(searchName.getText(), searchAddress.getText(), searchPhone.getText(), searchEmail.getText()));
 							}
 						});

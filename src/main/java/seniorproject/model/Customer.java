@@ -9,9 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 
 @Entity
 @Table (name = "customer")
+
+@NamedNativeQueries({
+	@NamedNativeQuery(name = "GET_CUSTOMERS_WITH_FIELDS", query = "SELECT * FROM customer WHERE name LIKE '%:nam%' AND  address LIKE '%:add%' AND phone LIKE '%:pho%' AND email LIKE '%:ema%'", resultClass = Customer.class),
+	@NamedNativeQuery(name = "GET_CUSTOMERS_BY_NAME", query = "SELECT * FROM customer WHERE name LIKE %:nam%", resultClass = Customer.class)
+
+})
 public class Customer implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
