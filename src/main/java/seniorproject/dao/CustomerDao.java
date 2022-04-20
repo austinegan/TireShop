@@ -74,22 +74,22 @@ public class CustomerDao {
 	}
 	
 	
-	public static List<Customer> generateQueryCustomer(String name, String address, String phone, String email) {
+	public static List<Customer> generateQueryCustomer(String name, String phone, String address, String email) {
 		 
 		String queryString = "SELECT * FROM customer";
 		List<Customer> myCustomerList;
 		List<String> myList = new ArrayList<String>();
-		 if(!name.isBlank()) {myList.add(" name LIKE '%" + name + "%'");}
-		 if(!address.isBlank()) {myList.add(" address LIKE '%" + address + "%'");}
-		 if(!phone.isBlank()) {myList.add(" phone LIKE '%" + phone + "%'");}
-		 if(!email.isBlank()) {myList.add(" email LIKE '%" + email + "%'");}
+		 if(!name.isBlank()) {myList.add(" name LIKE :nam");}
+		 if(!phone.isBlank()) {myList.add(" phone LIKE :pho");}
+		 if(!address.isBlank()) {myList.add(" address LIKE :add");}
+		 if(!email.isBlank()) {myList.add(" email LIKE :ema");}
 
 		if(!myList.isEmpty()) {queryString += " WHERE" + myList.get(0);
 			for (int i = 1; i < myList.size(); i++) {
 				queryString += " AND" + myList.get(i);
 			}
 			System.out.println(queryString);
-			myCustomerList = getCustomer(queryString);
+			myCustomerList = getCustomer(queryString, name, phone, address, email);
 			if(myCustomerList.size() == 0) {
 				System.out.println("No results found. Expanding search results.");
 				queryString = "SELECT * FROM customer WHERE" + myList.get(0);
@@ -97,7 +97,7 @@ public class CustomerDao {
 					queryString += " OR" + myList.get(i);
 				}
 				System.out.println(queryString);
-				myCustomerList = getCustomer(queryString);
+				myCustomerList = getCustomer(queryString, name, phone, address, email);
 			}
 			return myCustomerList;
 		}
@@ -120,7 +120,7 @@ public class CustomerDao {
 			System.out.println("test 2");
 
 			transaction.commit();
-			
+			return customers;
 		} catch (Exception e) {
 			if (transaction != null) {
 				System.out.println("transaction was null");
@@ -129,7 +129,7 @@ public class CustomerDao {
 			e.printStackTrace();
 			return null;
 		}
-		return customers;
+		
 	}
 	
 
@@ -140,7 +140,7 @@ public class CustomerDao {
 			transaction = session.beginTransaction();
 			System.out.println("test");
 			List<Customer> customers = session.createNamedQuery("GET_CUSTOMERS_BY_NAME", Customer.class)
-					.setParameter("nam", name)
+					//.setParameter("nam", name)
 					//.setParameter("pho", phone)
 					//.setParameter("add", address)
 					//.setParameter("ema", email)
@@ -158,7 +158,27 @@ public class CustomerDao {
 		}
 	}
 	
-	
+	public static List<Customer> getCustomer(String query, String name, String phone, String address, String email) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			Query<Customer> myQuery = session.createNativeQuery(query, Customer.class);
+			if(!name.isBlank()) {myQuery.setParameter("nam", "%" + name + "%");}
+			if(!phone.isBlank()) {myQuery.setParameter("pho", "%" + phone + "%");}
+			if(!address.isBlank()) {myQuery.setParameter("add", "%" + address + "%");}
+			if(!email.isBlank()) {myQuery.setParameter("ema", "%" + email + "%");}
+			 
+			List<Customer> customers = myQuery.getResultList();
+			transaction.commit();
+			return customers;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public static List<Customer> getCustomer(String query) {
 		Transaction transaction = null;

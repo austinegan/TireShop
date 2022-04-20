@@ -304,8 +304,8 @@ public class GenerateUI {
 							public void widgetSelected(SelectionEvent e) {
 								customerTable.clearAll();
 								//fillTableCustomer(customerTable, CustomerDao.getAllCustomer());
-				fillTableCustomer(customerTable, CustomerDao.getCustomerTestNamedParametersNative(searchName.getText(), searchPhone.getText(), searchAddress.getText(), searchEmail.getText(), "AND"));
-				//				fillTableCustomer(customerTable, CustomerDao.generateQueryCustomer(searchName.getText(), searchAddress.getText(), searchPhone.getText(), searchEmail.getText()));
+				//fillTableCustomer(customerTable, CustomerDao.getCustomerTestNamedParametersNative(searchName.getText(), searchPhone.getText(), searchAddress.getText(), searchEmail.getText(), "AND"));
+								fillTableCustomer(customerTable, CustomerDao.generateQueryCustomer(searchName.getText(), searchAddress.getText(), searchPhone.getText(), searchEmail.getText()));
 							}
 						});
 				
