@@ -111,11 +111,11 @@ public class CustomerDao {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			System.out.println("test");
-			customers = session.createNativeQuery("SELECT * FROM customer WHERE name LIKE '%:nam%' AND  address LIKE '%:add%' AND phone LIKE '%:pho%' AND email LIKE '%:ema%'", Customer.class)
-					.setParameter("nam", name)
-					.setParameter("pho", phone)
-					.setParameter("add", address)
-					.setParameter("ema", email)
+			customers = session.createNativeQuery("SELECT * FROM customer WHERE name LIKE :nam AND  address LIKE :add AND phone LIKE :pho AND email LIKE :ema", Customer.class)
+					.setParameter("nam", "%" + name + "%")
+					.setParameter("pho", "%" + phone + "%")
+					.setParameter("add", "%" + address + "%")
+					.setParameter("ema", "%" + email + "%")
 					.getResultList();
 			System.out.println("test 2");
 
@@ -123,6 +123,7 @@ public class CustomerDao {
 			
 		} catch (Exception e) {
 			if (transaction != null) {
+				System.out.println("transaction was null");
 				transaction.rollback();
 			}
 			e.printStackTrace();
