@@ -1,8 +1,13 @@
 package seniorproject.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import seniorproject.model.Customer;
+//import seniorproject.model.Customer;
 import seniorproject.model.Inventory;
 import seniorproject.util.HibernateUtil;
 
@@ -65,7 +70,73 @@ public class InventoryDao {
 		}
 	}
 
-	public List<Inventory> getInventory(String query) {
+	public static List<Inventory> generateQueryInventory(String brand, String width, String aspRatio, String diameter, Boolean expandable) {	
+		return generateQueryInventory(brand, width, aspRatio, diameter, expandable, " ORDER BY id");
+	}
+	
+	public static List<Inventory> generateQueryInventory(String brand, String width, String aspRatio, String diameter, Boolean expandable, String order) {
+		 
+		String queryString = "SELECT * FROM inventory";
+		List<Inventory> myInventoryList;
+		List<String> myList = new ArrayList<String>();
+		 if(!brand.isBlank()) {myList.add(" brand LIKE :bra");}
+		 if(!width.isBlank()) {myList.add(" width LIKE :wid");}
+		 if(!aspRatio.isBlank()) {myList.add(" aspectratio LIKE :asp");}
+		 if(!diameter.isBlank()) {myList.add(" diameter LIKE :dia");}
+
+		if(!myList.isEmpty()) {queryString += " WHERE" + myList.get(0);
+			for (int i = 1; i < myList.size(); i++) {
+				queryString += " AND" + myList.get(i);
+			}
+			queryString += order;
+			System.out.println(queryString);
+			myInventoryList = getInventory(queryString, brand, width, aspRatio, diameter);
+			if(myInventoryList.size() == 0) {
+				System.out.println("No results found.");
+				if (expandable) {
+						System.out.println(" Expanding search results.");
+				queryString = "SELECT * FROM inventory WHERE" + myList.get(0);
+				for (int i = 1; i < myList.size(); i++) {
+					queryString += " OR" + myList.get(i);
+				}
+				queryString += order;
+				System.out.println(queryString);
+				myInventoryList = getInventory(queryString, brand, width, aspRatio, diameter);
+				}
+				else {System.out.println("But expandable results are off. So that's all you get (0 results)");}
+			}
+			return myInventoryList;
+		}
+		myInventoryList = getInventory(queryString, brand, width, aspRatio, diameter);
+		return myInventoryList;
+	}
+	
+
+	
+	public static List<Inventory> getInventory(String query, String brand, String width, String aspRatio, String diameter) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			Query<Inventory> myQuery = session.createNativeQuery(query, Inventory.class);
+			if(!brand.isBlank()) {myQuery.setParameter("bra", "%" + brand + "%");}
+			if(!width.isBlank()) {myQuery.setParameter("wid", "%" + width + "%");}
+			if(!aspRatio.isBlank()) {myQuery.setParameter("asp", "%" + aspRatio + "%");}
+			if(!diameter.isBlank()) {myQuery.setParameter("dia", "%" + diameter + "%");}
+			 
+			List<Inventory> inventory = myQuery.getResultList();
+			transaction.commit();
+			return inventory;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	public static List<Inventory> getInventory(String query) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
@@ -81,7 +152,7 @@ public class InventoryDao {
 		}
 	}
 	
-	public List<Inventory> getAllInventory() {
+	public static List<Inventory> getAllInventory() {
 		return getInventory("SELECT * FROM inventory ORDER BY id");
 	}
 }

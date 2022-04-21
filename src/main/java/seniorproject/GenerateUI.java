@@ -149,8 +149,8 @@ public class GenerateUI {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		fillTableProductsSimple(productsTable);
-		fillTableProductsExtensive(tableInv);
+		fillTableProductsSimple(productsTable, InventoryDao.getAllInventory());;
+		fillTableProductsExtensive(tableInv, InventoryDao.getAllInventory());
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -305,7 +305,7 @@ public class GenerateUI {
 								customerTable.clearAll();
 								//fillTableCustomer(customerTable, CustomerDao.getAllCustomer());
 				//fillTableCustomer(customerTable, CustomerDao.getCustomerTestNamedParametersNative(searchName.getText(), searchPhone.getText(), searchAddress.getText(), searchEmail.getText(), "AND"));
-								fillTableCustomer(customerTable, CustomerDao.generateQueryCustomer(searchName.getText(), searchAddress.getText(), searchPhone.getText(), searchEmail.getText()));
+								fillTableCustomer(customerTable, CustomerDao.generateQueryCustomer(searchName.getText(), searchAddress.getText(), searchPhone.getText(), searchEmail.getText(), true));
 							}
 						});
 				
@@ -475,6 +475,12 @@ public class GenerateUI {
 		DiameterCombo.setText("Diameter");
 
 		Button ProdBtnSearch = new Button(SearchMenuComp_1, SWT.NONE);
+		ProdBtnSearch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventory("onti", "", "", "", true));
+			}
+		});
 		ProdBtnSearch.setText("Search");
 		ProdBtnSearch.setBounds(388, 0, 75, 25);
 
@@ -590,6 +596,11 @@ public class GenerateUI {
 		txtInvSearchBar.setBounds(10, 98, 249, 19);
 
 		Button btnInvSearch = new Button(Inv2ButtonComp, SWT.NONE);
+		btnInvSearch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
 		btnInvSearch.setBounds(265, 98, 53, 20);
 		btnInvSearch.setText("Search");
 
@@ -603,7 +614,12 @@ public class GenerateUI {
 
 		
 		
-		
+		btnInvSearch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				fillTableProductsExtensive(tableInv, InventoryDao.generateQueryInventory("","", "", "17", true));
+			}
+		});
 		
 		
 		
@@ -916,18 +932,16 @@ public class GenerateUI {
 		}
 	}
 	
-	public void fillTableProductsSimple(Table table){
-		InventoryDao inventoryDao = new InventoryDao();
-		for (Inventory inv : inventoryDao.getAllInventory()) {
+	public void fillTableProductsSimple(Table table, List<Inventory> myInventory){
+		for (Inventory inv : myInventory) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(new String[] {inv.getBrand(), inv.getModel_number(), 
 					inv.getSize(), String.valueOf(inv.getCount()), String.valueOf(inv.getSale_price())});
 		}
 	}
 
-	public void fillTableProductsExtensive(Table table){
-		InventoryDao inventoryDao = new InventoryDao();
-		for (Inventory inv : inventoryDao.getAllInventory()) {
+	public void fillTableProductsExtensive(Table table, List<Inventory> myInventory){
+		for (Inventory inv : myInventory) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(new String[] {String.valueOf(inv.getId()), inv.getBrand(), inv.getModel_number(), 
 					String.valueOf(inv.getSale_price()), String.valueOf(inv.getPurchase_price()), String.valueOf(inv.getCount()), 

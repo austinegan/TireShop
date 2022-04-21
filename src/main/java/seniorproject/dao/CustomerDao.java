@@ -73,8 +73,10 @@ public class CustomerDao {
 		}
 	}
 	
-	
-	public static List<Customer> generateQueryCustomer(String name, String phone, String address, String email) {
+	public static List<Customer> generateQueryCustomer(String name, String phone, String address, String email, Boolean expandable) {	
+			return generateQueryCustomer(name, phone, address, email, expandable, " ORDER BY id");
+	}
+	public static List<Customer> generateQueryCustomer(String name, String phone, String address, String email, Boolean expandable, String order) {
 		 
 		String queryString = "SELECT * FROM customer";
 		List<Customer> myCustomerList;
@@ -88,16 +90,22 @@ public class CustomerDao {
 			for (int i = 1; i < myList.size(); i++) {
 				queryString += " AND" + myList.get(i);
 			}
+			queryString += order;
 			System.out.println(queryString);
 			myCustomerList = getCustomer(queryString, name, phone, address, email);
 			if(myCustomerList.size() == 0) {
-				System.out.println("No results found. Expanding search results.");
+				System.out.println("No results found.");
+				if (expandable) {
+						System.out.println(" Expanding search results.");
 				queryString = "SELECT * FROM customer WHERE" + myList.get(0);
 				for (int i = 1; i < myList.size(); i++) {
 					queryString += " OR" + myList.get(i);
 				}
+				queryString += order;
 				System.out.println(queryString);
 				myCustomerList = getCustomer(queryString, name, phone, address, email);
+				}
+				else {System.out.println("But expandable results are off. So that's all you get (0 results)");}
 			}
 			return myCustomerList;
 		}
