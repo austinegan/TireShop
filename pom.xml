@@ -38,7 +38,11 @@
 			<version>18.3.0.20220316</version>
 			<scope>compile</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>7.0.4.Final</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src.main.java</sourceDirectory>

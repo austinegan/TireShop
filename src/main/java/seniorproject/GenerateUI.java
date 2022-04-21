@@ -426,8 +426,12 @@ public class GenerateUI {
 															    Timestamp ts = new Timestamp(datetime);
 															    cus.setCreate_time(ts);
 															    cus.setLast_update(ts);
-															    session.save(cus);
-															    session.getTransaction().commit();
+															    if (Validation.customerIsValid(cus, NewCustomerError)) {
+															    	session.save(cus);
+																    session.getTransaction().commit();
+															    } else {
+															    	session.close();
+															    }    
 															}
 														});
 										new Label(NewAcctComp, SWT.NONE).setText("Labelmaker 6?");
@@ -878,20 +882,37 @@ public class GenerateUI {
 			    inv.setBrand(addInvBrand.getText());
 			    inv.setModel_number(addInvModel.getText());
 			    inv.setSize(addInvSize.getText());
-			    int intQuantity = Integer.parseInt(addInvQuantity.getText());
-			    inv.setCount(intQuantity);
-			    Double purchasePrice = Double.parseDouble(addInvPurchasePrice.getText());
-			    inv.setPurchase_price(purchasePrice);
-			    Double salePrice = Double.parseDouble(addInvSalePrice.getText());
-			    inv.setSale_price(salePrice);
-			    int width = Integer.parseInt(addInvSize.getText().substring(0, 3));   
-			    inv.setWidth(width);
-			    int aspectRatio = Integer.parseInt(addInvSize.getText().substring(4, 6));   
-			    inv.setAspectratio(aspectRatio);
-			    int diameter = Integer.parseInt(addInvSize.getText().substring(7, 9));   
-			    inv.setDiameter(diameter);
-			    session.save(inv);
-			    session.getTransaction().commit();
+			    String msg = "";
+			    try {
+			    	int intQuantity = Integer.parseInt(addInvQuantity.getText());
+				    inv.setCount(intQuantity);
+			    } catch (NumberFormatException nfe) {
+			    	msg += "Quantity must be an integer. ";
+			    }
+			    try {
+			    	Double purchasePrice = Double.parseDouble(addInvPurchasePrice.getText());
+			    	inv.setPurchase_price(purchasePrice);
+			    } catch (NumberFormatException nfe) {
+			    	msg += "Purchase price must be a double. ";
+			    }
+			    try {
+			    	Double salePrice = Double.parseDouble(addInvSalePrice.getText());
+				    inv.setSale_price(salePrice);
+			    } catch (NumberFormatException nfe) {
+			    	msg += "Sale price must be a double. ";
+			    }
+			    if (Validation.inventoryIsValid(inv, addInvSalePriceError, msg)) {
+			    	int width = Integer.parseInt(addInvSize.getText().substring(0, 3));   
+				    inv.setWidth(width);
+				    int aspectRatio = Integer.parseInt(addInvSize.getText().substring(4, 6));   
+				    inv.setAspectratio(aspectRatio);
+				    int diameter = Integer.parseInt(addInvSize.getText().substring(7, 9));   
+				    inv.setDiameter(diameter);
+			    	session.save(inv);
+				    session.getTransaction().commit();
+			    } else {
+			    	session.close();
+			    }    
 			}
 		});
 		
