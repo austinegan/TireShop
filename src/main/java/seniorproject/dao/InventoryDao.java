@@ -107,6 +107,7 @@ public class InventoryDao {
 			}
 			return myInventoryList;
 		}
+		queryString += order;
 		myInventoryList = getInventory(queryString, brand, width, aspRatio, diameter);
 		return myInventoryList;
 	}

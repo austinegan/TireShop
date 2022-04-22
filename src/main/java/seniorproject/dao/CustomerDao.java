@@ -109,6 +109,7 @@ public class CustomerDao {
 			}
 			return myCustomerList;
 		}
+		queryString += order;
 		myCustomerList = getCustomer(queryString);
 		return myCustomerList;
 	}
@@ -154,7 +155,9 @@ public class CustomerDao {
 	}
 	
 	public static List<Customer> getAllCustomer(){
+		System.out.println("Get all customer");
 		return getCustomer("SELECT * FROM customer");
+		
 	}
 	
 }

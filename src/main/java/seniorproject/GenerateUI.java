@@ -615,7 +615,7 @@ public class GenerateUI {
 									@Override
 									public void widgetSelected(SelectionEvent e) {
 										System.out.println("Button : Add Inventory");
-										AddInvComp.setVisible(true);
+										//AddInvComp.setVisible(true);
 										Inv2ButtonComp.setEnabled(false);
 									}
 								});
