@@ -112,6 +112,11 @@ public class GenerateUI {
 	private Text editInvPurchasePrice;
 	private Text editInvSalePrice;
 	private Text editInvError;
+	private Text textEditCustName;
+	private Text textEditCustPhone;
+	private Text textEditCustAddress;
+	private Text textEditCustEmail;
+	private Text textEditCustError;
 
 	/**
 	 * Launch the application.
@@ -352,55 +357,112 @@ public class GenerateUI {
 
 		NewCustomerError = new Text(NewAcctComp, SWT.BORDER | SWT.READ_ONLY);
 		NewCustomerError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+						new Label(NewAcctComp, SWT.NONE);
+				
+						Button btnCreateCustomer = new Button(NewAcctComp, SWT.NONE);
+						btnCreateCustomer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+						btnCreateCustomer.setText("Create Customer");
+						
+								btnCreateCustomer.addSelectionListener(new SelectionAdapter() {
+									@Override
+									public void widgetSelected(SelectionEvent e) {
+										System.out.println("Button : Create Customer");
+										Session session = HibernateUtil.getSessionFactory().openSession();
+										session.beginTransaction();
+										Customer cus = new Customer();
+										cus.setName(newName.getText());
+										cus.setPhone(newPhone.getText());
+										cus.setEmail(newEmail.getText());
+										cus.setAddress(newAddress.getText());
+										Long datetime = System.currentTimeMillis();
+										Timestamp ts = new Timestamp(datetime);
+										cus.setCreate_time(ts);
+										cus.setLast_update(ts);
+										if (Validation.customerIsValid(cus, NewCustomerError)) {
+											session.save(cus);
+											session.getTransaction().commit();
+										} else {
+											session.close();
+										}
+									}
+								});
+		
+				Button btnClear = new Button(NewAcctComp, SWT.NONE);
+				btnClear.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+				btnClear.setText("Clear");
+				
+						btnClear.addSelectionListener(new SelectionAdapter() {
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								System.out.println("Button : Clear (Add Customer)");
+								newName.setText("");
+								newPhone.setText("");
+								newAddress.setText("");
+								newEmail.setText("");
+				//								newNameError.setText("");
+				//								newPhoneError.setText("");
+				//								newAddressError.setText("");
+				//								newEmailError.setText("");
+							}
+						});
 		new Label(NewAcctComp, SWT.NONE);
-
-		Button btnClear = new Button(NewAcctComp, SWT.NONE);
-		btnClear.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-		btnClear.setText("Clear");
-
-		btnClear.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Clear (Add Customer)");
-				newName.setText("");
-				newPhone.setText("");
-				newAddress.setText("");
-				newEmail.setText("");
-//								newNameError.setText("");
-//								newPhoneError.setText("");
-//								newAddressError.setText("");
-//								newEmailError.setText("");
-			}
-		});
-
-		Button btnCreateCustomer = new Button(NewAcctComp, SWT.NONE);
-		btnCreateCustomer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-		btnCreateCustomer.setText("Create Customer");
-
-		btnCreateCustomer.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Create Customer");
-				Session session = HibernateUtil.getSessionFactory().openSession();
-				session.beginTransaction();
-				Customer cus = new Customer();
-				cus.setName(newName.getText());
-				cus.setPhone(newPhone.getText());
-				cus.setEmail(newEmail.getText());
-				cus.setAddress(newAddress.getText());
-				Long datetime = System.currentTimeMillis();
-				Timestamp ts = new Timestamp(datetime);
-				cus.setCreate_time(ts);
-				cus.setLast_update(ts);
-				if (Validation.customerIsValid(cus, NewCustomerError)) {
-					session.save(cus);
-					session.getTransaction().commit();
-				} else {
-					session.close();
-				}
-			}
-		});
-		new Label(NewAcctComp, SWT.NONE);
+		
+		Composite EditCustComp = new Composite(CustomerComposite, SWT.NONE);
+		EditCustComp.setVisible(true);
+		EditCustComp.setLayout(new GridLayout(4, true));
+		new Label(EditCustComp, SWT.NONE);
+		
+		CLabel lblEditCust = new CLabel(EditCustComp, SWT.NONE);
+		lblEditCust.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
+		lblEditCust.setText("Edit an Existing Customer Account");
+		lblEditCust.setAlignment(SWT.RIGHT);
+		Label label_1 = new Label(EditCustComp, SWT.NONE);
+		label_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
+		Label lblEditCustName = new Label(EditCustComp, SWT.NONE);
+		lblEditCustName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblEditCustName.setText("Name");
+		
+		textEditCustName = new Text(EditCustComp, SWT.BORDER);
+		textEditCustName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		
+		Label lblEditCustPhone = new Label(EditCustComp, SWT.NONE);
+		lblEditCustPhone.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblEditCustPhone.setText("Phone #");
+		
+		textEditCustPhone = new Text(EditCustComp, SWT.BORDER);
+		textEditCustPhone.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		
+		Label lblEditCustAddress = new Label(EditCustComp, SWT.NONE);
+		lblEditCustAddress.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblEditCustAddress.setText("Address");
+		
+		textEditCustAddress = new Text(EditCustComp, SWT.BORDER);
+		textEditCustAddress.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		
+		Label lblEditCustEmail = new Label(EditCustComp, SWT.NONE);
+		lblEditCustEmail.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblEditCustEmail.setText("Email");
+		
+		textEditCustEmail = new Text(EditCustComp, SWT.BORDER);
+		GridData gd_textEditCustEmail = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
+		gd_textEditCustEmail.widthHint = 325;
+		textEditCustEmail.setLayoutData(gd_textEditCustEmail);
+		new Label(EditCustComp, SWT.NONE);
+		
+		textEditCustError = new Text(EditCustComp, SWT.BORDER | SWT.READ_ONLY);
+		textEditCustError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		new Label(EditCustComp, SWT.NONE);
+		
+		Button btnEditCustDeleteCustomer = new Button(EditCustComp, SWT.NONE);
+		btnEditCustDeleteCustomer.setText("Delete Customer");
+		
+		Button btnEditCustSaveChanges = new Button(EditCustComp, SWT.NONE);
+		btnEditCustSaveChanges.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		btnEditCustSaveChanges.setText("Save Changes");
+		
+		Button btnClear_1 = new Button(EditCustComp, SWT.NONE);
+		btnClear_1.setText("Clear");
 
 		TabItem tbtmNewItem_1 = new TabItem(tabFolder, 0);
 		tbtmNewItem_1.setText("Products");
