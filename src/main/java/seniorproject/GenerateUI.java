@@ -493,6 +493,12 @@ public class GenerateUI {
 
 		Combo DiameterCombo = new Combo(SearchMenuComp_1, SWT.NONE);
 		DiameterCombo.setText("Diameter");
+		
+		fillBrandCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY brand"), BrandCombo);
+		fillModelCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY model_number"), ModelCombo);
+		fillWidthCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY width"), WidthCombo);
+		fillAspectRatioCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY aspectratio"), RatioCombo);
+		fillDiameterCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY diameter"), DiameterCombo);
 
 		Button ProdBtnSearch = new Button(SearchMenuComp_1, SWT.NONE);
 		ProdBtnSearch.addSelectionListener(new SelectionAdapter() {
@@ -632,6 +638,12 @@ public class GenerateUI {
 
 		Combo DiameterComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		DiameterComboInventory.setText("Diameter");
+		
+		fillBrandCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY brand"), BrandComboInventory);
+		fillModelCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY model_number"), ModelComboInventory);
+		fillWidthCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY width"), WidthComboInventory);
+		fillAspectRatioCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY aspectratio"), RatioComboInventory);
+		fillDiameterCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY diameter"), DiameterComboInventory);
 
 		Button ProdBtnSearchInventory = new Button(SearchMenuComp_1_1, SWT.NONE);
 		ProdBtnSearchInventory.setText("Search");
@@ -1017,6 +1029,56 @@ public class GenerateUI {
 					String.valueOf(inv.getSale_price()), String.valueOf(inv.getPurchase_price()),
 					String.valueOf(inv.getCount()), String.valueOf(inv.getWidth()), inv.getSize(),
 					String.valueOf(inv.getAspectratio()), String.valueOf(inv.getDiameter()) });
+		}
+	}
+	
+	public void fillBrandCombo(List<Inventory> myInventory, Combo brand) {
+		ArrayList<String> brandList = new ArrayList<String>();
+		for (Inventory inv : myInventory) {
+			if (!brandList.contains(inv.getBrand())) {
+				brand.add(inv.getBrand());
+				brandList.add(inv.getBrand());
+			}
+		}
+	}
+	
+	public void fillModelCombo(List<Inventory> myInventory, Combo model) {
+		ArrayList<String> modelList = new ArrayList<String>();
+		for (Inventory inv : myInventory) {
+			if (!modelList.contains(inv.getModel_number())) {
+				model.add(inv.getModel_number());
+				modelList.add(inv.getModel_number());
+			}
+		}
+	}
+	
+	public void fillWidthCombo(List<Inventory> myInventory, Combo width) {
+		ArrayList<String> widthList = new ArrayList<String>();
+		for (Inventory inv : myInventory) {
+			if (!widthList.contains(Integer.toString(inv.getWidth()))) {
+				width.add(Integer.toString(inv.getWidth()));
+				widthList.add(Integer.toString(inv.getWidth()));
+			}
+		}
+	}
+	
+	public void fillAspectRatioCombo(List<Inventory> myInventory, Combo aspectRatio) {
+		ArrayList<String> aspectRatioList = new ArrayList<String>();
+		for (Inventory inv : myInventory) {
+			if (!aspectRatioList.contains(Integer.toString(inv.getAspectratio()))) {
+				aspectRatio.add(Integer.toString(inv.getAspectratio()));
+				aspectRatioList.add(Integer.toString(inv.getAspectratio()));
+			}
+		}
+	}
+	
+	public void fillDiameterCombo(List<Inventory> myInventory, Combo diameter) {
+		ArrayList<String> diameterList = new ArrayList<String>();
+		for (Inventory inv : myInventory) {
+			if (!diameterList.contains(Integer.toString(inv.getDiameter()))) {
+				diameter.add(Integer.toString(inv.getDiameter()));
+				diameterList.add(Integer.toString(inv.getDiameter()));
+			}
 		}
 	}
 }
