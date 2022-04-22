@@ -52,7 +52,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import org.eclipse.swt.widgets.TableColumn;
-import swing2swt.layout.BoxLayout;
 import org.eclipse.swt.layout.RowData;
 
 public class GenerateUI {
@@ -115,7 +114,7 @@ public class GenerateUI {
 	 private Text editInvQuantity;
 	 private Text editInvPurchasePrice;
 	 private Text editInvSalePrice;
-	 private Text editInvErrorField;
+	 private Text editInvError;
 	 
 	 
 	 
@@ -288,7 +287,7 @@ public class GenerateUI {
 																																														customerTable.clearAll();
 																																														//fillTableCustomer(customerTable, CustomerDao.getAllCustomer());
 																																										//fillTableCustomer(customerTable, CustomerDao.getCustomerTestNamedParametersNative(searchName.getText(), searchPhone.getText(), searchAddress.getText(), searchEmail.getText(), "AND"));
-																																														customerPageList =  CustomerDao.generateQueryCustomer(searchName.getText(), searchPhone.getText(), searchAddress.getText(), searchEmail.getText(), true);
+																																														customerPageList =  CustomerDao.generateQueryCustomer(searchName.getText(), searchAddress.getText(), searchPhone.getText(), searchEmail.getText(), true);
 																																														fillTableCustomer(customerTable, customerPageList);
 																																													}
 																																												});
@@ -449,23 +448,26 @@ public class GenerateUI {
 				BrandCombo.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 				BrandCombo.setText("Brand");
 				
-						Combo WidthCombo = new Combo(SearchMenuComp_1, SWT.NONE);
-						WidthCombo.setText("Tire Width");
+						Combo ModelCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+						ModelCombo.setText("Model");
 						
-								Combo RatioCombo = new Combo(SearchMenuComp_1, SWT.NONE);
-								RatioCombo.setText("Aspect Ratio");
+								Combo WidthCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+								WidthCombo.setText("Tire Width");
 								
-										Combo DiameterCombo = new Combo(SearchMenuComp_1, SWT.NONE);
-										DiameterCombo.setText("Diameter");
+										Combo RatioCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+										RatioCombo.setText("Aspect Ratio");
 										
-												Button ProdBtnSearch = new Button(SearchMenuComp_1, SWT.NONE);
-												ProdBtnSearch.addSelectionListener(new SelectionAdapter() {
-													@Override
-													public void widgetSelected(SelectionEvent e) {
-														fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventory("onti", "", "", "", true));
-													}
-												});
-												ProdBtnSearch.setText("Search");
+												Combo DiameterCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+												DiameterCombo.setText("Diameter");
+												
+														Button ProdBtnSearch = new Button(SearchMenuComp_1, SWT.NONE);
+														ProdBtnSearch.addSelectionListener(new SelectionAdapter() {
+															@Override
+															public void widgetSelected(SelectionEvent e) {
+																fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventory("onti", "", "", "", true));
+															}
+														});
+														ProdBtnSearch.setText("Search");
 
 		Composite SearchResultsComp = new Composite(ProductsComposite_1, SWT.NONE);
 		SearchResultsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
@@ -586,6 +588,9 @@ public class GenerateUI {
 				BrandComboInventory.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 				BrandComboInventory.setText("Brand");
 				
+				Combo ModelComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
+				ModelComboInventory.setText("Model");
+				
 				Combo WidthComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 				WidthComboInventory.setText("Tire Width");
 				
@@ -680,13 +685,26 @@ public class GenerateUI {
 		editInvSalePrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 		new Label(AddInvComp_1, SWT.NONE);
 		
-		editInvErrorField = new Text(AddInvComp_1, SWT.BORDER);
-		editInvErrorField.setEditable(false);
-		editInvErrorField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		editInvError = new Text(AddInvComp_1, SWT.BORDER);
+		editInvError.setEditable(false);
+		editInvError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 		new Label(AddInvComp_1, SWT.NONE);
 		
 		Button btnClearEditInv = new Button(AddInvComp_1, SWT.NONE);
 		btnClearEditInv.setText("Clear");
+		
+		btnClearEditInv.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear (Edit Inventory)");
+				editInvBrand.setText("");
+				editInvModel.setText("");
+				editInvSize.setText("");
+				editInvQuantity.setText("");
+				editInvPurchasePrice.setText("");
+				editInvSalePrice.setText("");
+				editInvError.setText("");
+			}
+		});
 		
 		Button btnEditInvSubmit = new Button(AddInvComp_1, SWT.NONE);
 		btnEditInvSubmit.setText("Submit");
@@ -803,36 +821,22 @@ public class GenerateUI {
 				
 						Button btnClearAddInv = new Button(AddInvComp, SWT.NONE);
 						btnClearAddInv.setText("Clear");
+
+						btnClearAddInv.addSelectionListener(new SelectionAdapter() {
+							public void widgetSelected(SelectionEvent e) {
+								System.out.println("Button : Clear (Add Inventory)");
+								addInvBrand.setText("");
+								addInvModel.setText("");
+								addInvSize.setText("");
+								addInvQuantity.setText("");
+								addInvPurchasePrice.setText("");
+								addInvSalePrice.setText("");
+								addInvError.setText("");
+							}
+						});
 						
-
-
-//						btnClearAddInv.addSelectionListener(new SelectionAdapter() {
-//							@Override
-//							public void widgetSelected(SelectionEvent e) {
-//								System.out.println("Button : Clear (Add Inventory)");
-//								addInvBrand.setText("");
-//								addInvBrandError.setText("");
-//								addInvModel.setText("");
-//								addInvModelError.setText("");
-//								addInvSize.setText("");
-//								addInvSizeError.setText("");
-//								addInvQuantity.setText("");
-//								addInvQuantityError.setText("");
-//								addInvPurchasePrice.setText("");
-//								addInvPurchasePriceError.setText("");
-//								addInvSalePrice.setText("");
-//								addInvError.setText("");
-//							}
-//						});
 				new Label(AddInvComp, SWT.NONE);
 		
-		
-		
-		
-		
-		
-		
-
 
 
 		TabItem tbtmNewItem_4 = new TabItem(tabFolder, 0);
