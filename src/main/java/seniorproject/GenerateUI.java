@@ -278,7 +278,9 @@ public class GenerateUI {
 																																										
 																																										Button btnEditCustomer = new Button(SearchCustomerEverythingElseComposite, SWT.NONE);
 																																										btnEditCustomer.setText("Edit Customer");
-																																										new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
+																																										
+																																										Button btnSelectCustomer = new Button(SearchCustomerEverythingElseComposite, SWT.NONE);
+																																										btnSelectCustomer.setText("Select Customer");
 																																										
 																																												searchCustomerButton.addSelectionListener(new SelectionAdapter() {
 																																													@Override
