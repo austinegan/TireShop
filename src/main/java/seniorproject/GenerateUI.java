@@ -99,6 +99,13 @@ public class GenerateUI {
 	private List<Inventory> cartPageList;
 	private List<Inventory> InvPageList;
 	private List<Order> workOrdersPageList;
+
+	private List<String> brandList;
+	private List<String> modelList;
+	private List<String> widthList;
+	private List<String> ratioList;
+	private List<String> diameterList;
+
 	private Text addInvBrand;
 	private Text addInvModel;
 	private Text addInvSize;
@@ -117,6 +124,18 @@ public class GenerateUI {
 	private Text textEditCustAddress;
 	private Text textEditCustEmail;
 	private Text textEditCustError;
+
+	private Combo BrandCombo;
+	private Combo ModelCombo;
+	private Combo WidthCombo;
+	private Combo RatioCombo;
+	private Combo DiameterCombo;
+
+	private Combo BrandComboInventory;
+	private Combo ModelComboInventory;
+	private Combo WidthComboInventory;
+	private Combo RatioComboInventory;
+	private Combo DiameterComboInventory;
 
 	/**
 	 * Launch the application.
@@ -148,8 +167,8 @@ public class GenerateUI {
 		Display display = Display.getDefault();
 		createContents();
 		fillTableProductsSimple(productsTable, InventoryDao.getAllInventory());
-		;
 		fillTableProductsExtensive(tableInv, InventoryDao.getAllInventory());
+		fillAllCombos();
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -357,110 +376,110 @@ public class GenerateUI {
 
 		NewCustomerError = new Text(NewAcctComp, SWT.BORDER | SWT.READ_ONLY);
 		NewCustomerError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-						new Label(NewAcctComp, SWT.NONE);
-				
-						Button btnCreateCustomer = new Button(NewAcctComp, SWT.NONE);
-						btnCreateCustomer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-						btnCreateCustomer.setText("Create Customer");
-						
-								btnCreateCustomer.addSelectionListener(new SelectionAdapter() {
-									@Override
-									public void widgetSelected(SelectionEvent e) {
-										System.out.println("Button : Create Customer");
-										Session session = HibernateUtil.getSessionFactory().openSession();
-										session.beginTransaction();
-										Customer cus = new Customer();
-										cus.setName(newName.getText());
-										cus.setPhone(newPhone.getText());
-										cus.setEmail(newEmail.getText());
-										cus.setAddress(newAddress.getText());
-										Long datetime = System.currentTimeMillis();
-										Timestamp ts = new Timestamp(datetime);
-										cus.setCreate_time(ts);
-										cus.setLast_update(ts);
-										if (Validation.customerIsValid(cus, NewCustomerError)) {
-											session.save(cus);
-											session.getTransaction().commit();
-										} else {
-											session.close();
-										}
-									}
-								});
-		
-				Button btnClear = new Button(NewAcctComp, SWT.NONE);
-				btnClear.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-				btnClear.setText("Clear");
-				
-						btnClear.addSelectionListener(new SelectionAdapter() {
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								System.out.println("Button : Clear (Add Customer)");
-								newName.setText("");
-								newPhone.setText("");
-								newAddress.setText("");
-								newEmail.setText("");
-				//								newNameError.setText("");
-				//								newPhoneError.setText("");
-				//								newAddressError.setText("");
-				//								newEmailError.setText("");
-							}
-						});
 		new Label(NewAcctComp, SWT.NONE);
-		
+
+		Button btnCreateCustomer = new Button(NewAcctComp, SWT.NONE);
+		btnCreateCustomer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		btnCreateCustomer.setText("Create Customer");
+
+		btnCreateCustomer.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Create Customer");
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+				Customer cus = new Customer();
+				cus.setName(newName.getText());
+				cus.setPhone(newPhone.getText());
+				cus.setEmail(newEmail.getText());
+				cus.setAddress(newAddress.getText());
+				Long datetime = System.currentTimeMillis();
+				Timestamp ts = new Timestamp(datetime);
+				cus.setCreate_time(ts);
+				cus.setLast_update(ts);
+				if (Validation.customerIsValid(cus, NewCustomerError)) {
+					session.save(cus);
+					session.getTransaction().commit();
+				} else {
+					session.close();
+				}
+			}
+		});
+
+		Button btnClear = new Button(NewAcctComp, SWT.NONE);
+		btnClear.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		btnClear.setText("Clear");
+
+		btnClear.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear (Add Customer)");
+				newName.setText("");
+				newPhone.setText("");
+				newAddress.setText("");
+				newEmail.setText("");
+				// newNameError.setText("");
+				// newPhoneError.setText("");
+				// newAddressError.setText("");
+				// newEmailError.setText("");
+			}
+		});
+		new Label(NewAcctComp, SWT.NONE);
+
 		Composite EditCustComp = new Composite(CustomerComposite, SWT.NONE);
 		EditCustComp.setVisible(true);
 		EditCustComp.setLayout(new GridLayout(4, true));
 		new Label(EditCustComp, SWT.NONE);
-		
+
 		CLabel lblEditCust = new CLabel(EditCustComp, SWT.NONE);
 		lblEditCust.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
 		lblEditCust.setText("Edit an Existing Customer Account");
 		lblEditCust.setAlignment(SWT.RIGHT);
 		Label label_1 = new Label(EditCustComp, SWT.NONE);
 		label_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		
+
 		Label lblEditCustName = new Label(EditCustComp, SWT.NONE);
 		lblEditCustName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditCustName.setText("Name");
-		
+
 		textEditCustName = new Text(EditCustComp, SWT.BORDER);
 		textEditCustName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-		
+
 		Label lblEditCustPhone = new Label(EditCustComp, SWT.NONE);
 		lblEditCustPhone.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditCustPhone.setText("Phone #");
-		
+
 		textEditCustPhone = new Text(EditCustComp, SWT.BORDER);
 		textEditCustPhone.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-		
+
 		Label lblEditCustAddress = new Label(EditCustComp, SWT.NONE);
 		lblEditCustAddress.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditCustAddress.setText("Address");
-		
+
 		textEditCustAddress = new Text(EditCustComp, SWT.BORDER);
 		textEditCustAddress.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-		
+
 		Label lblEditCustEmail = new Label(EditCustComp, SWT.NONE);
 		lblEditCustEmail.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditCustEmail.setText("Email");
-		
+
 		textEditCustEmail = new Text(EditCustComp, SWT.BORDER);
 		GridData gd_textEditCustEmail = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
 		gd_textEditCustEmail.widthHint = 325;
 		textEditCustEmail.setLayoutData(gd_textEditCustEmail);
 		new Label(EditCustComp, SWT.NONE);
-		
+
 		textEditCustError = new Text(EditCustComp, SWT.BORDER | SWT.READ_ONLY);
 		textEditCustError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 		new Label(EditCustComp, SWT.NONE);
-		
+
 		Button btnEditCustDeleteCustomer = new Button(EditCustComp, SWT.NONE);
 		btnEditCustDeleteCustomer.setText("Delete Customer");
-		
+
 		Button btnEditCustSaveChanges = new Button(EditCustComp, SWT.NONE);
 		btnEditCustSaveChanges.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 		btnEditCustSaveChanges.setText("Save Changes");
-		
+
 		Button btnClear_1 = new Button(EditCustComp, SWT.NONE);
 		btnClear_1.setText("Clear");
 
@@ -478,34 +497,35 @@ public class GenerateUI {
 		rl_SearchMenuComp_1.fill = true;
 		SearchMenuComp_1.setLayout(rl_SearchMenuComp_1);
 
-		Combo BrandCombo = new Combo(SearchMenuComp_1, SWT.NONE);
-		BrandCombo.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		BrandCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		// BrandCombo.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		BrandCombo.setText("Brand");
 
-		Combo ModelCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		ModelCombo = new Combo(SearchMenuComp_1, SWT.NONE);
 		ModelCombo.setText("Model");
 
-		Combo WidthCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		WidthCombo = new Combo(SearchMenuComp_1, SWT.NONE);
 		WidthCombo.setText("Tire Width");
 
-		Combo RatioCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		RatioCombo = new Combo(SearchMenuComp_1, SWT.NONE);
 		RatioCombo.setText("Aspect Ratio");
 
-		Combo DiameterCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		DiameterCombo = new Combo(SearchMenuComp_1, SWT.NONE);
 		DiameterCombo.setText("Diameter");
-		
+		/*
 		fillBrandCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY brand"), BrandCombo);
 		fillModelCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY model_number"), ModelCombo);
 		fillWidthCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY width"), WidthCombo);
 		fillAspectRatioCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY aspectratio"), RatioCombo);
 		fillDiameterCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY diameter"), DiameterCombo);
-
+		*/
 		Button ProdBtnSearch = new Button(SearchMenuComp_1, SWT.NONE);
 		ProdBtnSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				productsTable.clearAll();
-				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
+				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(),
+						WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
 			}
 		});
 		ProdBtnSearch.setText("Search");
@@ -624,38 +644,38 @@ public class GenerateUI {
 		rl_SearchMenuComp_1_1.fill = true;
 		SearchMenuComp_1_1.setLayout(rl_SearchMenuComp_1_1);
 
-		Combo BrandComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
-		BrandComboInventory.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		BrandComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
+		// BrandComboInventory.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		BrandComboInventory.setText("Brand");
 
-		Combo ModelComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
+		ModelComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		ModelComboInventory.setText("Model");
 
-		Combo WidthComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
+		WidthComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		WidthComboInventory.setText("Tire Width");
 
-		Combo RatioComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
+		RatioComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		RatioComboInventory.setText("Aspect Ratio");
 
-		Combo DiameterComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
+		DiameterComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		DiameterComboInventory.setText("Diameter");
-		
-		fillBrandCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY brand"), BrandComboInventory);
-		fillModelCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY model_number"), ModelComboInventory);
-		fillWidthCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY width"), WidthComboInventory);
-		fillAspectRatioCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY aspectratio"), RatioComboInventory);
-		fillDiameterCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY diameter"), DiameterComboInventory);
-
+		/*
+		 * fillBrandCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY brand"), BrandComboInventory); fillModelCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY model_number"),
+		 * ModelComboInventory); fillWidthCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY width"), WidthComboInventory);
+		 * fillAspectRatioCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY aspectratio"), RatioComboInventory); fillDiameterCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY diameter"),
+		 * DiameterComboInventory);
+		 */
 		Button ProdBtnSearchInventory = new Button(SearchMenuComp_1_1, SWT.NONE);
 		ProdBtnSearchInventory.setText("Search");
 		ProdBtnSearchInventory.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				tableInv.clearAll();
-				fillTableProductsSimple(tableInv, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
+				fillTableProductsSimple(tableInv, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(),
+						WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
 			}
 		});
-		
+
 		new Label(Inv2ButtonComp, SWT.NONE);
 
 		tableInv = new Table(Inv2ButtonComp, SWT.BORDER | SWT.FULL_SELECTION);
@@ -1040,7 +1060,34 @@ public class GenerateUI {
 					String.valueOf(inv.getAspectratio()), String.valueOf(inv.getDiameter()) });
 		}
 	}
-	
+
+	public void fillCombo(List<String> dropdownStrings, Combo combo) {
+		for (String option : dropdownStrings) {
+			combo.add(option);
+		}
+	}
+
+	public void fillProductCombos() {
+		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandCombo);
+		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelCombo);
+		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthCombo);
+		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioCombo);
+		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterCombo);
+	}
+
+	public void fillInventoryCombos() {
+		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandComboInventory);
+		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelComboInventory);
+		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthComboInventory);
+		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioComboInventory);
+		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterComboInventory);
+	}
+
+	public void fillAllCombos() {
+		fillProductCombos();
+		fillInventoryCombos();
+	}
+
 	public void fillBrandCombo(List<Inventory> myInventory, Combo brand) {
 		ArrayList<String> brandList = new ArrayList<String>();
 		for (Inventory inv : myInventory) {
@@ -1050,7 +1097,7 @@ public class GenerateUI {
 			}
 		}
 	}
-	
+
 	public void fillModelCombo(List<Inventory> myInventory, Combo model) {
 		ArrayList<String> modelList = new ArrayList<String>();
 		for (Inventory inv : myInventory) {
@@ -1060,7 +1107,7 @@ public class GenerateUI {
 			}
 		}
 	}
-	
+
 	public void fillWidthCombo(List<Inventory> myInventory, Combo width) {
 		ArrayList<String> widthList = new ArrayList<String>();
 		for (Inventory inv : myInventory) {
@@ -1070,7 +1117,7 @@ public class GenerateUI {
 			}
 		}
 	}
-	
+
 	public void fillAspectRatioCombo(List<Inventory> myInventory, Combo aspectRatio) {
 		ArrayList<String> aspectRatioList = new ArrayList<String>();
 		for (Inventory inv : myInventory) {
@@ -1080,7 +1127,7 @@ public class GenerateUI {
 			}
 		}
 	}
-	
+
 	public void fillDiameterCombo(List<Inventory> myInventory, Combo diameter) {
 		ArrayList<String> diameterList = new ArrayList<String>();
 		for (Inventory inv : myInventory) {

@@ -197,4 +197,29 @@ public class InventoryDao {
 	public static List<Inventory> getAllInventory() {
 		return getInventory("SELECT * FROM inventory ORDER BY id");
 	}
+
+	public static List<String> comboQuery(String column){
+		Transaction transaction = null;
+		List<String> inventory = new ArrayList<String>();
+		List<Integer> invIntList;
+		String queryString = "SELECT DISTINCT " + column + " FROM inventory ORDER BY " + column; 
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			if(column == "width" || column == "diameter" || column == "aspectratio") {
+				invIntList = (List<Integer>) session.createNativeQuery(queryString).list();
+				for (Integer inv : invIntList) {inventory.add(inv.toString());}
+			}
+			else {
+			inventory = (List<String>) session.createNativeQuery(queryString).list();
+			}
+			transaction.commit();
+			return inventory;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
