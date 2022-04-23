@@ -136,6 +136,7 @@ public class GenerateUI {
 	private Combo WidthComboInventory;
 	private Combo RatioComboInventory;
 	private Combo DiameterComboInventory;
+	private Table table_2;
 
 	/**
 	 * Launch the application.
@@ -553,10 +554,9 @@ public class GenerateUI {
 
 		Composite CartComposite = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_2.setControl(CartComposite);
-		CartComposite.setLayout(null);
+		CartComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		Composite CheckoutComp = new Composite(CartComposite, SWT.NONE);
-		CheckoutComp.setBounds(0, 0, 1472, 752);
 
 		txtCart = new Text(CheckoutComp, SWT.BORDER);
 		txtCart.setText("Current Customer:");
@@ -569,62 +569,104 @@ public class GenerateUI {
 		Label lblNewLabel_9 = new Label(CheckoutComp, SWT.NONE);
 		lblNewLabel_9.setBounds(10, 72, 55, 20);
 		lblNewLabel_9.setText("Cart:");
-
-		TireDescriptionText = new Text(CheckoutComp, SWT.BORDER);
-		TireDescriptionText.setBounds(30, 107, 288, 25);
-
-		Button btnXSearchAccount_1 = new Button(CheckoutComp, SWT.NONE);
-		btnXSearchAccount_1.setText("X");
-		btnXSearchAccount_1.setBounds(10, 107, 19, 25);
-
-		Button button_1_2 = new Button(CheckoutComp, SWT.NONE);
-		button_1_2.setText("-");
-		button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
-		button_1_2.setBounds(324, 107, 24, 21);
-
-		QuantityText = new Text(CheckoutComp, SWT.BORDER);
-		QuantityText.setBounds(379, 107, 20, 21);
-
-		Button button_1_1_1 = new Button(CheckoutComp, SWT.NONE);
-		button_1_1_1.setText("+");
-		button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
-		button_1_1_1.setBounds(405, 107, 24, 23);
-
-		Label lblNewLabel_10 = new Label(CheckoutComp, SWT.NONE);
-		lblNewLabel_10.setBounds(349, 110, 24, 15);
-		lblNewLabel_10.setText("Qty.");
-
-		ItemTotalCost = new Text(CheckoutComp, SWT.BORDER);
-		ItemTotalCost.setBounds(451, 107, 60, 21);
-
-		SubtotalText = new Text(CheckoutComp, SWT.BORDER);
-		SubtotalText.setBounds(451, 218, 60, 21);
-
-		TaxText = new Text(CheckoutComp, SWT.BORDER);
-		TaxText.setBounds(451, 245, 60, 21);
-
-		Label lblNewLabel_11 = new Label(CheckoutComp, SWT.NONE);
-		lblNewLabel_11.setBounds(390, 224, 55, 15);
-		lblNewLabel_11.setText("Subtotal:");
-
-		Label lblNewLabel_11_1 = new Label(CheckoutComp, SWT.NONE);
-		lblNewLabel_11_1.setText("Tax(7.5%)");
-		lblNewLabel_11_1.setBounds(390, 251, 55, 15);
-
-		Label lblNewLabel_11_1_1 = new Label(CheckoutComp, SWT.NONE);
-		lblNewLabel_11_1_1.setText("Total:");
-		lblNewLabel_11_1_1.setBounds(390, 276, 55, 15);
-
-		CartTotalText = new Text(CheckoutComp, SWT.BORDER);
-		CartTotalText.setBounds(451, 272, 60, 21);
-
-		Button btnNewButton = new Button(CheckoutComp, SWT.NONE);
-		btnNewButton.setBounds(436, 318, 75, 25);
-		btnNewButton.setText("Checkout");
-
-		Button btnClearCart = new Button(CheckoutComp, SWT.NONE);
-		btnClearCart.setText("Clear Cart");
-		btnClearCart.setBounds(354, 318, 75, 25);
+		
+				Label lblNewLabel_10 = new Label(CheckoutComp, SWT.NONE);
+				lblNewLabel_10.setBounds(256, 168, 22, 15);
+				lblNewLabel_10.setText("Qty.");
+				
+				Composite composite_1 = new Composite(CheckoutComp, SWT.NONE);
+				composite_1.setBounds(63, 136, 387, 165);
+				composite_1.setLayout(new GridLayout(5, false));
+				
+						TireDescriptionText = new Text(composite_1, SWT.BORDER);
+						
+								Button button_1_2 = new Button(composite_1, SWT.NONE);
+								button_1_2.setText("-");
+								button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
+								
+										QuantityText = new Text(composite_1, SWT.BORDER);
+										
+												Button button_1_1_1 = new Button(composite_1, SWT.NONE);
+												button_1_1_1.setText("+");
+												button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
+												
+														ItemTotalCost = new Text(composite_1, SWT.BORDER);
+		
+		Composite composite = new Composite(CartComposite, SWT.NONE);
+		composite.setLayout(new GridLayout(2, false));
+				
+						Label lblNewLabel_11 = new Label(composite, SWT.NONE);
+						lblNewLabel_11.setText("Subtotal:");
+						
+								SubtotalText = new Text(composite, SWT.BORDER);
+										
+												Label lblNewLabel_11_1 = new Label(composite, SWT.NONE);
+												lblNewLabel_11_1.setText("Tax(7.5%)");
+										
+												TaxText = new Text(composite, SWT.BORDER);
+														
+																Label lblNewLabel_11_1_1 = new Label(composite, SWT.NONE);
+																lblNewLabel_11_1_1.setText("Total:");
+														
+																CartTotalText = new Text(composite, SWT.BORDER);
+																		
+																				Button btnClearCart = new Button(composite, SWT.NONE);
+																				btnClearCart.setText("Clear Cart");
+																		
+																				Button btnNewButton = new Button(composite, SWT.NONE);
+																				btnNewButton.setText("Checkout");
+																																						
+																																						Composite composite_2 = new Composite(CartComposite, SWT.NONE);
+																																						composite_2.setLayout(new FormLayout());
+																																						
+																																						table_2 = new Table(composite_2, SWT.BORDER | SWT.FULL_SELECTION);
+																																						FormData fd_table_2 = new FormData();
+																																						fd_table_2.top = new FormAttachment(0, 157);
+																																						fd_table_2.left = new FormAttachment(0, 60);
+																																						fd_table_2.bottom = new FormAttachment(0, 246);
+																																						fd_table_2.right = new FormAttachment(0, 374);
+																																						table_2.setLayoutData(fd_table_2);
+																																						table_2.setHeaderVisible(true);
+																																						table_2.setLinesVisible(true);
+																																						
+																																						TableColumn tblclmnColumn = new TableColumn(table_2, SWT.NONE);
+																																						tblclmnColumn.setWidth(100);
+																																						tblclmnColumn.setText("column 1");
+																																						
+																																						TableColumn tblclmnColumn_1 = new TableColumn(table_2, SWT.NONE);
+																																						tblclmnColumn_1.setWidth(100);
+																																						tblclmnColumn_1.setText("column 2");
+																																						
+																																						TableColumn tblclmnColumn_2 = new TableColumn(table_2, SWT.NONE);
+																																						tblclmnColumn_2.setWidth(100);
+																																						tblclmnColumn_2.setText("column 3");
+																																						
+																																						TableItem tableItem = new TableItem(table_2, SWT.NONE);
+																																						tableItem.setText("New TableItem");
+																																						
+																																						TableItem tableItem_1 = new TableItem(table_2, SWT.NONE);
+																																						tableItem_1.setText("New TableItem");
+																																						
+																																						TableItem tableItem_2 = new TableItem(table_2, SWT.NONE);
+																																						tableItem_2.setText("New TableItem");
+																																						
+																																								Button btnXSearchAccount_1 = new Button(composite_2, SWT.NONE);
+																																								FormData fd_btnXSearchAccount_1 = new FormData();
+																																								fd_btnXSearchAccount_1.top = new FormAttachment(0, 179);
+																																								fd_btnXSearchAccount_1.right = new FormAttachment(table_2, -10);
+																																								fd_btnXSearchAccount_1.left = new FormAttachment(0);
+																																								btnXSearchAccount_1.setLayoutData(fd_btnXSearchAccount_1);
+																																								btnXSearchAccount_1.setText("X");
+																								
+																										btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
+																											@Override
+																											public void widgetSelected(SelectionEvent e) {
+																												System.out.println("Button : Close Cart Item");
+																												TireDescriptionText.setText(" ");
+																												ItemTotalCost.setText(" ");
+																												QuantityText.setText(" ");
+																											}
+																										});
 
 		TabItem tbtmNewItem_3 = new TabItem(tabFolder, 0);
 		tbtmNewItem_3.setText("Inventory");
@@ -986,16 +1028,6 @@ public class GenerateUI {
 		Button btnXSpecificWorkOrders = new Button(specificWorkOrders, SWT.NONE);
 		btnXSpecificWorkOrders.setBounds(382, 10, 21, 21);
 		btnXSpecificWorkOrders.setText("X");
-
-		btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Close Cart Item");
-				TireDescriptionText.setText(" ");
-				ItemTotalCost.setText(" ");
-				QuantityText.setText(" ");
-			}
-		});
 
 		btnSearchCust.addSelectionListener(new SelectionAdapter() {
 			@Override
