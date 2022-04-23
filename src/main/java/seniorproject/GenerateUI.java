@@ -504,7 +504,8 @@ public class GenerateUI {
 		ProdBtnSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventory("onti", "", "", "", true));
+				productsTable.clearAll();
+				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
 			}
 		});
 		ProdBtnSearch.setText("Search");
@@ -647,6 +648,14 @@ public class GenerateUI {
 
 		Button ProdBtnSearchInventory = new Button(SearchMenuComp_1_1, SWT.NONE);
 		ProdBtnSearchInventory.setText("Search");
+		ProdBtnSearchInventory.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				tableInv.clearAll();
+				fillTableProductsSimple(tableInv, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
+			}
+		});
+		
 		new Label(Inv2ButtonComp, SWT.NONE);
 
 		tableInv = new Table(Inv2ButtonComp, SWT.BORDER | SWT.FULL_SELECTION);

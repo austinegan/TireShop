@@ -2,6 +2,8 @@ package seniorproject.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.eclipse.swt.widgets.Combo;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -112,7 +114,47 @@ public class InventoryDao {
 		return myInventoryList;
 	}
 	
+	public static List<Inventory> generateQueryInventoryCombos(String brand, String width, String aspRatio, String diameter, Boolean expandable) {	
+		return generateQueryInventory(brand, width, aspRatio, diameter, expandable, " ORDER BY id");
+	}
+	
+	public static List<Inventory> generateQueryInventoryCombos(String brand, String width, String aspRatio, String diameter, Boolean expandable, String order) {
+		 
+		String queryString = "SELECT * FROM inventory";
+		List<Inventory> myInventoryList;
+		List<String> myList = new ArrayList<String>();
+		 if(brand != "Brand") {myList.add(" brand LIKE :bra");}
+		 if(width != "Tire Width") {myList.add(" width LIKE :wid");}
+		 if(aspRatio != "Aspect Ratio") {myList.add(" aspectratio LIKE :asp");}
+		 if(diameter != "Diameter") {myList.add(" diameter LIKE :dia");}
 
+		if(!myList.isEmpty()) {queryString += " WHERE" + myList.get(0);
+			for (int i = 1; i < myList.size(); i++) {
+				queryString += " AND" + myList.get(i);
+			}
+			queryString += order;
+			System.out.println(queryString);
+			myInventoryList = getInventory(queryString, brand, width, aspRatio, diameter);
+			if(myInventoryList.size() == 0) {
+				System.out.println("No results found.");
+				if (expandable) {
+						System.out.println(" Expanding search results.");
+				queryString = "SELECT * FROM inventory WHERE" + myList.get(0);
+				for (int i = 1; i < myList.size(); i++) {
+					queryString += " OR" + myList.get(i);
+				}
+				queryString += order;
+				System.out.println(queryString);
+				myInventoryList = getInventory(queryString, brand, width, aspRatio, diameter);
+				}
+				else {System.out.println("But expandable results are off. So that's all you get (0 results)");}
+			}
+			return myInventoryList;
+		}
+		queryString += order;
+		myInventoryList = getInventory(queryString, brand, width, aspRatio, diameter);
+		return myInventoryList;
+	}
 	
 	public static List<Inventory> getInventory(String query, String brand, String width, String aspRatio, String diameter) {
 		Transaction transaction = null;
@@ -135,7 +177,6 @@ public class InventoryDao {
 			return null;
 		}
 	}
-	
 	
 	public static List<Inventory> getInventory(String query) {
 		Transaction transaction = null;
