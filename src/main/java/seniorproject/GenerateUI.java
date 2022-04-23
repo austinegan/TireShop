@@ -525,7 +525,7 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				productsTable.clearAll();
-				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(),
+				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(),
 						WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
 			}
 		});
@@ -652,9 +652,9 @@ public class GenerateUI {
 																																						
 																																								Button btnXSearchAccount_1 = new Button(composite_2, SWT.NONE);
 																																								FormData fd_btnXSearchAccount_1 = new FormData();
-																																								fd_btnXSearchAccount_1.top = new FormAttachment(0, 179);
-																																								fd_btnXSearchAccount_1.right = new FormAttachment(table_2, -10);
-																																								fd_btnXSearchAccount_1.left = new FormAttachment(0);
+																																								fd_btnXSearchAccount_1.right = new FormAttachment(table_2);
+																																								fd_btnXSearchAccount_1.top = new FormAttachment(0, 177);
+																																								fd_btnXSearchAccount_1.left = new FormAttachment(0, 10);
 																																								btnXSearchAccount_1.setLayoutData(fd_btnXSearchAccount_1);
 																																								btnXSearchAccount_1.setText("X");
 																								
@@ -713,7 +713,7 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				tableInv.clearAll();
-				fillTableProductsSimple(tableInv, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(),
+				fillTableProductsSimple(tableInv, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(),
 						WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
 			}
 		});
