@@ -148,7 +148,6 @@ public class GenerateUI {
 		Display display = Display.getDefault();
 		createContents();
 		fillTableProductsSimple(productsTable, InventoryDao.getAllInventory());
-		;
 		fillTableProductsExtensive(tableInv, InventoryDao.getAllInventory());
 		shell.open();
 		shell.layout();
@@ -399,10 +398,7 @@ public class GenerateUI {
 								newPhone.setText("");
 								newAddress.setText("");
 								newEmail.setText("");
-				//								newNameError.setText("");
-				//								newPhoneError.setText("");
-				//								newAddressError.setText("");
-				//								newEmailError.setText("");
+								NewCustomerError.setText("");
 							}
 						});
 		new Label(NewAcctComp, SWT.NONE);
@@ -505,7 +501,7 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				productsTable.clearAll();
-				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
+				fillTableProductsSimple(productsTable, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(), WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
 			}
 		});
 		ProdBtnSearch.setText("Search");
@@ -652,13 +648,14 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				tableInv.clearAll();
-				fillTableProductsSimple(tableInv, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
+				fillTableProductsExtensive(tableInv, InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(), WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
 			}
 		});
 		
 		new Label(Inv2ButtonComp, SWT.NONE);
 
 		tableInv = new Table(Inv2ButtonComp, SWT.BORDER | SWT.FULL_SELECTION);
+		tableInv.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
 		tableInv.setHeaderVisible(true);
 		tableInv.setLinesVisible(true);
 
@@ -1043,6 +1040,7 @@ public class GenerateUI {
 	
 	public void fillBrandCombo(List<Inventory> myInventory, Combo brand) {
 		ArrayList<String> brandList = new ArrayList<String>();
+		brand.add("Brand");
 		for (Inventory inv : myInventory) {
 			if (!brandList.contains(inv.getBrand())) {
 				brand.add(inv.getBrand());
@@ -1053,6 +1051,7 @@ public class GenerateUI {
 	
 	public void fillModelCombo(List<Inventory> myInventory, Combo model) {
 		ArrayList<String> modelList = new ArrayList<String>();
+		model.add("Model");
 		for (Inventory inv : myInventory) {
 			if (!modelList.contains(inv.getModel_number())) {
 				model.add(inv.getModel_number());
@@ -1063,6 +1062,7 @@ public class GenerateUI {
 	
 	public void fillWidthCombo(List<Inventory> myInventory, Combo width) {
 		ArrayList<String> widthList = new ArrayList<String>();
+		width.add("Tire Width");
 		for (Inventory inv : myInventory) {
 			if (!widthList.contains(Integer.toString(inv.getWidth()))) {
 				width.add(Integer.toString(inv.getWidth()));
@@ -1073,6 +1073,7 @@ public class GenerateUI {
 	
 	public void fillAspectRatioCombo(List<Inventory> myInventory, Combo aspectRatio) {
 		ArrayList<String> aspectRatioList = new ArrayList<String>();
+		aspectRatio.add("Aspect Ratio");
 		for (Inventory inv : myInventory) {
 			if (!aspectRatioList.contains(Integer.toString(inv.getAspectratio()))) {
 				aspectRatio.add(Integer.toString(inv.getAspectratio()));
@@ -1083,6 +1084,7 @@ public class GenerateUI {
 	
 	public void fillDiameterCombo(List<Inventory> myInventory, Combo diameter) {
 		ArrayList<String> diameterList = new ArrayList<String>();
+		diameter.add("Diameter");
 		for (Inventory inv : myInventory) {
 			if (!diameterList.contains(Integer.toString(inv.getDiameter()))) {
 				diameter.add(Integer.toString(inv.getDiameter()));
