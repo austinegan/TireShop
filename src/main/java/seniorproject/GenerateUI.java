@@ -1100,84 +1100,33 @@ public class GenerateUI {
 			tableItem.setText(new String[] { String.valueOf(ord.getNumber()), myMap.get(ord.getCustomer_id()).getName(),ord.getTime_create().toString(), ord.getTime_update().toString(), ord.getNote() });
 		}
 	}
-	
-	
 
-	public void fillCombo(List<String> dropdownStrings, Combo combo) {
+	public void fillCombo(List<String> dropdownStrings, Combo combo, String comboName) {
+		combo.add(comboName);
 		for (String option : dropdownStrings) {
 			combo.add(option);
 		}
 	}
 
 	public void fillProductCombos() {
-		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandCombo);
-		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelCombo);
-		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthCombo);
-		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioCombo);
-		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterCombo);
+		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandCombo, "Brand");
+		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelCombo, "Model");
+		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthCombo, "Tire Width");
+		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioCombo, "Aspect Ratio");
+		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterCombo, "Diameter");
 	}
 
 	public void fillInventoryCombos() {
-		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandComboInventory);
-		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelComboInventory);
-		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthComboInventory);
-		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioComboInventory);
-		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterComboInventory);
+		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandComboInventory, "Brand");
+		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelComboInventory, "Model");
+		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthComboInventory, "Tire Width");
+		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioComboInventory, "Aspect Ratio");
+		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterComboInventory, "Diameter");
 	}
 
 	public void fillAllCombos() {
 		fillProductCombos();
 		fillInventoryCombos();
-	}
-
-	public void fillBrandCombo(List<Inventory> myInventory, Combo brand) {
-		ArrayList<String> brandList = new ArrayList<String>();
-		for (Inventory inv : myInventory) {
-			if (!brandList.contains(inv.getBrand())) {
-				brand.add(inv.getBrand());
-				brandList.add(inv.getBrand());
-			}
-		}
-	}
-
-	public void fillModelCombo(List<Inventory> myInventory, Combo model) {
-		ArrayList<String> modelList = new ArrayList<String>();
-		for (Inventory inv : myInventory) {
-			if (!modelList.contains(inv.getModel_number())) {
-				model.add(inv.getModel_number());
-				modelList.add(inv.getModel_number());
-			}
-		}
-	}
-
-	public void fillWidthCombo(List<Inventory> myInventory, Combo width) {
-		ArrayList<String> widthList = new ArrayList<String>();
-		for (Inventory inv : myInventory) {
-			if (!widthList.contains(Integer.toString(inv.getWidth()))) {
-				width.add(Integer.toString(inv.getWidth()));
-				widthList.add(Integer.toString(inv.getWidth()));
-			}
-		}
-	}
-
-	public void fillAspectRatioCombo(List<Inventory> myInventory, Combo aspectRatio) {
-		ArrayList<String> aspectRatioList = new ArrayList<String>();
-		for (Inventory inv : myInventory) {
-			if (!aspectRatioList.contains(Integer.toString(inv.getAspectratio()))) {
-				aspectRatio.add(Integer.toString(inv.getAspectratio()));
-				aspectRatioList.add(Integer.toString(inv.getAspectratio()));
-			}
-		}
-	}
-
-	public void fillDiameterCombo(List<Inventory> myInventory, Combo diameter) {
-		ArrayList<String> diameterList = new ArrayList<String>();
-		for (Inventory inv : myInventory) {
-			if (!diameterList.contains(Integer.toString(inv.getDiameter()))) {
-				diameter.add(Integer.toString(inv.getDiameter()));
-				diameterList.add(Integer.toString(inv.getDiameter()));
-			}
-		}
 	}
 
 	public void fillCartItemsGridLayout() {
