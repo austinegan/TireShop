@@ -10,8 +10,9 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import seniorproject.model.Customer;
+import seniorproject.model.Employee;
 import seniorproject.model.Inventory;
-import seniorproject.model.Order;
+import seniorproject.model.WorkOrder;
 
 public class HibernateUtil {
 	private static SessionFactory sessionFactory;
@@ -33,6 +34,8 @@ public class HibernateUtil {
 				configuration.setProperties(settings);
 				configuration.addAnnotatedClass(Inventory.class);
 				configuration.addAnnotatedClass(Customer.class);
+				configuration.addAnnotatedClass(WorkOrder.class);
+				configuration.addAnnotatedClass(Employee.class);
 				
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();

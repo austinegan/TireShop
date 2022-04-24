@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name = "order")
-public class Order implements Serializable {
+public class WorkOrder implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
@@ -27,30 +27,30 @@ public class Order implements Serializable {
 	@Column
 	private int customer_id;
 	
-
 	@Column
 	private String note;
 	
-
-
+	@Column
+	private java.sql.Timestamp time_create;
 	
+	@Column
+	private java.sql.Timestamp time_update_status;
 
-	
-	public Order(int number, String total_cost, String status, int customer_id,
-			String note) {
+	public WorkOrder() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public WorkOrder(int number, String total_cost, String status, int customer_id, String note, Timestamp time_create,
+			Timestamp time_update) {
 		super();
 		this.number = number;
-
 		this.total_cost = total_cost;
 		this.status = status;
 		this.customer_id = customer_id;
 		this.note = note;
-	}
-	
-	
-	
-	public Order() {
-		super();
+		this.time_create = time_create;
+		this.time_update_status = time_update;
 	}
 
 	public int getNumber() {
@@ -76,15 +76,7 @@ public class Order implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	public String getNote() {
-		return note;
-	}
 
-	public void setNote(String note) {
-		this.note = note;
-	}
-	
 	public int getCustomer_id() {
 		return customer_id;
 	}
@@ -93,4 +85,27 @@ public class Order implements Serializable {
 		this.customer_id = customer_id;
 	}
 
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public java.sql.Timestamp getTime_create() {
+		return time_create;
+	}
+
+	public void setTime_create(java.sql.Timestamp time_create) {
+		this.time_create = time_create;
+	}
+
+	public java.sql.Timestamp getTime_update() {
+		return time_update_status;
+	}
+
+	public void setTime_update(java.sql.Timestamp time_update) {
+		this.time_update_status = time_update;
+	}
 }

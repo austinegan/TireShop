@@ -7,15 +7,15 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import seniorproject.model.Inventory;
-import seniorproject.model.Order;
+import seniorproject.model.WorkOrder;
 import seniorproject.util.HibernateUtil;
 
-public class OrderDao {
-	public static Order getOrder(int id) {
+public class WorkOrderDao {
+	public static WorkOrder getOrder(int id) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			Order order = session.get(Order.class, id);
+			WorkOrder order = session.get(WorkOrder.class, id);
 			transaction.commit();
 			return order;
 		} catch (Exception e) {
@@ -27,13 +27,13 @@ public class OrderDao {
 		}
 	}
 	
-	public static List<Order> getAllOrders(String orderBy) {
+	public static List<WorkOrder> getAllOrders(String orderBy) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			List<Order> order = session.createNativeQuery("SELECT * FROM order", Order.class).getResultList();
+			List<WorkOrder> theseOrders = session.createNativeQuery("SELECT * FROM work_order", WorkOrder.class).getResultList();
 			transaction.commit();
-			return order;
+			return theseOrders;
 		} catch (Exception e) {
 			if (transaction != null) {
 //				transaction.rollback();
@@ -42,5 +42,5 @@ public class OrderDao {
 			return null;
 		}
 	}
-	public static List<Order> getAllOrders() {return getAllOrders("");}
+	public static List<WorkOrder> getAllOrders() {return getAllOrders("");}
 }

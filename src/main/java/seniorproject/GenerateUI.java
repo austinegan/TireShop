@@ -33,11 +33,11 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.hibernate.Session;
 
 import seniorproject.dao.InventoryDao;
-import seniorproject.dao.OrderDao;
+import seniorproject.dao.WorkOrderDao;
 import seniorproject.dao.CustomerDao;
 import seniorproject.model.Customer;
 import seniorproject.model.Inventory;
-import seniorproject.model.Order;
+import seniorproject.model.WorkOrder;
 import seniorproject.util.HibernateUtil;
 
 //import net.proteanit.sql.DbUtils;
@@ -84,7 +84,7 @@ public class GenerateUI {
 	private static String[] customerColumns;
 	private static String[] cartColumns;
 	private static String[] workOrderColumns;
-	
+
 	private Text addInvError;
 	private Text NewCustomerError;
 	private Table customerTable;
@@ -97,7 +97,7 @@ public class GenerateUI {
 	private static List<Inventory> productsPageList;
 	private static List<Inventory> cartPageList;
 	private static List<Inventory> InvPageList;
-	private static List<Order> workOrdersPageList;
+	private static List<WorkOrder> workOrdersPageList;
 
 	private List<String> brandList;
 	private List<String> modelList;
@@ -165,8 +165,8 @@ public class GenerateUI {
 		someProductColumns = new String[] { "Brand", "Model", "Size", "Quantity", "Sale Price" };
 		customerColumns = new String[] { "Name", "Phone", "Address", "Email" };
 		cartColumns = new String[] { "Brand", "Model", "Size", "Sale Price" };
-		cartPageList = InventoryDao.generateQueryInventory("Michelin", "", "", "", "", true);
-		workOrderColumns = new String[] {"Customer Name", "Time Created", "Time Updated", "Note"};
+
+		workOrderColumns = new String[] { "Order Num.", "Customer Name", "Time Created", "Time Updated", "Note" };
 	}
 
 	/**
@@ -175,10 +175,11 @@ public class GenerateUI {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
+
 		fillTableProductsSimple(productsTable, InventoryDao.getAllInventory());
 		fillTableProductsExtensive(tableInv, InventoryDao.getAllInventory());
-//		fillOrderTable(tablePending, OrderDao.getAllOrders(" ORDER BY create_time ASC"));
-//		fillOrderTable(tableCompleted, OrderDao.getAllOrders(" ORDER BY alter_time DESC"));
+		fillOrderTable(tablePending, WorkOrderDao.getAllOrders(" ORDER BY create_time ASC"));
+		fillOrderTable(tableCompleted, WorkOrderDao.getAllOrders(" ORDER BY alter_time DESC"));
 		fillAllCombos();
 		shell.open();
 		shell.layout();
@@ -616,60 +617,59 @@ public class GenerateUI {
 		cartItemsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		cartItemsComp.setLayout(new GridLayout(9, false));
 		new Label(cartItemsComp, SWT.NONE);
-		
+
 		txtBrand = new Text(cartItemsComp, SWT.BORDER);
 		txtBrand.setText("Brand");
 		txtBrand.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 		txtModel = new Text(cartItemsComp, SWT.BORDER);
 		txtModel.setText("Model");
 		txtModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 		txtSize = new Text(cartItemsComp, SWT.BORDER);
 		txtSize.setText("Size");
 		txtSize.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+
 		txtPurchasePrice = new Text(cartItemsComp, SWT.BORDER);
 		txtPurchasePrice.setText("Purchase Price");
 		txtPurchasePrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-				new Label(cartItemsComp, SWT.NONE);
-				new Label(cartItemsComp, SWT.NONE);
-				new Label(cartItemsComp, SWT.NONE);
-				new Label(cartItemsComp, SWT.NONE);
-		
-				Button btnXSearchAccount_1 = new Button(cartItemsComp, SWT.NONE);
-				btnXSearchAccount_1.setText("X");
-				
-						btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								System.out.println("Button : Close Cart Item");
-								//TireDescriptionText.setText(" ");
-								ItemTotalCost.setText(" ");
-								QuantityText.setText(" ");
-							}
-						});
-				new Label(cartItemsComp, SWT.NONE);
-				new Label(cartItemsComp, SWT.NONE);
-				new Label(cartItemsComp, SWT.NONE);
-				new Label(cartItemsComp, SWT.NONE);
-		
-				Button button_1_2 = new Button(cartItemsComp, SWT.NONE);
-				button_1_2.setText("-");
-				button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
-		
-				QuantityText = new Text(cartItemsComp, SWT.BORDER);
-		
-				Button button_1_1_1 = new Button(cartItemsComp, SWT.NONE);
-				button_1_1_1.setText("+");
-				button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
-		
-				ItemTotalCost = new Text(cartItemsComp, SWT.BORDER);
-		
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+
+		Button btnXSearchAccount_1 = new Button(cartItemsComp, SWT.NONE);
+		btnXSearchAccount_1.setText("X");
+
+		btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Close Cart Item");
+				// TireDescriptionText.setText(" ");
+				ItemTotalCost.setText(" ");
+				QuantityText.setText(" ");
+			}
+		});
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+
+		Button button_1_2 = new Button(cartItemsComp, SWT.NONE);
+		button_1_2.setText("-");
+		button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
+
+		QuantityText = new Text(cartItemsComp, SWT.BORDER);
+
+		Button button_1_1_1 = new Button(cartItemsComp, SWT.NONE);
+		button_1_1_1.setText("+");
+		button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
+
+		ItemTotalCost = new Text(cartItemsComp, SWT.BORDER);
+		// TODO remove below line
+		cartPageList = InventoryDao.generateQueryInventory("Michelin", "", "", "", "", true);
 		fillCartItemsGridLayout();
-		
-		
-		
+
 		TabItem tbtmNewItem_3 = new TabItem(tabFolder, 0);
 		tbtmNewItem_3.setText("Inventory");
 
@@ -960,37 +960,36 @@ public class GenerateUI {
 		Composite WorkOrderComposite = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_4.setControl(WorkOrderComposite);
 		WorkOrderComposite.setLayout(new GridLayout(1, false));
-		
+
 		TabFolder tabFolder_1 = new TabFolder(WorkOrderComposite, SWT.BOTTOM);
 		tabFolder_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		
+
 		TabItem tbtmPending = new TabItem(tabFolder_1, SWT.NONE);
 		tbtmPending.setText("Pending");
-		
+
 		Composite composite_2 = new Composite(tabFolder_1, SWT.NONE);
 		tbtmPending.setControl(composite_2);
 		composite_2.setLayout(new GridLayout(1, false));
-		
+
 		tablePending = new Table(composite_2, SWT.BORDER | SWT.FULL_SELECTION);
 		tablePending.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tablePending.setHeaderVisible(true);
 		tablePending.setLinesVisible(true);
-		
+
 		TabItem tbtmCompleted = new TabItem(tabFolder_1, SWT.NONE);
 		tbtmCompleted.setText("Completed");
-		
+
 		Composite composite_3 = new Composite(tabFolder_1, SWT.NONE);
 		tbtmCompleted.setControl(composite_3);
 		composite_3.setLayout(new GridLayout(1, false));
-		
+
 		tableCompleted = new Table(composite_3, SWT.BORDER | SWT.FULL_SELECTION);
 		tableCompleted.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tableCompleted.setHeaderVisible(true);
 		tableCompleted.setLinesVisible(true);
-		
+
 		createAndNameColumns(tablePending, workOrderColumns);
 		createAndNameColumns(tableCompleted, workOrderColumns);
-		
 
 		Composite specificWorkOrders = new Composite(WorkOrderComposite, SWT.NONE);
 		specificWorkOrders.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
@@ -1089,18 +1088,20 @@ public class GenerateUI {
 					String.valueOf(inv.getAspectratio()), String.valueOf(inv.getDiameter()) });
 		}
 	}
-	
-	public void fillOrderTable(Table table, List<Order> myOrders){
+
+	public void fillOrderTable(Table table, List<WorkOrder> myOrders) {
 		Map<Integer, Customer> myMap = new HashMap();
 		List<Customer> myCustomers = CustomerDao.getAllCustomer();
-		for(Customer cust : myCustomers) {
+		for (Customer cust : myCustomers) {
 			myMap.put(cust.getId(), cust);
 		}
-		for(Order ord : myOrders) {
+		for (WorkOrder ord : myOrders) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
-			tableItem.setText(new String[] {String.valueOf(ord.getNumber()), myMap.get(ord.getCustomer_id()).getName(), ord.getNote()});
+			tableItem.setText(new String[] { String.valueOf(ord.getNumber()), myMap.get(ord.getCustomer_id()).getName(),ord.getTime_create().toString(), ord.getTime_update().toString(), ord.getNote() });
 		}
 	}
+	
+	
 
 	public void fillCombo(List<String> dropdownStrings, Combo combo) {
 		for (String option : dropdownStrings) {
@@ -1178,11 +1179,13 @@ public class GenerateUI {
 			}
 		}
 	}
-	
+
 	public void fillCartItemsGridLayout() {
-		//cartItemsComp = null;
+		// cartItemsComp = null;
 		// myLabel = new Text();
-		for(Control con : cartItemsComp.getChildren()) { con.dispose(); }
+		for (Control con : cartItemsComp.getChildren()) {
+			con.dispose();
+		}
 		new Label(cartItemsComp, SWT.NONE);
 		new Label(cartItemsComp, SWT.NONE).setText("Brand");
 		new Label(cartItemsComp, SWT.NONE).setText("Model");
@@ -1193,22 +1196,23 @@ public class GenerateUI {
 		new Label(cartItemsComp, SWT.NONE);
 		new Label(cartItemsComp, SWT.NONE);
 		for (Inventory inv : cartPageList) {
-			//x button
+			// x button
 			Button btnXSearchAccount_1 = new Button(cartItemsComp, SWT.NONE);
 			btnXSearchAccount_1.setText("X");
 			btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					//TODO confirmation dialogue
+					// TODO confirmation dialogue
 					cartPageList.remove(inv);
 					fillCartItemsGridLayout();
-				}});
-			
+				}
+			});
+
 			new Label(cartItemsComp, SWT.NONE).setText(inv.getBrand());
 			new Label(cartItemsComp, SWT.NONE).setText(inv.getModel_number());
 			new Label(cartItemsComp, SWT.NONE).setText(inv.getSize());
 			new Label(cartItemsComp, SWT.NONE).setText(String.valueOf(inv.getSale_price()));
-			
+
 			Button cartItemsMinus = new Button(cartItemsComp, SWT.NONE);
 			cartItemsMinus.setText("-");
 			Text QuantityText = new Text(cartItemsComp, SWT.BORDER);
@@ -1217,35 +1221,36 @@ public class GenerateUI {
 			cartItemsPlus.setText("+");
 			Text ItemTotalCost = new Text(cartItemsComp, SWT.BORDER);
 			ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
-			
+
 			cartItemsMinus.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					//TODO check that we can actually reduce, , possibly use logic structure from ProductList
+					// TODO check that we can actually reduce, , possibly use logic structure from ProductList
 					inv.setCount(inv.getCount() - 1);
 					QuantityText.setText(String.valueOf(inv.getCount()));
 					ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
-				}});			
+				}
+			});
 			cartItemsPlus.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					//TODO check that we can actually increase, possibly use logic structure from ProductList
+					// TODO check that we can actually increase, possibly use logic structure from ProductList
 					inv.setCount(inv.getCount() + 1);
 					QuantityText.setText(String.valueOf(inv.getCount()));
 					ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
-				}});
-	
-			
-			//rightSide
-		} //end for loop
+				}
+			});
+
+			// rightSide
+		} // end for loop
 		cartItemsComp.layout();
 	}
+
 	public void cartItemsHeaders() {
-		
-	
+
 	}
-	
+
 	public void cartItemsAddRightSide() {
-		
+
 	}
 }
