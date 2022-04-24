@@ -178,8 +178,8 @@ public class GenerateUI {
 
 		fillTableProductsSimple(productsTable, InventoryDao.getAllInventory());
 		fillTableProductsExtensive(tableInv, InventoryDao.getAllInventory());
-		fillOrderTable(tablePending, WorkOrderDao.getAllOrders(" ORDER BY create_time ASC"));
-		fillOrderTable(tableCompleted, WorkOrderDao.getAllOrders(" ORDER BY alter_time DESC"));
+		fillOrderTable(tablePending, WorkOrderDao.getAllOrders(" ORDER BY time_create ASC"));
+		fillOrderTable(tableCompleted, WorkOrderDao.getAllOrders(" ORDER BY time_update_status DESC"));
 		fillAllCombos();
 		shell.open();
 		shell.layout();
@@ -1090,14 +1090,15 @@ public class GenerateUI {
 	}
 
 	public void fillOrderTable(Table table, List<WorkOrder> myOrders) {
-		Map<Integer, Customer> myMap = new HashMap();
-		List<Customer> myCustomers = CustomerDao.getAllCustomer();
-		for (Customer cust : myCustomers) {
-			myMap.put(cust.getId(), cust);
-		}
+//		Map<Integer, Customer> myMap = new HashMap();
+//		List<Customer> myCustomers = CustomerDao.getAllCustomer();
+//		for (Customer cust : myCustomers) {
+//			myMap.put(cust.getId(), cust);
+//		}
+		// myMap.get(ord.getCustomer_id()).getName()
 		for (WorkOrder ord : myOrders) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
-			tableItem.setText(new String[] { String.valueOf(ord.getNumber()), myMap.get(ord.getCustomer_id()).getName(),ord.getTime_create().toString(), ord.getTime_update().toString(), ord.getNote() });
+			tableItem.setText(new String[] { String.valueOf(ord.getNumber()), ord.getCust().getName(), ord.getTime_create().toString(), ord.getTime_update().toString(), ord.getNote() });
 		}
 	}
 	

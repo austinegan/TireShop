@@ -2,15 +2,19 @@ package seniorproject.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table (name = "customer")
@@ -43,6 +47,10 @@ public class Customer implements Serializable {
 	
 	@Column
 	private java.sql.Timestamp last_update;
+	
+
+	@OneToMany(mappedBy="cust")
+	private Set<WorkOrder> orders;
 	
 	public Customer() {
 		super();

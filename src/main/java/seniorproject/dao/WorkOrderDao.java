@@ -31,7 +31,7 @@ public class WorkOrderDao {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			List<WorkOrder> theseOrders = session.createNativeQuery("SELECT * FROM work_order", WorkOrder.class).getResultList();
+			List<WorkOrder> theseOrders = session.createNativeQuery("SELECT * FROM work_order" + orderBy, WorkOrder.class).getResultList();
 			transaction.commit();
 			return theseOrders;
 		} catch (Exception e) {

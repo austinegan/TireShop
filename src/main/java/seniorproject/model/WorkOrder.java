@@ -8,10 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "order")
+@Table (name = "work_order")
 public class WorkOrder implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,8 +27,8 @@ public class WorkOrder implements Serializable {
 	@Column
 	private String status;
 	
-	@Column
-	private int customer_id;
+//	@Column
+//	private int customer_id;
 	
 	@Column
 	private String note;
@@ -35,6 +38,12 @@ public class WorkOrder implements Serializable {
 	
 	@Column
 	private java.sql.Timestamp time_update_status;
+	
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Customer cust;
+
+
 
 	public WorkOrder() {
 		super();
@@ -47,7 +56,7 @@ public class WorkOrder implements Serializable {
 		this.number = number;
 		this.total_cost = total_cost;
 		this.status = status;
-		this.customer_id = customer_id;
+		//this.customer_id = customer_id;
 		this.note = note;
 		this.time_create = time_create;
 		this.time_update_status = time_update;
@@ -77,13 +86,13 @@ public class WorkOrder implements Serializable {
 		this.status = status;
 	}
 
-	public int getCustomer_id() {
-		return customer_id;
-	}
-
-	public void setCustomer_id(int customer_id) {
-		this.customer_id = customer_id;
-	}
+//	public int getCustomer_id() {
+//		return customer_id;
+//	}
+//
+//	public void setCustomer_id(int customer_id) {
+//		this.customer_id = customer_id;
+//	}
 
 	public String getNote() {
 		return note;
@@ -107,5 +116,13 @@ public class WorkOrder implements Serializable {
 
 	public void setTime_update(java.sql.Timestamp time_update) {
 		this.time_update_status = time_update;
+	}
+	
+	public Customer getCust() {
+		return cust;
+	}
+
+	public void setCust(Customer cust) {
+		this.cust = cust;
 	}
 }
