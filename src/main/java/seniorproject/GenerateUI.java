@@ -322,8 +322,8 @@ public class GenerateUI {
 				customerTable.clearAll();
 				// fillTableCustomer(customerTable, CustomerDao.getAllCustomer());
 				// fillTableCustomer(customerTable, CustomerDao.getCustomerTestNamedParametersNative(searchName.getText(), searchPhone.getText(), searchAddress.getText(), searchEmail.getText(), "AND"));
-				customerPageList = CustomerDao.generateQueryCustomer(searchName.getText(), searchAddress.getText(),
-						searchPhone.getText(), searchEmail.getText(), true);
+				customerPageList = CustomerDao.generateQueryCustomer(searchName.getText(), searchPhone.getText(), 
+						searchAddress.getText(), searchEmail.getText(), true);
 				fillTableCustomer(customerTable, customerPageList);
 			}
 		});
