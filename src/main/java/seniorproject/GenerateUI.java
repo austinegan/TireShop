@@ -33,10 +33,12 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.hibernate.Session;
 
 import seniorproject.dao.InventoryDao;
+import seniorproject.dao.OrderProductDetailsDao;
 import seniorproject.dao.WorkOrderDao;
 import seniorproject.dao.CustomerDao;
 import seniorproject.model.Customer;
 import seniorproject.model.Inventory;
+import seniorproject.model.OrderProductDetails;
 import seniorproject.model.WorkOrder;
 import seniorproject.util.HibernateUtil;
 
@@ -74,9 +76,7 @@ public class GenerateUI {
 	private Text TaxText;
 	private Text CartTotalText;
 	int plusCounter = 0;
-	private Text txtCustomer;
-	private Text txtPhoneNumber;
-	private Table table_1;
+	private Table orderDetailsTable;
 	private Table productsTable;
 
 	private static String[] allProductColumns;
@@ -84,6 +84,7 @@ public class GenerateUI {
 	private static String[] customerColumns;
 	private static String[] cartColumns;
 	private static String[] workOrderColumns;
+	private static String[] ordProdColumns;
 
 	private Text addInvError;
 	private Text NewCustomerError;
@@ -98,6 +99,10 @@ public class GenerateUI {
 	private static List<Inventory> cartPageList;
 	private static List<Inventory> InvPageList;
 	private static List<WorkOrder> workOrdersPageList;
+	
+	private static List<Customer> allCustomers;
+	private static List<Inventory> allInventory;
+	private static List<WorkOrder> allWorkOrders;
 
 	private List<String> brandList;
 	private List<String> modelList;
@@ -142,6 +147,7 @@ public class GenerateUI {
 	private Composite cartItemsComp;
 	private Table tablePending;
 	private Table tableCompleted;
+	private Text textOrderNote;
 
 	/**
 	 * Launch the application.
@@ -165,8 +171,8 @@ public class GenerateUI {
 		someProductColumns = new String[] { "Brand", "Model", "Size", "Quantity", "Sale Price" };
 		customerColumns = new String[] { "Name", "Phone", "Address", "Email" };
 		cartColumns = new String[] { "Brand", "Model", "Size", "Sale Price" };
-
 		workOrderColumns = new String[] { "Order Num.", "Customer Name", "Time Created", "Time Updated", "Note" };
+		ordProdColumns = new String[] { "Brand", "Model Number", "Size", "Count"};
 	}
 
 	/**
@@ -175,7 +181,11 @@ public class GenerateUI {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-
+		
+//		Customer mycust = CustomerDao.getCustomer(1);
+//		for(WorkOrder wo : mycust.getOrders()) {
+//			System.out.println(wo.getNumber());
+//		}
 		fillTableProductsSimple(productsTable, InventoryDao.getAllInventory());
 		fillTableProductsExtensive(tableInv, InventoryDao.getAllInventory());
 		fillOrderTable(tablePending, WorkOrderDao.getAllOrders(" ORDER BY time_create ASC"));
@@ -990,60 +1000,58 @@ public class GenerateUI {
 
 		createAndNameColumns(tablePending, workOrderColumns);
 		createAndNameColumns(tableCompleted, workOrderColumns);
-
-		Composite specificWorkOrders = new Composite(WorkOrderComposite, SWT.NONE);
-		specificWorkOrders.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
-
-		txtCustomer = new Text(specificWorkOrders, SWT.BORDER);
-		txtCustomer.setText("Customer: ");
-		txtCustomer.setBounds(10, 25, 219, 19);
-
-		txtPhoneNumber = new Text(specificWorkOrders, SWT.BORDER);
-		txtPhoneNumber.setText("Phone Number:");
-		txtPhoneNumber.setBounds(10, 50, 219, 19);
-
-		Label lblDescription = new Label(specificWorkOrders, SWT.NONE);
-		lblDescription.setBounds(10, 91, 72, 16);
-		lblDescription.setText("Description");
-
-		Label lblQuantity = new Label(specificWorkOrders, SWT.NONE);
-		lblQuantity.setBounds(173, 91, 56, 16);
-		lblQuantity.setText("Quantity");
-
-		Label lblPartNumber = new Label(specificWorkOrders, SWT.NONE);
-		lblPartNumber.setBounds(304, 91, 79, 16);
-		lblPartNumber.setText("Part Number");
-
-		table_1 = new Table(specificWorkOrders, SWT.BORDER | SWT.FULL_SELECTION);
-		table_1.setBounds(10, 113, 373, 95);
-		table_1.setHeaderVisible(true);
-		table_1.setLinesVisible(true);
-
-		Button btnCompleted = new Button(specificWorkOrders, SWT.NONE);
-		btnCompleted.setBounds(32, 227, 70, 21);
-		btnCompleted.setText("Completed");
-
-		Button btnUnableToComplete = new Button(specificWorkOrders, SWT.NONE);
-		btnUnableToComplete.setBounds(246, 227, 119, 21);
-		btnUnableToComplete.setText("Unable to Complete");
-
-		Button btnXSpecificWorkOrders = new Button(specificWorkOrders, SWT.NONE);
-		btnXSpecificWorkOrders.setBounds(382, 10, 21, 21);
-		btnXSpecificWorkOrders.setText("X");
-
-		btnCompleted.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Complete (Specific Work Orders)");
-			}
-		});
-
-		btnUnableToComplete.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Unable to Complete (Specific Work Orders)");
-			}
-		});
+		
+		Composite composite_4 = new Composite(WorkOrderComposite, SWT.NONE);
+		composite_4.setLayout(new GridLayout(3, false));
+		composite_4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		
+		Label lblCustomerName = new Label(composite_4, SWT.NONE);
+		lblCustomerName.setText("Customer Name:");
+		
+		Label customerNameValue = new Label(composite_4, SWT.NONE);
+		customerNameValue.setText("name");
+		
+		Button btnMarkForReview = new Button(composite_4, SWT.NONE);
+		btnMarkForReview.setText("Mark for Review");
+		
+		Label lblCustomerPhone = new Label(composite_4, SWT.NONE);
+		lblCustomerPhone.setText("Customer Phone:");
+		
+		Label customerPhoneValue = new Label(composite_4, SWT.NONE);
+		customerPhoneValue.setText("phone #");
+		
+		Button btnMarkAsComplete = new Button(composite_4, SWT.NONE);
+		btnMarkAsComplete.setText("Mark as Complete");
+						new Label(composite_4, SWT.NONE);
+				
+						orderDetailsTable = new Table(composite_4, SWT.BORDER | SWT.FULL_SELECTION);
+						orderDetailsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+						orderDetailsTable.setHeaderVisible(true);
+						orderDetailsTable.setLinesVisible(true);
+				new Label(composite_4, SWT.NONE);
+				
+				Label lblOrderNotes = new Label(composite_4, SWT.NONE);
+				lblOrderNotes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+				lblOrderNotes.setText("Order Notes: ");
+				
+				textOrderNote = new Text(composite_4, SWT.BORDER);
+				textOrderNote.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+				
+				createAndNameColumns(orderDetailsTable, ordProdColumns);
+				//TEST
+				fillOrderDetailsTable(orderDetailsTable, OrderProductDetailsDao.getDetailsFromOrderNum(2));
+				Button btnSaveNote = new Button(composite_4, SWT.NONE);
+				btnSaveNote.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+					}
+				});
+				btnSaveNote.setText("Save Notes");
+				
+				Button btnBackOutOfOrder = new Button(composite_4, SWT.NONE);
+				btnBackOutOfOrder.setText("<- Back");
+				new Label(composite_4, SWT.NONE);
+				new Label(composite_4, SWT.NONE);
 
 //		btnXSpecificWorkOrders.addSelectionListener(new SelectionAdapter() {
 //			@Override
@@ -1065,6 +1073,7 @@ public class GenerateUI {
 	}
 
 	public static void fillTableCustomer(Table table, List<Customer> myCustomers) {
+		table.removeAll();
 		for (Customer cust : myCustomers) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(new String[] { cust.getName(), cust.getPhone(), cust.getAddress(), cust.getEmail() });
@@ -1072,6 +1081,7 @@ public class GenerateUI {
 	}
 
 	public void fillTableProductsSimple(Table table, List<Inventory> myInventory) {
+		table.removeAll();
 		for (Inventory inv : myInventory) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(new String[] { inv.getBrand(), inv.getModel_number(), inv.getSize(),
@@ -1080,6 +1090,7 @@ public class GenerateUI {
 	}
 
 	public void fillTableProductsExtensive(Table table, List<Inventory> myInventory) {
+		table.removeAll();
 		for (Inventory inv : myInventory) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(new String[] { String.valueOf(inv.getId()), inv.getBrand(), inv.getModel_number(),
@@ -1090,15 +1101,18 @@ public class GenerateUI {
 	}
 
 	public void fillOrderTable(Table table, List<WorkOrder> myOrders) {
-//		Map<Integer, Customer> myMap = new HashMap();
-//		List<Customer> myCustomers = CustomerDao.getAllCustomer();
-//		for (Customer cust : myCustomers) {
-//			myMap.put(cust.getId(), cust);
-//		}
-		// myMap.get(ord.getCustomer_id()).getName()
+		table.removeAll();
 		for (WorkOrder ord : myOrders) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(new String[] { String.valueOf(ord.getNumber()), ord.getCust().getName(), ord.getTime_create().toString(), ord.getTime_update().toString(), ord.getNote() });
+		}
+	}
+	
+	public void fillOrderDetailsTable(Table table, List<OrderProductDetails> details) {
+		table.removeAll();
+		for(OrderProductDetails detail : details) {
+			TableItem tableItem = new TableItem(table, SWT.NONE);
+			tableItem.setText(new String[] { detail.getBrand(), detail.getModel_number(), detail.getSize(), String.valueOf(detail.getCount())});
 		}
 	}
 
@@ -1190,17 +1204,19 @@ public class GenerateUI {
 					ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
 				}
 			});
-
-			// rightSide
 		} // end for loop
 		cartItemsComp.layout();
 	}
-
-	public void cartItemsHeaders() {
-
+	
+	public void getOrderProdFromListVar() {
+		
 	}
-
-	public void cartItemsAddRightSide() {
-
+	
+	public void getAllOrdersProdByQuery() {	//and store in the global variable
+		
+	} 
+	
+	public void getOrderProdByQuery(int orderID) {
+		
 	}
 }

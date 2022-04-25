@@ -15,7 +15,7 @@ import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 
 public class CustomerDao {
-	public Customer getCustomer(int id) {
+	public static Customer getCustomer(int id) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();

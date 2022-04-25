@@ -2,10 +2,13 @@ package seniorproject.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,9 +52,11 @@ public class Customer implements Serializable {
 	private java.sql.Timestamp last_update;
 	
 
-	@OneToMany(mappedBy="cust")
-	private Set<WorkOrder> orders;
+	@OneToMany(fetch = FetchType.EAGER ,mappedBy="cust")
+	private Set<WorkOrder> orders = new LinkedHashSet<WorkOrder>();
 	
+
+
 	public Customer() {
 		super();
 	}
@@ -121,5 +126,13 @@ public class Customer implements Serializable {
 
 	public void setLast_update(java.sql.Timestamp last_update) {
 		this.last_update = last_update;
+	}
+	
+	public Set<WorkOrder> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Set<WorkOrder> orders) {
+		this.orders = orders;
 	}
 }

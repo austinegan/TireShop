@@ -12,6 +12,7 @@ import org.hibernate.service.ServiceRegistry;
 import seniorproject.model.Customer;
 import seniorproject.model.Employee;
 import seniorproject.model.Inventory;
+import seniorproject.model.OrderProductDetails;
 import seniorproject.model.WorkOrder;
 
 public class HibernateUtil {
@@ -36,6 +37,7 @@ public class HibernateUtil {
 				configuration.addAnnotatedClass(Customer.class);
 				configuration.addAnnotatedClass(WorkOrder.class);
 				configuration.addAnnotatedClass(Employee.class);
+				configuration.addAnnotatedClass(OrderProductDetails.class);
 				
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();
