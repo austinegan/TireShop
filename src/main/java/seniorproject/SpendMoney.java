@@ -26,8 +26,8 @@ public class SpendMoney {
         }
         
 		client = new SquareClient.Builder()
-				  .environment(Environment.SANDBOX)
-				  .accessToken(prop.getProperty("SQUARE_ACCESS_TOKEN"))
+				  .environment(Environment.PRODUCTION)
+				  .accessToken("EAAAFDOFeV_mUj86upi57IglXm_fkSrm3Gc12qNxd_FbXhBqlsmKg5RLqE9rP_5f")
 				  .build();
 		customersApi = client.getCustomersApi();
 		terminalApi = client.getTerminalApi();
