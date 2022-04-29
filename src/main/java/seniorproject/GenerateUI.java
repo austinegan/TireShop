@@ -54,6 +54,7 @@ import java.sql.Timestamp;
 
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.custom.StackLayout;
 
 public class GenerateUI {
 
@@ -577,26 +578,32 @@ public class GenerateUI {
 		CartComposite.setLayout(new GridLayout(3, false));
 
 		Composite CheckoutComp = new Composite(CartComposite, SWT.NONE);
+		CheckoutComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		CheckoutComp.setLayout(new GridLayout(3, false));
 
 		txtCart = new Text(CheckoutComp, SWT.BORDER);
+		txtCart.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		txtCart.setText("Current Customer:");
-		txtCart.setBounds(39, 10, 110, 26);
-
-		currentCustomerText = new Text(CheckoutComp, SWT.BORDER);
-		currentCustomerText.setEnabled(false);
-		currentCustomerText.setBounds(145, 10, 184, 26);
+		
+				currentCustomerText = new Text(CheckoutComp, SWT.BORDER);
+				currentCustomerText.setEnabled(false);
+		new Label(CheckoutComp, SWT.NONE);
+		new Label(CheckoutComp, SWT.NONE);
 
 		Label lblNewLabel_9 = new Label(CheckoutComp, SWT.NONE);
-		lblNewLabel_9.setBounds(10, 72, 55, 20);
 		lblNewLabel_9.setText("Cart:");
+				new Label(CheckoutComp, SWT.NONE);
+				new Label(CheckoutComp, SWT.NONE);
+				new Label(CheckoutComp, SWT.NONE);
+		
+				Composite composite_1 = new Composite(CheckoutComp, SWT.NONE);
+				composite_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
+				composite_1.setLayout(new GridLayout(1, false));
 
 		Label lblNewLabel_10 = new Label(CheckoutComp, SWT.NONE);
-		lblNewLabel_10.setBounds(256, 168, 22, 15);
 		lblNewLabel_10.setText("Qty.");
-
-		Composite composite_1 = new Composite(CheckoutComp, SWT.NONE);
-		composite_1.setBounds(63, 136, 387, 165);
-		composite_1.setLayout(new GridLayout(1, false));
+		new Label(CheckoutComp, SWT.NONE);
+		new Label(CheckoutComp, SWT.NONE);
 
 		Composite composite = new Composite(CartComposite, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -1052,6 +1059,51 @@ public class GenerateUI {
 				btnBackOutOfOrder.setText("<- Back");
 				new Label(composite_4, SWT.NONE);
 				new Label(composite_4, SWT.NONE);
+				
+				
+				
+				
+				TabItem tbtmNewItem_5 = new TabItem(tabFolder, SWT.NONE);
+				tbtmNewItem_5.setText("New Item");
+				
+				Composite stackCompositeParent = new Composite(tabFolder, SWT.NONE);
+				tbtmNewItem_5.setControl(stackCompositeParent);
+				StackLayout exampleLayout = new StackLayout();
+				stackCompositeParent.setLayout(exampleLayout);
+				
+				Composite stackCompositeA = new Composite(stackCompositeParent, SWT.NONE);
+				stackCompositeA.setLayout(new FillLayout(SWT.HORIZONTAL));
+				
+				Button compAButton = new Button(stackCompositeA, SWT.NONE);
+				
+				compAButton.setText("This is Composite A");
+				
+				Composite stackCompositeB = new Composite(stackCompositeParent, SWT.NONE);
+				stackCompositeB.setLayout(new FillLayout(SWT.HORIZONTAL));
+				
+				Button compBButton = new Button(stackCompositeB, SWT.NONE);
+				compBButton.setText("This is composite B");
+				
+				exampleLayout.topControl = stackCompositeA;
+				
+				compAButton.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						System.out.println("Selected Button A");
+						exampleLayout.topControl = stackCompositeB;
+						stackCompositeParent.layout();
+					}
+				});
+				
+				compBButton.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						System.out.println("Selected Button B");
+						exampleLayout.topControl = stackCompositeA;
+						stackCompositeParent.layout();
+					}
+				});
+				
 
 //		btnXSpecificWorkOrders.addSelectionListener(new SelectionAdapter() {
 //			@Override
