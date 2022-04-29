@@ -149,6 +149,8 @@ public class GenerateUI {
 	private Table tablePending;
 	private Table tableCompleted;
 	private Text textOrderNote;
+	private int cartTotal;
+	private long checkoutAmount;
 
 	/**
 	 * Launch the application.
@@ -629,6 +631,17 @@ public class GenerateUI {
 
 		Button btnNewButton = new Button(composite, SWT.NONE);
 		btnNewButton.setText("Checkout");
+		
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+ 				checkoutAmount= Long.parseLong(CartTotalText.getText())*100;
+				System.out.println("Amount in cents is "+checkoutAmount);
+				SpendMoney.initialize();
+				SpendMoney.payWithTerminal(checkoutAmount);
+			
+			}
+		});
 
 		cartItemsComp = new Composite(CartComposite, SWT.NONE);
 		cartItemsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
