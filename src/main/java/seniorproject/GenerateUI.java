@@ -625,6 +625,7 @@ public class GenerateUI {
 		composite_5.setLayout(new GridLayout(1, false));
 
 		Composite SearchMenuComp_1 = new Composite(composite_5, SWT.NONE);
+		SearchMenuComp_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		RowLayout rl_SearchMenuComp_1 = new RowLayout(SWT.HORIZONTAL);
 		rl_SearchMenuComp_1.justify = true;
 		rl_SearchMenuComp_1.fill = true;
@@ -662,21 +663,23 @@ public class GenerateUI {
 		});
 		ProdBtnSearch.setText("Search");
 
-		Composite SearchResultsComp = new Composite(composite_5, SWT.H_SCROLL | SWT.V_SCROLL);
-		SearchResultsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		Composite SearchResultsComp = new Composite(composite_5, SWT.NONE);
+		SearchResultsComp.setLayout(new FillLayout(SWT.HORIZONTAL));
+		SearchResultsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		SearchResultsComp.setVisible(true);
 
 		productsTable = new Table(SearchResultsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.VIRTUAL);
 		productsTable.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
-		productsTable.setBounds(10, 0, 960, 403);
 		productsTable.setHeaderVisible(true);
 		productsTable.setLinesVisible(true);
 
 		createAndNameColumns(productsTable, someProductColumns);
 
 		Composite CartPopupComp = new Composite(ProductsComposite_1, SWT.NONE);
-		CartPopupComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
-		CartPopupComp.setLayout(new GridLayout(3, false));
+		CartPopupComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true, 1, 1));
+		GridLayout gl_CartPopupComp = new GridLayout(3, false);
+		gl_CartPopupComp.marginWidth = 50;
+		CartPopupComp.setLayout(gl_CartPopupComp);
 
 		Label CartPopupTitle = new Label(CartPopupComp, SWT.NONE);
 		CartPopupTitle.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
