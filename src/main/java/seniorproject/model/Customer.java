@@ -52,9 +52,9 @@ public class Customer implements Serializable {
 	private java.sql.Timestamp last_update;
 	
 
-	@OneToMany(fetch = FetchType.EAGER ,mappedBy="cust")
+	/*@OneToMany(/*fetch = FetchType.EAGER, mappedBy="cust")
 	private Set<WorkOrder> orders = new LinkedHashSet<WorkOrder>();
-	
+	*/
 
 
 	public Customer() {
@@ -128,11 +128,11 @@ public class Customer implements Serializable {
 		this.last_update = last_update;
 	}
 	
-	public Set<WorkOrder> getOrders() {
+	/* public Set<WorkOrder> getOrders() {
 		return orders;
 	}
 
 	public void setOrders(Set<WorkOrder> orders) {
 		this.orders = orders;
-	}
+	} */
 }

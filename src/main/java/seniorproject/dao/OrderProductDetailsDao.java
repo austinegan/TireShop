@@ -33,11 +33,12 @@ public class OrderProductDetailsDao {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			List<OrderProductDetails> details = session.createNativeQuery("SELECT * FROM orderProductDetails WHERE order_number = :num", OrderProductDetails.class).setParameter("num",  orderNum).getResultList();
+			System.out.println(details);
 			transaction.commit();
 			return details;
 		} catch (Exception e) {
 			if (transaction != null) {
-				transaction.rollback();
+				//transaction.rollback();
 			}
 			e.printStackTrace();
 			return null;

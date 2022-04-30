@@ -5,17 +5,23 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 //import javax.persistence.Table;
+import javax.persistence.IdClass;
 
 import org.hibernate.annotations.Immutable;
 
 @Entity
 @Immutable
+@IdClass(OPId.class)
 public class OrderProductDetails{
 
 	@Id
 	@Column (name = "order_number")
 	private int ordNumber;
 	
+	@Id
+	@Column (name = "product_number")
+	private int prodNumber;
+
 	@Column
 	private String brand;
 	
@@ -31,18 +37,27 @@ public class OrderProductDetails{
 	public OrderProductDetails() {
 		super();
 	}
+	
+	
 
-	public OrderProductDetails(int ordNumber, String brand, String model_number, String size, int count) {
+public OrderProductDetails(int ordNumber, int prodNumber, String brand, String model_number, String size,
+			int count) {
 		super();
 		this.ordNumber = ordNumber;
+		this.prodNumber = prodNumber;
 		this.brand = brand;
 		this.model_number = model_number;
 		this.size = size;
 		this.count = count;
 	}
 
+
 	public int getOrdNumber() {
 		return ordNumber;
+	}
+	
+	public int getProdNumber() {
+		return prodNumber;
 	}
 
 	public String getBrand() {
