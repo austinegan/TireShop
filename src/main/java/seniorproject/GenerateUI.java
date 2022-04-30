@@ -243,7 +243,9 @@ public class GenerateUI {
 		lblNewLabel_2.setText("Search Customer");
 
 		Composite SearchCustomerEverythingElseComposite = new Composite(SearchCustComp, SWT.NONE);
-		SearchCustomerEverythingElseComposite.setLayout(new GridLayout(4, true));
+		GridLayout gl_SearchCustomerEverythingElseComposite = new GridLayout(4, true);
+		gl_SearchCustomerEverythingElseComposite.marginBottom = 50;
+		SearchCustomerEverythingElseComposite.setLayout(gl_SearchCustomerEverythingElseComposite);
 		GridData gd_SearchCustomerEverythingElseComposite = new GridData(
 				GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL);
 		gd_SearchCustomerEverythingElseComposite.grabExcessVerticalSpace = false;
@@ -320,11 +322,11 @@ public class GenerateUI {
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 
 		Label custCompButtonsErrorField = new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-		custCompButtonsErrorField.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1));
+		custCompButtonsErrorField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1));
 		custCompButtonsErrorField.setAlignment(SWT.CENTER);
 
 		Composite customerTableComposite = new Composite(SearchCustComp, SWT.NONE);
-		customerTableComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		customerTableComposite.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true, 1, 1));
 		customerTableComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		customerTable = new Table(customerTableComposite, SWT.BORDER | SWT.FULL_SELECTION);
@@ -1284,6 +1286,10 @@ public class GenerateUI {
 //			}
 //		});
 	}
+	
+	public void sortColumnBy(int columnNo) {
+		
+	}
 
 	public void switchStackLayoutToShowArgument(Composite showThis) {
 		((StackLayout) showThis.getParent().getLayout()).topControl = showThis;
@@ -1294,6 +1300,15 @@ public class GenerateUI {
 		for (int i = 0; i < titles.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.NONE);
 			column.setText(titles[i]);
+			column.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					// TODO confirmation dialogue
+					System.out.println("column  " + column.getText());
+				}
+			});
+
+			
 			// TODO: make table columns resize their width automatically instead of being 100 px wide :)
 			column.setWidth(125);
 		}
