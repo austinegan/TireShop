@@ -36,7 +36,7 @@ public class WorkOrderDao {
 			return theseOrders;
 		} catch (Exception e) {
 			if (transaction != null) {
-//				transaction.rollback();
+				transaction.rollback();
 			}
 			e.printStackTrace();
 			return null;

@@ -56,6 +56,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.custom.StackLayout;
 
+//TODO INVENTORY TAB IS NOT POPULATING WHEN USING DROPDOWNS
+
 public class GenerateUI {
 
 	protected Shell shell;
@@ -100,7 +102,7 @@ public class GenerateUI {
 	private static List<Inventory> cartPageList;
 	private static List<Inventory> InvPageList;
 	private static List<WorkOrder> workOrdersPageList;
-	
+
 	private static List<Customer> allCustomers;
 	private static List<Inventory> allInventory;
 	private static List<WorkOrder> allWorkOrders;
@@ -177,7 +179,7 @@ public class GenerateUI {
 		customerColumns = new String[] { "Name", "Phone", "Address", "Email" };
 		cartColumns = new String[] { "Brand", "Model", "Size", "Sale Price" };
 		workOrderColumns = new String[] { "Order Num.", "Customer Name", "Time Created", "Time Updated", "Note" };
-		ordProdColumns = new String[] { "Brand", "Model Number", "Size", "Count"};
+		ordProdColumns = new String[] { "Brand", "Model Number", "Size", "Count" };
 	}
 
 	/**
@@ -186,7 +188,7 @@ public class GenerateUI {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		
+
 //		Customer mycust = CustomerDao.getCustomer(1);
 //		for(WorkOrder wo : mycust.getOrders()) {
 //			System.out.println(wo.getNumber());
@@ -292,7 +294,7 @@ public class GenerateUI {
 		searchCustomerButton.setText("Search");
 
 		Button newCustomerButton = new Button(SearchCustomerEverythingElseComposite, SWT.NONE);
-		
+
 		newCustomerButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		newCustomerButton.setText("New Customer");
 
@@ -305,11 +307,7 @@ public class GenerateUI {
 		selectCustomerBtn.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
 		selectCustomerBtn.setText("Select Customer");
-		
-		Label searchCustCompButtonsErrorField = new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
-		searchCustCompButtonsErrorField.setAlignment(SWT.CENTER);
-		searchCustCompButtonsErrorField.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 4, 1));
-		
+
 		Button customerBroadSearch = new Button(SearchCustomerEverythingElseComposite, SWT.CHECK);
 		customerBroadSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -321,7 +319,10 @@ public class GenerateUI {
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 		new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
 
-		
+		Label custCompButtonsErrorField = new Label(SearchCustomerEverythingElseComposite, SWT.NONE);
+		custCompButtonsErrorField.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 4, 1));
+		custCompButtonsErrorField.setAlignment(SWT.CENTER);
+
 		Composite customerTableComposite = new Composite(SearchCustComp, SWT.NONE);
 		customerTableComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		customerTableComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -349,17 +350,12 @@ public class GenerateUI {
 		btnXCreateAccount.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		btnXCreateAccount.setText("X");
 
-		
-
 		Label lblNewCustomer = new Label(NewCustComp, SWT.NONE);
 		lblNewCustomer.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblNewCustomer.setText("Name");
 
 		newName = new Text(NewCustComp, SWT.BORDER);
 		newName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-
-		/* This following 2 lines are a temporary solution to allow the creators to edit the composites as they work :) */
-		NewCustComp.setVisible(true);
 
 		Label lblNewPhone = new Label(NewCustComp, SWT.NONE);
 		lblNewPhone.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -393,10 +389,24 @@ public class GenerateUI {
 		btnCreateCustomer.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 		btnCreateCustomer.setText("Create Customer");
 
-		
+		Button btnClear = new Button(NewCustComp, SWT.NONE);
+		btnClear.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		btnClear.setText("Clear");
 
-		
-		new Label(NewCustComp, SWT.NONE);
+		btnClear.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear (Add Customer)");
+				newName.setText("");
+				newPhone.setText("");
+				newAddress.setText("");
+				newEmail.setText("");
+				// newNameError.setText("");
+				// newPhoneError.setText("");
+				// newAddressError.setText("");
+				// newEmailError.setText("");
+			}
+		});
 
 		Composite EditCustComp = new Composite(CustomerComposite, SWT.NONE);
 		EditCustComp.setVisible(true);
@@ -408,15 +418,12 @@ public class GenerateUI {
 		lblEditCust.setText("Edit an Existing Customer Account");
 		lblEditCust.setAlignment(SWT.RIGHT);
 //		Label label_1 = new Label(EditCustComp, SWT.NONE);
-	//	label_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		
+		// label_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+
 		Button btnXEditAccount = new Button(EditCustComp, SWT.NONE);
-		
+
 		btnXEditAccount.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		btnXEditAccount.setText("X");
-		new Label(NewCustComp, SWT.NONE);
-		new Label(NewCustComp, SWT.NONE);
-		new Label(NewCustComp, SWT.NONE);
 		new Label(NewCustComp, SWT.NONE);
 
 		Label lblEditCustName = new Label(EditCustComp, SWT.NONE);
@@ -455,57 +462,99 @@ public class GenerateUI {
 		new Label(EditCustComp, SWT.NONE);
 
 		Button btnEditCustDeleteCustomer = new Button(EditCustComp, SWT.NONE);
+		
 		btnEditCustDeleteCustomer.setText("Delete Customer");
 
 		Button btnEditCustSaveChanges = new Button(EditCustComp, SWT.NONE);
+		
 		btnEditCustSaveChanges.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 		btnEditCustSaveChanges.setText("Save Changes");
 
-		Button btnClear_1 = new Button(EditCustComp, SWT.NONE);
-		btnClear_1.setText("Clear");
-		new Label(EditCustComp, SWT.NONE);
-		new Label(EditCustComp, SWT.NONE);
-		new Label(EditCustComp, SWT.NONE);
-		new Label(EditCustComp, SWT.NONE);
 		
+		//btnClear_1.setText("Clear");
+		new Label(EditCustComp, SWT.NONE);
+		new Label(EditCustComp, SWT.NONE);
+		new Label(EditCustComp, SWT.NONE);
+		new Label(EditCustComp, SWT.NONE);
+		new Label(EditCustComp, SWT.NONE);
+
 		customerStack.topControl = SearchCustComp;
-		
-		
+
 		searchCustomerButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				customerTable.clearAll();
 				// fillTableCustomer(customerTable, CustomerDao.getAllCustomer());
 				// fillTableCustomer(customerTable, CustomerDao.getCustomerTestNamedParametersNative(searchName.getText(), searchPhone.getText(), searchAddress.getText(), searchEmail.getText(), "AND"));
-				customerPageList = CustomerDao.generateQueryCustomer(searchName.getText(), searchPhone.getText(), 
+				customerPageList = CustomerDao.generateQueryCustomer(searchName.getText(), searchPhone.getText(),
 						searchAddress.getText(), searchEmail.getText(), customerBroadSearch.getSelection());
 				fillTableCustomer(customerTable, customerPageList);
 			}
 		});
-		
-		
+
 		newCustomerButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : New Customer");
 				switchStackLayoutToShowArgument(NewCustComp);
 			}
 		});
-		
+
 		editCustomerBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//TODO populate
-				switchStackLayoutToShowArgument(EditCustComp);
+				System.out.println("Button : Edit Customer");
+				if (customerTable.getSelectionCount() < 1) {
+					System.out.println("no customer selected");
+					custCompButtonsErrorField.setText(
+							"You must select a customer from the table before attempting to edit a customer account.");
+				} else if (customerTable.getSelectionCount() > 1) {
+					System.out.println("too many customers selected");
+					custCompButtonsErrorField.setText(
+							"Too many customers selected in the table. Please select only one customer before attempting to edit a customer account.");
+				} else {
+					int row = customerTable.getSelectionIndex();
+					Customer editingCustomer = customerPageList.get(row);
+					System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)");
+					System.out.println("customer id " + String.valueOf(editingCustomer.getId()) + " and Name is " + String.valueOf(customerPageList.get(row).getName()));
+					textEditCustName.setText(editingCustomer.getName());
+					textEditCustPhone.setText(editingCustomer.getPhone());
+					textEditCustAddress.setText(editingCustomer.getAddress());
+					textEditCustEmail.setText(editingCustomer.getEmail());
+					// TODO populate
+					switchStackLayoutToShowArgument(EditCustComp);
+				}
 			}
 		});
-		
+
 		selectCustomerBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//TODO set active Customer
+				System.out.println("Button : Select Customer");
+				// TODO set active Customer
+				if (customerTable.getSelectionCount() < 1) {
+					System.out.println("no customer selected");
+					custCompButtonsErrorField.setText(
+							"You must select a customer from the table before attempting to edit a customer account.");
+				} else if (customerTable.getSelectionCount() > 1) {
+					System.out.println("too many customers selected");
+					custCompButtonsErrorField.setText(
+							"Too many customers selected in the table. Please select only one customer before attempting to edit a customer account.");
+				} else {
+					int row = customerTable.getSelectionIndex();
+					Customer editingCustomer = customerPageList.get(row);
+					System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)");
+					System.out.println("customer id " + String.valueOf(editingCustomer.getId()) + " and Name is " + String.valueOf(customerPageList.get(row).getName()));
+					textEditCustName.setText(editingCustomer.getName());
+					textEditCustPhone.setText(editingCustomer.getPhone());
+					textEditCustAddress.setText(editingCustomer.getAddress());
+					textEditCustEmail.setText(editingCustomer.getEmail());
+					// TODO populate
+					switchStackLayoutToShowArgument(EditCustComp);
+				}
 			}
 		});
-		
+
 		btnXCreateAccount.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -513,7 +562,7 @@ public class GenerateUI {
 				switchStackLayoutToShowArgument(SearchCustComp);
 			}
 		});
-		
+
 		btnXEditAccount.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -521,29 +570,7 @@ public class GenerateUI {
 				switchStackLayoutToShowArgument(SearchCustComp);
 			}
 		});
-		
-		
-		
-		Button btnClear = new Button(NewCustComp, SWT.NONE);
-		btnClear.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-		btnClear.setText("Clear");
 
-		btnClear.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Clear (Add Customer)");
-				newName.setText("");
-				newPhone.setText("");
-				newAddress.setText("");
-				newEmail.setText("");
-				// newNameError.setText("");
-				// newPhoneError.setText("");
-				// newAddressError.setText("");
-				// newEmailError.setText("");
-			}
-		});
-		
-		
 		btnCreateCustomer.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -568,6 +595,22 @@ public class GenerateUI {
 			}
 		});
 		
+		btnEditCustDeleteCustomer.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Delete Customer");
+				//TODO remove from DB. possibly ask for confirmation
+			}
+		});
+		
+		btnEditCustSaveChanges.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Save Changes (Customer)");
+				//TODO edit DB entry. possibly ask for confirmation
+			}
+		});
+
 		/* -------------------------------------------------- Products Tab ------------------------------------------------- */
 
 		TabItem tbtmNewItem_1 = new TabItem(tabFolder, 0);
@@ -576,7 +619,7 @@ public class GenerateUI {
 		Composite ProductsComposite_1 = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_1.setControl(ProductsComposite_1);
 		ProductsComposite_1.setLayout(new GridLayout(2, false));
-		
+
 		Composite composite_5 = new Composite(ProductsComposite_1, SWT.NONE);
 		composite_5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		composite_5.setLayout(new GridLayout(1, false));
@@ -630,41 +673,41 @@ public class GenerateUI {
 		productsTable.setLinesVisible(true);
 
 		createAndNameColumns(productsTable, someProductColumns);
-		
+
 		Composite CartPopupComp = new Composite(ProductsComposite_1, SWT.NONE);
 		CartPopupComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
 		CartPopupComp.setLayout(new GridLayout(3, false));
-		
+
 		Label CartPopupTitle = new Label(CartPopupComp, SWT.NONE);
 		CartPopupTitle.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
 		CartPopupTitle.setText("Add / Remove From Cart");
-		
+
 		Label lblBrand = new Label(CartPopupComp, SWT.NONE);
 		lblBrand.setText("Brand");
 		new Label(CartPopupComp, SWT.NONE);
-		
+
 		Label lblModel = new Label(CartPopupComp, SWT.NONE);
 		lblModel.setText("Model");
-		
+
 		Label lblBrandHere = new Label(CartPopupComp, SWT.NONE);
 		lblBrandHere.setText("brand here");
 		new Label(CartPopupComp, SWT.NONE);
-		
+
 		Label lblModelHere = new Label(CartPopupComp, SWT.NONE);
 		lblModelHere.setText("model here");
 		new Label(CartPopupComp, SWT.NONE);
-		
+
 		Label lblCountInCart = new Label(CartPopupComp, SWT.NONE);
 		lblCountInCart.setText("Count in Cart");
 		new Label(CartPopupComp, SWT.NONE);
-		
+
 		Button decreaseBtn = new Button(CartPopupComp, SWT.NONE);
 		decreaseBtn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		decreaseBtn.setText("-");
-		
+
 		Label cartCountLbl = new Label(CartPopupComp, SWT.BORDER);
 		cartCountLbl.setText("a number");
-		
+
 		Button increaseBtn = new Button(CartPopupComp, SWT.NONE);
 		increaseBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -672,7 +715,7 @@ public class GenerateUI {
 			}
 		});
 		increaseBtn.setText("+");
-		
+
 		Label addRemoveCartError = new Label(CartPopupComp, SWT.NONE);
 		addRemoveCartError.setText("error field");
 		new Label(CartPopupComp, SWT.NONE);
@@ -698,21 +741,21 @@ public class GenerateUI {
 		txtCart = new Text(CheckoutComp, SWT.BORDER);
 		txtCart.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		txtCart.setText("Current Customer:");
-		
-				currentCustomerText = new Text(CheckoutComp, SWT.BORDER);
-				currentCustomerText.setEnabled(false);
+
+		currentCustomerText = new Text(CheckoutComp, SWT.BORDER);
+		currentCustomerText.setEnabled(false);
 		new Label(CheckoutComp, SWT.NONE);
 		new Label(CheckoutComp, SWT.NONE);
 
 		Label lblNewLabel_9 = new Label(CheckoutComp, SWT.NONE);
 		lblNewLabel_9.setText("Cart:");
-				new Label(CheckoutComp, SWT.NONE);
-				new Label(CheckoutComp, SWT.NONE);
-				new Label(CheckoutComp, SWT.NONE);
-		
-				Composite composite_1 = new Composite(CheckoutComp, SWT.NONE);
-				composite_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-				composite_1.setLayout(new GridLayout(1, false));
+		new Label(CheckoutComp, SWT.NONE);
+		new Label(CheckoutComp, SWT.NONE);
+		new Label(CheckoutComp, SWT.NONE);
+
+		Composite composite_1 = new Composite(CheckoutComp, SWT.NONE);
+		composite_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
+		composite_1.setLayout(new GridLayout(1, false));
 
 		Label lblNewLabel_10 = new Label(CheckoutComp, SWT.NONE);
 		lblNewLabel_10.setText("Qty.");
@@ -743,15 +786,15 @@ public class GenerateUI {
 
 		Button btnNewButton = new Button(composite, SWT.NONE);
 		btnNewButton.setText("Checkout");
-		
+
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
- 				checkoutAmount= Long.parseLong(CartTotalText.getText())*100;
-				System.out.println("Amount in cents is "+checkoutAmount);
+				checkoutAmount = Long.parseLong(CartTotalText.getText()) * 100;
+				System.out.println("Amount in cents is " + checkoutAmount);
 				SpendMoney.initialize();
 				SpendMoney.payWithTerminal(checkoutAmount);
-			
+
 			}
 		});
 
@@ -1132,62 +1175,59 @@ public class GenerateUI {
 
 		createAndNameColumns(tablePending, workOrderColumns);
 		createAndNameColumns(tableCompleted, workOrderColumns);
-		
+
 		Composite composite_4 = new Composite(WorkOrderComposite, SWT.NONE);
 		composite_4.setLayout(new GridLayout(3, false));
 		composite_4.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		
+
 		Label lblCustomerName = new Label(composite_4, SWT.NONE);
 		lblCustomerName.setText("Customer Name:");
-		
+
 		Label customerNameValue = new Label(composite_4, SWT.NONE);
 		customerNameValue.setText("name");
-		
+
 		Button btnMarkForReview = new Button(composite_4, SWT.NONE);
 		btnMarkForReview.setText("Mark for Review");
-		
+
 		Label lblCustomerPhone = new Label(composite_4, SWT.NONE);
 		lblCustomerPhone.setText("Customer Phone:");
-		
+
 		Label customerPhoneValue = new Label(composite_4, SWT.NONE);
 		customerPhoneValue.setText("phone #");
-		
+
 		Button btnMarkAsComplete = new Button(composite_4, SWT.NONE);
 		btnMarkAsComplete.setText("Mark as Complete");
-						new Label(composite_4, SWT.NONE);
-				
-						orderDetailsTable = new Table(composite_4, SWT.BORDER | SWT.FULL_SELECTION);
-						orderDetailsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-						orderDetailsTable.setHeaderVisible(true);
-						orderDetailsTable.setLinesVisible(true);
-				new Label(composite_4, SWT.NONE);
-				
-				Label lblOrderNotes = new Label(composite_4, SWT.NONE);
-				lblOrderNotes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-				lblOrderNotes.setText("Order Notes: ");
-				
-				textOrderNote = new Text(composite_4, SWT.BORDER);
-				textOrderNote.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-				
-				createAndNameColumns(orderDetailsTable, ordProdColumns);
-				//TEST
-				fillOrderDetailsTable(orderDetailsTable, OrderProductDetailsDao.getDetailsFromOrderNum(2));
-				Button btnSaveNote = new Button(composite_4, SWT.NONE);
-				btnSaveNote.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-					}
-				});
-				btnSaveNote.setText("Save Notes");
-				
-				Button btnBackOutOfOrder = new Button(composite_4, SWT.NONE);
-				btnBackOutOfOrder.setText("<- Back");
-				new Label(composite_4, SWT.NONE);
-				new Label(composite_4, SWT.NONE);
-				
-				
-				
-				
+		new Label(composite_4, SWT.NONE);
+
+		orderDetailsTable = new Table(composite_4, SWT.BORDER | SWT.FULL_SELECTION);
+		orderDetailsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		orderDetailsTable.setHeaderVisible(true);
+		orderDetailsTable.setLinesVisible(true);
+		new Label(composite_4, SWT.NONE);
+
+		Label lblOrderNotes = new Label(composite_4, SWT.NONE);
+		lblOrderNotes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblOrderNotes.setText("Order Notes: ");
+
+		textOrderNote = new Text(composite_4, SWT.BORDER);
+		textOrderNote.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+
+		createAndNameColumns(orderDetailsTable, ordProdColumns);
+		// TEST
+		fillOrderDetailsTable(orderDetailsTable, OrderProductDetailsDao.getDetailsFromOrderNum(2));
+		Button btnSaveNote = new Button(composite_4, SWT.NONE);
+		btnSaveNote.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		btnSaveNote.setText("Save Notes");
+
+		Button btnBackOutOfOrder = new Button(composite_4, SWT.NONE);
+		btnBackOutOfOrder.setText("<- Back");
+		new Label(composite_4, SWT.NONE);
+		new Label(composite_4, SWT.NONE);
+
 //				TabItem tbtmNewItem_5 = new TabItem(tabFolder, SWT.NONE);
 //				tbtmNewItem_5.setText("New Item");
 //				
@@ -1231,7 +1271,6 @@ public class GenerateUI {
 //						
 //					}
 //				});
-				
 
 //		btnXSpecificWorkOrders.addSelectionListener(new SelectionAdapter() {
 //			@Override
@@ -1247,7 +1286,7 @@ public class GenerateUI {
 		((StackLayout) showThis.getParent().getLayout()).topControl = showThis;
 		showThis.getParent().layout();
 	}
-	
+
 	public void createAndNameColumns(Table table, String[] titles) {
 		for (int i = 0; i < titles.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.NONE);
@@ -1289,16 +1328,18 @@ public class GenerateUI {
 		table.removeAll();
 		for (WorkOrder ord : myOrders) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
-			tableItem.setText(new String[] { String.valueOf(ord.getNumber()), String.valueOf(ord.getCustomer_id()), ord.getTime_create().toString(), ord.getTime_update().toString(), ord.getNote() });
+			tableItem.setText(new String[] { String.valueOf(ord.getNumber()), String.valueOf(ord.getCustomer_id()),
+					ord.getTime_create().toString(), ord.getTime_update().toString(), ord.getNote() });
 		}
 	}
-	
+
 	public void fillOrderDetailsTable(Table table, List<OrderProductDetails> details) {
 		table.removeAll();
 		System.out.println(details);
-		for(OrderProductDetails detail : details) {
+		for (OrderProductDetails detail : details) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
-			tableItem.setText(new String[] { detail.getBrand(), detail.getModel_number(), detail.getSize(), String.valueOf(detail.getCount())});
+			tableItem.setText(new String[] { detail.getBrand(), detail.getModel_number(), detail.getSize(),
+					String.valueOf(detail.getCount()) });
 		}
 	}
 
@@ -1375,56 +1416,56 @@ public class GenerateUI {
 			cartItemsMinus.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					// TODO check that we can actually reduce, , possibly use logic structure from ProductList
-					if(inv.getCount() > 0) {
-					inv.setCount(inv.getCount() - 1);
-					QuantityText.setText(String.valueOf(inv.getCount()));
-					ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));}
-					else {
+					if (inv.getCount() > 0) {
+						inv.setCount(inv.getCount() - 1);
+						QuantityText.setText(String.valueOf(inv.getCount()));
+						ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
+					} else {
 						System.out.println("cannot decrement. not enought items");
-						//TODO put in error field
+						// TODO put in error field
 					}
 				}
 			});
 			cartItemsPlus.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					// TODO check that we can actually increase, possibly use logic structure from ProductList
-					if(inv.getCount() < getInventoryCountFromID(inv.getId())) {
-					inv.setCount(inv.getCount() + 1);
-					QuantityText.setText(String.valueOf(inv.getCount()));
-					ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));}
-					else {
+					if (inv.getCount() < getInventoryCountFromID(inv.getId())) {
+						inv.setCount(inv.getCount() + 1);
+						QuantityText.setText(String.valueOf(inv.getCount()));
+						ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
+					} else {
 						System.out.println("cannot increment. we're up against the inventory limit");
-						//TODO put in error field
+						// TODO put in error field
 					}
 				}
 			});
 		} // end for loop
 		cartItemsComp.layout();
 	}
-	
-	private int getInventoryCountFromID(int id){
-		if(mapInventory.get(id) == null) { return 0; }
+
+	private int getInventoryCountFromID(int id) {
+		if (mapInventory.get(id) == null) {
+			return 0;
+		}
 		return mapInventory.get(id).getCount();
 	}
-	
+
 	public void getOrderProdFromListVar() {
-		
+
 	}
-	
-	public void getAllOrdersProdByQuery() {	//and store in the global variable
-		
-	} 
-	
+
+	public void getAllOrdersProdByQuery() {	// and store in the global variable
+
+	}
+
 	public void getOrderProdByQuery(int orderID) {
-		
+
 	}
-	
+
 	private void updateAllInventory() {
 		allInventory = InventoryDao.getAllInventory();
 		mapInventory = new HashMap<>();
-		for(Inventory inv : allInventory) {
+		for (Inventory inv : allInventory) {
 			mapInventory.put(inv.getId(), inv);
 		}
 	}
