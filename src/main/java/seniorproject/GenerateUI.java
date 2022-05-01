@@ -805,6 +805,7 @@ public class GenerateUI {
 						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
 						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
 					}
+					total = Math.round(total * 100.0) / 100.0;
 					SubtotalText.setText(Double.toString(subtotal));
 					TaxText.setText(Double.toString(tax));
 					CartTotalText.setText(Double.toString(total));
@@ -858,6 +859,7 @@ public class GenerateUI {
 						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
 						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
 					}
+					total = Math.round(total * 100.0) / 100.0;
 					SubtotalText.setText(Double.toString(subtotal));
 					TaxText.setText(Double.toString(tax));
 					CartTotalText.setText(Double.toString(total));
@@ -1779,6 +1781,7 @@ public class GenerateUI {
 						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
 						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
 					}
+					total = Math.round(total * 100.0) / 100.0;
 					SubtotalText.setText(Double.toString(subtotal));
 					TaxText.setText(Double.toString(tax));
 					CartTotalText.setText(Double.toString(total));
@@ -1815,6 +1818,7 @@ public class GenerateUI {
 							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
 							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
 						}
+						total = Math.round(total * 100.0) / 100.0;
 						SubtotalText.setText(Double.toString(subtotal));
 						TaxText.setText(Double.toString(tax));
 						CartTotalText.setText(Double.toString(total));
@@ -1840,6 +1844,7 @@ public class GenerateUI {
 							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
 							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
 						}
+						total = Math.round(total * 100.0) / 100.0;
 						SubtotalText.setText(Double.toString(subtotal));
 						TaxText.setText(Double.toString(tax));
 						CartTotalText.setText(Double.toString(total));
