@@ -949,7 +949,7 @@ public class GenerateUI {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				checkoutAmount = Long.parseLong(CartTotalText.getText()) * 100;
+				checkoutAmount = (long) (Double.parseDouble(CartTotalText.getText()) * 100);
 				System.out.println("Amount in cents is " + checkoutAmount);
 				SpendMoney.initialize();
 				SpendMoney.payWithTerminal(checkoutAmount);
