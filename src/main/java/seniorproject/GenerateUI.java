@@ -794,9 +794,20 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
+				double subtotal = 0;
+				double tax = 0;
+				double total = 0;
 				if (cartReference != null && cartReference.getCount() > 0) {
 					cartReference.setCount(cartReference.getCount()-1);
 					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
+					for (Inventory inv : cartPageList) {
+						subtotal += inv.getSale_price();
+						tax += (inv.getSale_price() * 0.075);
+						total += (inv.getSale_price() + (inv.getSale_price() * 0.075));
+					}
+					SubtotalText.setText(Double.toString(subtotal));
+					TaxText.setText(Double.toString(tax));
+					CartTotalText.setText(Double.toString(total));
 					if(cartReference.getCount() == 0) {
 						//remove from map and from List
 						mapCart.remove(cartReference.getId());
@@ -813,6 +824,9 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
+				double subtotal = 0;
+				double tax = 0;
+				double total = 0;
 				//were there 0? add to list and map
 				
 				if(cartReference == null) {
@@ -829,6 +843,14 @@ public class GenerateUI {
 				}else { //not null and not == inv.count. So increment cart
 					cartReference.setCount(cartReference.getCount() + 1);
 					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
+					for (Inventory inv : cartPageList) {
+						subtotal += inv.getSale_price();
+						tax += (inv.getSale_price() * 0.075);
+						total += (inv.getSale_price() + (inv.getSale_price() * 0.075));
+					}
+					SubtotalText.setText(Double.toString(subtotal));
+					TaxText.setText(Double.toString(tax));
+					CartTotalText.setText(Double.toString(total));
 				}
 			}
 		});
