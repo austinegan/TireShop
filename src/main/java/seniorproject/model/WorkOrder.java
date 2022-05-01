@@ -50,13 +50,12 @@ public class WorkOrder implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public WorkOrder(int number, String total_cost, String status, int customer_id, String note, Timestamp time_create,
+	public WorkOrder(String total_cost, String status, int customer_id, String note, Timestamp time_create,
 			Timestamp time_update) {
 		super();
-		this.number = number;
 		this.total_cost = total_cost;
 		this.status = status;
-		//this.customer_id = customer_id;
+		this.customer_id = customer_id;
 		this.note = note;
 		this.time_create = time_create;
 		this.time_update_status = time_update;

@@ -6,11 +6,25 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+
 import seniorproject.model.Inventory;
 import seniorproject.model.WorkOrder;
 import seniorproject.util.HibernateUtil;
 
 public class WorkOrderDao {
+	public static void addWorkOrder(WorkOrder wor) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.save(wor);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+	}
 	
 	public static void updateOrder(WorkOrder ord) {
 		Transaction transaction = null;

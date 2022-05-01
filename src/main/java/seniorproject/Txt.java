@@ -25,6 +25,7 @@ public class Txt {
   }
   
   public static void sendMessage(String toPhone, String content) {
+	  System.out.println("to phone: " + toPhone + " content " + content);
 	  Message message = Message.creator(new PhoneNumber(toPhone), FROM_PHONE, content).create();
 	  System.out.println(message.getSid());
   }

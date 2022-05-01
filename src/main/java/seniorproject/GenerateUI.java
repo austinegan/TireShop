@@ -35,12 +35,14 @@ import org.hibernate.Session;
 import seniorproject.dao.InventoryDao;
 import seniorproject.dao.OrdCustDao;
 import seniorproject.dao.OrderProductDetailsDao;
+import seniorproject.dao.OrderProductRelationDao;
 import seniorproject.dao.WorkOrderDao;
 import seniorproject.dao.CustomerDao;
 import seniorproject.model.Customer;
 import seniorproject.model.Inventory;
 import seniorproject.model.OrdCust;
 import seniorproject.model.OrderProductDetails;
+import seniorproject.model.OrderProductRelation;
 import seniorproject.model.WorkOrder;
 import seniorproject.util.HibernateUtil;
 
@@ -194,6 +196,7 @@ public class GenerateUI {
 		ordProdColumns = new String[] { "Brand", "Model Number", "Size", "Count" };
 		mapCart = new HashMap<>();
 		cartPageList = new ArrayList<Inventory>();
+		Txt.setup();
 	}
 
 	/**
@@ -1021,7 +1024,20 @@ public class GenerateUI {
 				System.out.println("Amount in cents is " + checkoutAmount);
 				SpendMoney.initialize();
 				SpendMoney.payWithTerminal(checkoutAmount);
-
+				WorkOrder myWorkOrder = new WorkOrder(CartTotalText.getText(), "pending", activeCustomer.getId(), "", new Timestamp(System.currentTimeMillis()),
+						new Timestamp(System.currentTimeMillis()));
+				WorkOrderDao.addWorkOrder(myWorkOrder);
+				int thisOrderNum = myWorkOrder.getNumber();
+				for(Inventory i : cartPageList){
+					OrderProductRelationDao.addOrderProductRelation(new OrderProductRelation(thisOrderNum, i.getId(), i.getCount()));
+					int oldCount = mapInventory.get(i.getId()).getCount();
+					mapInventory.get(i.getId()).setCount(oldCount - i.getCount());
+					InventoryDao.updateInventory(mapInventory.get(i.getId()));
+				}
+				//Txt.sendMessage(activeCustomer.getPhone(), "Thank you for your purchase!");
+				//check to database for last millisecond accuracy would be implemented if our presentation was on May 2
+				
+				
 			}
 		});
 		// TODO remove below line
@@ -1528,6 +1544,21 @@ public class GenerateUI {
 					if (activeCustomer != null) {
 						currentCustomerText.setText(activeCustomer.getName());
 					}
+					if(cartPageList != null){
+					double subtotal = 0;
+					double tax = 0;
+					double total = 0;
+					for (Inventory inv : cartPageList) {
+						subtotal += (inv.getSale_price() * inv.getCount());
+						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+						total += ((inv.getSale_price() * inv.getCount())
+								+ ((inv.getSale_price() * inv.getCount()) * 0.075));
+					}
+					total = Math.round(total * 100.0) / 100.0;
+					SubtotalText.setText(Double.toString(subtotal));
+					TaxText.setText(Double.toString(tax));
+					CartTotalText.setText(Double.toString(total));
+				}
 				}
 				if (tabFolder.getSelection()[0].getText().equals("Work Orders")) {
 					updateWorkOrderTables();
@@ -1577,7 +1608,7 @@ public class GenerateUI {
 		btnSwitchStatus.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (activeDetails.getStatus().equals("pending")) {
+				if (activeDetails.getStatus().equals("completed")) {
 					WorkOrder myOrder = WorkOrderDao.getOrder(activeDetails.getOrdNumber());
 					myOrder.setStatus("pending");
 					WorkOrderDao.updateOrder(myOrder);
@@ -1587,6 +1618,7 @@ public class GenerateUI {
 					myOrder.setStatus("completed");
 					WorkOrderDao.updateOrder(myOrder);
 					statusLabel.setText("Completed!");
+					//Txt.sendMessage(activeDetails.getCust_phone(), "Your order is ready :)");
 				}
 			}
 		});

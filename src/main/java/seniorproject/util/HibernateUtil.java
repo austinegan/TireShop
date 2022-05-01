@@ -14,6 +14,7 @@ import seniorproject.model.Employee;
 import seniorproject.model.Inventory;
 import seniorproject.model.OrdCust;
 import seniorproject.model.OrderProductDetails;
+import seniorproject.model.OrderProductRelation;
 import seniorproject.model.WorkOrder;
 
 public class HibernateUtil {
@@ -40,7 +41,7 @@ public class HibernateUtil {
 				configuration.addAnnotatedClass(Employee.class);
 				configuration.addAnnotatedClass(OrderProductDetails.class);
 				configuration.addAnnotatedClass(OrdCust.class);
-				
+				configuration.addAnnotatedClass(OrderProductRelation.class);
 				
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();
