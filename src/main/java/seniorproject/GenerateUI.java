@@ -84,6 +84,7 @@ public class GenerateUI {
 	private Button customerBroadSearch;
 	private Button btnProductsBroadSearch;
 	private Button btnInventoryBroadSearch;
+	private Inventory selectedProduct;
 
 	private static String[] allProductColumns;
 	private static String[] someProductColumns;
@@ -110,6 +111,7 @@ public class GenerateUI {
 	private static List<Inventory> allInventory;
 	private static List<WorkOrder> allWorkOrders;
 	private static Map<Integer, Inventory> mapInventory;
+	private static Map<Integer, Inventory> mapCart;
 
 	private List<String> brandList;
 	private List<String> modelList;
@@ -184,6 +186,7 @@ public class GenerateUI {
 		cartColumns = new String[] { "Brand", "Model", "Size", "Sale Price" };
 		workOrderColumns = new String[] { "Order Num.", "Customer Name", "Time Created", "Time Updated", "Note" };
 		ordProdColumns = new String[] { "Brand", "Model Number", "Size", "Count" };
+		mapCart = new HashMap<>();
 	}
 
 	/**
@@ -743,6 +746,8 @@ public class GenerateUI {
 		new Label(CartPopupComp, SWT.NONE);
 
 		Button decreaseBtn = new Button(CartPopupComp, SWT.NONE);
+
+
 		decreaseBtn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		decreaseBtn.setText("-");
 
@@ -750,11 +755,7 @@ public class GenerateUI {
 		cartCountLbl.setText("a number");
 
 		Button increaseBtn = new Button(CartPopupComp, SWT.NONE);
-		increaseBtn.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
+
 		increaseBtn.setText("+");
 
 		Label addRemoveCartError = new Label(CartPopupComp, SWT.NONE);
@@ -778,22 +779,74 @@ public class GenerateUI {
                             "Too many items selected in the table. Please select only one item before attempting to edit an inventory item.");
                 } else {
                     int row = productsTable.getSelectionIndex();
-                    Inventory editingInventory = productsPageList.get(row);
-                    System.out.println("Editing item in row " + String.valueOf(row) + " (zero indexed)");
-                    System.out.println("Inventory id " + String.valueOf(editingInventory.getId()) + " and Brand is " + String.valueOf(productsPageList.get(row).getBrand()) + " and Model is " + String.valueOf(productsPageList.get(row).getModel_number()));
-                    lblBrandHere.setText(editingInventory.getBrand());
-                    lblModelHere.setText(editingInventory.getModel_number());
-                    cartCountLbl.setText(Integer.toString(editingInventory.getCount()));
+                    selectedProduct = productsPageList.get(row);
+                    System.out.println("Adding to cart, item in row " + String.valueOf(row) + " (zero indexed)");
+                    System.out.println("Inventory id " + String.valueOf(selectedProduct.getId()) + " and Brand is " + String.valueOf(productsPageList.get(row).getBrand()) + " and Model is " + String.valueOf(productsPageList.get(row).getModel_number()));
+                    lblBrandHere.setText(selectedProduct.getBrand());
+                    lblModelHere.setText(selectedProduct.getModel_number());
+                    cartCountLbl.setText(Integer.toString(getCartCountFromID(selectedProduct.getId())));
                 }
             }
         });
+		
+		
+		decreaseBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
+				if (cartReference != null && cartReference.getCount() > 0) {
+					cartReference.setCount(cartReference.getCount()-1);
+					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
+					if(cartReference.getCount() == 0) {
+						//remove from map and from List
+						mapCart.remove(cartReference.getId());
+						cartPageList.remove(cartReference);
+					}					
+				} else {
+					System.out.println("cannot decrement. not enought items");
+					// TODO put in error field
+				}
+			}
+		});
+		
+		increaseBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
+				//were there 0? add to list and map
+				
+				if(cartReference == null) {
+					if(selectedProduct.getCount() > 0) {	//create map and List indices for this cart item w/ count of 1
+						cartReference = new Inventory(selectedProduct.getBrand(), selectedProduct.getModel_number(), selectedProduct.getSale_price(), selectedProduct.getPurchase_price(), 1, selectedProduct.getSize(), selectedProduct.getWidth(), selectedProduct.getAspectratio(), selectedProduct.getDiameter());
+						cartPageList.add(cartReference);
+						cartReference.setId(selectedProduct.getId());
+						mapCart.put(cartReference.getId(), cartReference);
+						cartCountLbl.setText(String.valueOf(cartReference.getCount()));
+					}
+				}else if(cartReference.getCount() == selectedProduct.getCount()) {
+					System.out.println("Cannot increment item " + cartReference.getBrand() + " " + cartReference.getModel_number() + "\tTotal in cart is equal to total in inventory :)");
+					//TODO error field
+				}else { //not null and not == inv.count. So increment cart
+					cartReference.setCount(cartReference.getCount() + 1);
+					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
 
 		// button_1_1.setBounds(508, 36, 24, 23);
 		// button_1_1.setText("+");
 		// button_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
 		TabItem tbtmNewItem_2 = new TabItem(tabFolder, 0);
 		tbtmNewItem_2.setText("Cart");
-
+		
 		Composite CartComposite = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_2.setControl(CartComposite);
 		CartComposite.setLayout(new GridLayout(3, false));
@@ -1385,12 +1438,31 @@ public class GenerateUI {
 				InventoryDao.updateInventory(invPageSelected);
 			}
 		});
+	
 		
+		tabFolder.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(tabFolder.getSelection()[0].getText().equals("Cart")) {
+					fillCartItemsGridLayout();
+				}
+			}
+		});
 	}
 	
 	
 	
+	
+	
 
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 
@@ -1670,7 +1742,18 @@ public class GenerateUI {
 		} // end for loop
 		cartItemsComp.layout();
 	}
+	
+	private int getCartCountFromID(int id) {
+		if (mapCart.get(id) == null) {
+			return 0;
+		}
+		return mapCart.get(id).getCount();
+	}
 
+	private Inventory getCartObjectFromID(int id) {
+		return mapCart.get(id);
+	}
+	
 	private int getInventoryCountFromID(int id) {
 		if (mapInventory.get(id) == null) {
 			return 0;
