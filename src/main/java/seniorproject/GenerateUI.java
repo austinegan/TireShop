@@ -884,7 +884,7 @@ public class GenerateUI {
 
 		Composite CartComposite = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_2.setControl(CartComposite);
-		CartComposite.setLayout(new GridLayout(3, false));
+		CartComposite.setLayout(new GridLayout(1, false));
 
 		Composite CheckoutComp = new Composite(CartComposite, SWT.NONE);
 		CheckoutComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -895,6 +895,7 @@ public class GenerateUI {
 		txtCart.setText("Current Customer:");
 
 		currentCustomerText = new Text(CheckoutComp, SWT.BORDER);
+		currentCustomerText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		currentCustomerText.setEnabled(false);
 		new Label(CheckoutComp, SWT.NONE);
 		new Label(CheckoutComp, SWT.NONE);
@@ -903,116 +904,120 @@ public class GenerateUI {
 		lblNewLabel_9.setText("Cart:");
 		new Label(CheckoutComp, SWT.NONE);
 		new Label(CheckoutComp, SWT.NONE);
+		
+				cartItemsComp = new Composite(CheckoutComp, SWT.NONE);
+				cartItemsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+				cartItemsComp.setLayout(new GridLayout(9, false));
+				new Label(cartItemsComp, SWT.NONE);
+				
+						txtBrand = new Text(cartItemsComp, SWT.BORDER);
+						txtBrand.setText("Brand");
+						txtBrand.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+						
+								txtModel = new Text(cartItemsComp, SWT.BORDER);
+								txtModel.setText("Model");
+								txtModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+								
+										txtSize = new Text(cartItemsComp, SWT.BORDER);
+										txtSize.setText("Size");
+										txtSize.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+										
+												txtPurchasePrice = new Text(cartItemsComp, SWT.BORDER);
+												txtPurchasePrice.setText("Purchase Price");
+												txtPurchasePrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+												new Label(cartItemsComp, SWT.NONE);
+												new Label(cartItemsComp, SWT.NONE);
+												new Label(cartItemsComp, SWT.NONE);
+												new Label(cartItemsComp, SWT.NONE);
+												
+														Button btnXSearchAccount_1 = new Button(cartItemsComp, SWT.NONE);
+														btnXSearchAccount_1.setText("X");
+														
+																btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
+																	@Override
+																	public void widgetSelected(SelectionEvent e) {
+																		System.out.println("Button : Close Cart Item");
+																		// TireDescriptionText.setText(" ");
+																		ItemTotalCost.setText(" ");
+																		QuantityText.setText(" ");
+																	}
+																});
+																new Label(cartItemsComp, SWT.NONE);
+																new Label(cartItemsComp, SWT.NONE);
+																new Label(cartItemsComp, SWT.NONE);
+																new Label(cartItemsComp, SWT.NONE);
+																
+																		Button button_1_2 = new Button(cartItemsComp, SWT.NONE);
+																		button_1_2.setText("-");
+																		button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
+																		
+																				QuantityText = new Text(cartItemsComp, SWT.BORDER);
+																				
+																						Button button_1_1_1 = new Button(cartItemsComp, SWT.NONE);
+																						button_1_1_1.setText("+");
+																						button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
+																						
+																								ItemTotalCost = new Text(cartItemsComp, SWT.BORDER);
+																								new Label(cartItemsComp, SWT.NONE);
+																								new Label(cartItemsComp, SWT.NONE).setText("Brand");
+																								new Label(cartItemsComp, SWT.NONE).setText("Model");
+																								new Label(cartItemsComp, SWT.NONE).setText("Size");
+																								new Label(cartItemsComp, SWT.NONE).setText("Purchase Price");
+																								new Label(cartItemsComp, SWT.NONE);
+																								new Label(cartItemsComp, SWT.NONE);
+																								new Label(cartItemsComp, SWT.NONE);
+																								new Label(cartItemsComp, SWT.NONE);
 		new Label(CheckoutComp, SWT.NONE);
-
-		Composite composite_1 = new Composite(CheckoutComp, SWT.NONE);
-		composite_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-		composite_1.setLayout(new GridLayout(1, false));
-
-		Label lblNewLabel_10 = new Label(CheckoutComp, SWT.NONE);
-		lblNewLabel_10.setText("Qty.");
 		new Label(CheckoutComp, SWT.NONE);
-		new Label(CheckoutComp, SWT.NONE);
-
-		Composite composite = new Composite(CartComposite, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		composite.setLayout(new GridLayout(2, false));
-
-		Label lblNewLabel_11 = new Label(composite, SWT.NONE);
-		lblNewLabel_11.setText("Subtotal:");
-
-		SubtotalText = new Text(composite, SWT.BORDER);
-
-		Label lblNewLabel_11_1 = new Label(composite, SWT.NONE);
-		lblNewLabel_11_1.setText("Tax(7.5%)");
-
-		TaxText = new Text(composite, SWT.BORDER);
-
-		Label lblNewLabel_11_1_1 = new Label(composite, SWT.NONE);
-		lblNewLabel_11_1_1.setText("Total:");
-
-		CartTotalText = new Text(composite, SWT.BORDER);
-
-		Button btnClearCart = new Button(composite, SWT.NONE);
-		btnClearCart.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Clear Cart");
-				cartPageList.clear();
-				SubtotalText.setText("");
-				TaxText.setText("");
-				CartTotalText.setText("");
-			}
-		});
-		btnClearCart.setText("Clear Cart");
-
-		Button btnNewButton = new Button(composite, SWT.NONE);
-		btnNewButton.setText("Checkout");
-
-		btnNewButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				checkoutAmount = (long) (Double.parseDouble(CartTotalText.getText()) * 100);
-				System.out.println("Amount in cents is " + checkoutAmount);
-				SpendMoney.initialize();
-				SpendMoney.payWithTerminal(checkoutAmount);
-
-			}
-		});
-
-		cartItemsComp = new Composite(CartComposite, SWT.NONE);
-		cartItemsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		cartItemsComp.setLayout(new GridLayout(9, false));
-		new Label(cartItemsComp, SWT.NONE);
-
-		txtBrand = new Text(cartItemsComp, SWT.BORDER);
-		txtBrand.setText("Brand");
-		txtBrand.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
-		txtModel = new Text(cartItemsComp, SWT.BORDER);
-		txtModel.setText("Model");
-		txtModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
-		txtSize = new Text(cartItemsComp, SWT.BORDER);
-		txtSize.setText("Size");
-		txtSize.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
-		txtPurchasePrice = new Text(cartItemsComp, SWT.BORDER);
-		txtPurchasePrice.setText("Purchase Price");
-		txtPurchasePrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
-
-		Button btnXSearchAccount_1 = new Button(cartItemsComp, SWT.NONE);
-		btnXSearchAccount_1.setText("X");
-
-		btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Close Cart Item");
-				// TireDescriptionText.setText(" ");
-				ItemTotalCost.setText(" ");
-				QuantityText.setText(" ");
-			}
-		});
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
-
-		Button button_1_2 = new Button(cartItemsComp, SWT.NONE);
-		button_1_2.setText("-");
-		button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
-
-		QuantityText = new Text(cartItemsComp, SWT.BORDER);
-
-		Button button_1_1_1 = new Button(cartItemsComp, SWT.NONE);
-		button_1_1_1.setText("+");
-		button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
-
-		ItemTotalCost = new Text(cartItemsComp, SWT.BORDER);
+		
+				Composite composite = new Composite(CheckoutComp, SWT.NONE);
+				composite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+				composite.setLayout(new GridLayout(2, false));
+				
+						Label lblNewLabel_11 = new Label(composite, SWT.NONE);
+						lblNewLabel_11.setText("Subtotal:");
+						
+								SubtotalText = new Text(composite, SWT.BORDER);
+								
+										Label lblNewLabel_11_1 = new Label(composite, SWT.NONE);
+										lblNewLabel_11_1.setText("Tax(7.5%)");
+										
+												TaxText = new Text(composite, SWT.BORDER);
+												
+														Label lblNewLabel_11_1_1 = new Label(composite, SWT.NONE);
+														lblNewLabel_11_1_1.setText("Total:");
+														
+																CartTotalText = new Text(composite, SWT.BORDER);
+																
+																		Button btnClearCart = new Button(composite, SWT.NONE);
+																		btnClearCart.addSelectionListener(new SelectionAdapter() {
+																			@Override
+																			public void widgetSelected(SelectionEvent e) {
+																				System.out.println("Button : Clear Cart");
+																				cartPageList.clear();
+																				SubtotalText.setText("");
+																				TaxText.setText("");
+																				CartTotalText.setText("");
+																			}
+																		});
+																		btnClearCart.setText("Clear Cart");
+																		
+																				Button btnNewButton = new Button(composite, SWT.NONE);
+																				btnNewButton.setText("Checkout");
+																				new Label(CheckoutComp, SWT.NONE);
+																				new Label(CheckoutComp, SWT.NONE);
+																				new Label(CheckoutComp, SWT.NONE);
+																				
+																						btnNewButton.addSelectionListener(new SelectionAdapter() {
+																							@Override
+																							public void widgetSelected(SelectionEvent e) {
+																								checkoutAmount = (long) (Double.parseDouble(CartTotalText.getText()) * 100);
+																								System.out.println("Amount in cents is " + checkoutAmount);
+																								SpendMoney.initialize();
+																								SpendMoney.payWithTerminal(checkoutAmount);
+																				
+																							}
+																						});
 		// TODO remove below line
 		// cartPageList = InventoryDao.generateQueryInventory("Michelin", "", "", "", "", true);
 		fillCartItemsGridLayout();
@@ -1800,15 +1805,6 @@ public class GenerateUI {
 		for (Control con : cartItemsComp.getChildren()) {
 			con.dispose();
 		}
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE).setText("Brand");
-		new Label(cartItemsComp, SWT.NONE).setText("Model");
-		new Label(cartItemsComp, SWT.NONE).setText("Size");
-		new Label(cartItemsComp, SWT.NONE).setText("Purchase Price");
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
-		new Label(cartItemsComp, SWT.NONE);
 		for (Inventory inv : cartPageList) {
 			// x button
 			Button btnXSearchAccount_1 = new Button(cartItemsComp, SWT.NONE);
