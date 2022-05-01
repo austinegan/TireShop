@@ -33,11 +33,13 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.hibernate.Session;
 
 import seniorproject.dao.InventoryDao;
+import seniorproject.dao.OrdCustDao;
 import seniorproject.dao.OrderProductDetailsDao;
 import seniorproject.dao.WorkOrderDao;
 import seniorproject.dao.CustomerDao;
 import seniorproject.model.Customer;
 import seniorproject.model.Inventory;
+import seniorproject.model.OrdCust;
 import seniorproject.model.OrderProductDetails;
 import seniorproject.model.WorkOrder;
 import seniorproject.util.HibernateUtil;
@@ -97,6 +99,8 @@ public class GenerateUI {
 	private Text NewCustomerError;
 	private Table customerTable;
 
+	private OrdCust activeDetails;
+
 	/*
 	 * \ Behind the scenes data for what the tables are currently showing
 	 */
@@ -110,6 +114,8 @@ public class GenerateUI {
 	private static List<Customer> allCustomers;
 	private static List<Inventory> allInventory;
 	private static List<WorkOrder> allWorkOrders;
+	private static List<OrdCust> pendingOrders;
+	private static List<OrdCust> completedOrders;
 	private static Map<Integer, Inventory> mapInventory;
 	private static Map<Integer, Inventory> mapCart;
 
@@ -187,6 +193,7 @@ public class GenerateUI {
 		workOrderColumns = new String[] { "Order Num.", "Customer Name", "Time Created", "Time Updated", "Note" };
 		ordProdColumns = new String[] { "Brand", "Model Number", "Size", "Count" };
 		mapCart = new HashMap<>();
+		cartPageList = new ArrayList<Inventory>();
 	}
 
 	/**
@@ -205,8 +212,7 @@ public class GenerateUI {
 		fillTableProductsSimple(productsTable, productsPageList);
 		invPageList = allInventory;
 		fillTableProductsExtensive(tableInv, invPageList);
-		fillOrderTable(tablePending, WorkOrderDao.getAllOrders(" ORDER BY time_create ASC"));
-		fillOrderTable(tableCompleted, WorkOrderDao.getAllOrders(" ORDER BY time_update_status DESC"));
+		updateWorkOrderTables();
 		fillAllCombos();
 		shell.open();
 		shell.layout();
@@ -553,16 +559,10 @@ public class GenerateUI {
 							"Too many customers selected in the table. Please select only one customer before attempting to edit a customer account.");
 				} else {
 					int row = customerTable.getSelectionIndex();
-					Customer editingCustomer = customerPageList.get(row);
-					System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)");
-					System.out.println("customer id " + String.valueOf(editingCustomer.getId()) + " and Name is "
+					activeCustomer = customerPageList.get(row);
+					System.out.println("Selected customer in row " + String.valueOf(row) + " (zero indexed)");
+					System.out.println("customer id " + String.valueOf(activeCustomer.getId()) + " and Name is "
 							+ String.valueOf(customerPageList.get(row).getName()));
-					textEditCustName.setText(editingCustomer.getName());
-					textEditCustPhone.setText(editingCustomer.getPhone());
-					textEditCustAddress.setText(editingCustomer.getAddress());
-					textEditCustEmail.setText(editingCustomer.getEmail());
-					// TODO populate
-					switchStackLayoutToShowArgument(EditCustComp);
 				}
 			}
 		});
@@ -711,7 +711,7 @@ public class GenerateUI {
 		productsTable.setLinesVisible(true);
 
 		createAndNameColumns(productsTable, someProductColumns);
-		
+
 		Button btnProductsPageEditCartCount = new Button(composite_5, SWT.NONE);
 		btnProductsPageEditCartCount.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		btnProductsPageEditCartCount.setText("Edit Cart Count for Selected Product");
@@ -747,7 +747,6 @@ public class GenerateUI {
 
 		Button decreaseBtn = new Button(CartPopupComp, SWT.NONE);
 
-
 		decreaseBtn.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		decreaseBtn.setText("-");
 
@@ -763,90 +762,85 @@ public class GenerateUI {
 		new Label(CartPopupComp, SWT.NONE);
 		new Label(CartPopupComp, SWT.NONE);
 
-		
-		
 		btnProductsPageEditCartCount.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                System.out.println("Button : Edit Cart Count");
-                if (productsTable.getSelectionCount() < 1) {
-                    System.out.println("No item selected");
-                    addRemoveCartError.setText(
-                            "You must select an item from the table before attempting to edit an inventory item.");
-                } else if (productsTable.getSelectionCount() > 1) {
-                    System.out.println("Too many items selected");
-                    addRemoveCartError.setText(
-                            "Too many items selected in the table. Please select only one item before attempting to edit an inventory item.");
-                } else {
-                    int row = productsTable.getSelectionIndex();
-                    selectedProduct = productsPageList.get(row);
-                    System.out.println("Adding to cart, item in row " + String.valueOf(row) + " (zero indexed)");
-                    System.out.println("Inventory id " + String.valueOf(selectedProduct.getId()) + " and Brand is " + String.valueOf(productsPageList.get(row).getBrand()) + " and Model is " + String.valueOf(productsPageList.get(row).getModel_number()));
-                    lblBrandHere.setText(selectedProduct.getBrand());
-                    lblModelHere.setText(selectedProduct.getModel_number());
-                    cartCountLbl.setText(Integer.toString(getCartCountFromID(selectedProduct.getId())));
-                }
-            }
-        });
-		
-		
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Edit Cart Count");
+				if (productsTable.getSelectionCount() < 1) {
+					System.out.println("No item selected");
+					addRemoveCartError.setText(
+							"You must select an item from the table before attempting to edit an inventory item.");
+				} else if (productsTable.getSelectionCount() > 1) {
+					System.out.println("Too many items selected");
+					addRemoveCartError.setText(
+							"Too many items selected in the table. Please select only one item before attempting to edit an inventory item.");
+				} else {
+					int row = productsTable.getSelectionIndex();
+					selectedProduct = productsPageList.get(row);
+					System.out.println("Adding to cart, item in row " + String.valueOf(row) + " (zero indexed)");
+					System.out.println("Inventory id " + String.valueOf(selectedProduct.getId()) + " and Brand is "
+							+ String.valueOf(productsPageList.get(row).getBrand()) + " and Model is "
+							+ String.valueOf(productsPageList.get(row).getModel_number()));
+					lblBrandHere.setText(selectedProduct.getBrand());
+					lblModelHere.setText(selectedProduct.getModel_number());
+					cartCountLbl.setText(Integer.toString(getCartCountFromID(selectedProduct.getId())));
+				}
+			}
+		});
+
 		decreaseBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
 				if (cartReference != null && cartReference.getCount() > 0) {
-					cartReference.setCount(cartReference.getCount()-1);
+					cartReference.setCount(cartReference.getCount() - 1);
 					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
-					if(cartReference.getCount() == 0) {
-						//remove from map and from List
+					if (cartReference.getCount() == 0) {
+						// remove from map and from List
 						mapCart.remove(cartReference.getId());
 						cartPageList.remove(cartReference);
-					}					
+					}
 				} else {
 					System.out.println("cannot decrement. not enought items");
 					// TODO put in error field
 				}
 			}
 		});
-		
+
 		increaseBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
-				//were there 0? add to list and map
-				
-				if(cartReference == null) {
-					if(selectedProduct.getCount() > 0) {	//create map and List indices for this cart item w/ count of 1
-						cartReference = new Inventory(selectedProduct.getBrand(), selectedProduct.getModel_number(), selectedProduct.getSale_price(), selectedProduct.getPurchase_price(), 1, selectedProduct.getSize(), selectedProduct.getWidth(), selectedProduct.getAspectratio(), selectedProduct.getDiameter());
+				// were there 0? add to list and map
+
+				if (cartReference == null) {
+					if (selectedProduct.getCount() > 0) {	// create map and List indices for this cart item w/ count of 1
+						cartReference = new Inventory(selectedProduct.getBrand(), selectedProduct.getModel_number(),
+								selectedProduct.getSale_price(), selectedProduct.getPurchase_price(), 1,
+								selectedProduct.getSize(), selectedProduct.getWidth(), selectedProduct.getAspectratio(),
+								selectedProduct.getDiameter());
 						cartPageList.add(cartReference);
 						cartReference.setId(selectedProduct.getId());
 						mapCart.put(cartReference.getId(), cartReference);
 						cartCountLbl.setText(String.valueOf(cartReference.getCount()));
 					}
-				}else if(cartReference.getCount() == selectedProduct.getCount()) {
-					System.out.println("Cannot increment item " + cartReference.getBrand() + " " + cartReference.getModel_number() + "\tTotal in cart is equal to total in inventory :)");
-					//TODO error field
-				}else { //not null and not == inv.count. So increment cart
+				} else if (cartReference.getCount() == selectedProduct.getCount()) {
+					System.out.println("Cannot increment item " + cartReference.getBrand() + " "
+							+ cartReference.getModel_number() + "\tTotal in cart is equal to total in inventory :)");
+					// TODO error field
+				} else { // not null and not == inv.count. So increment cart
 					cartReference.setCount(cartReference.getCount() + 1);
 					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
 				}
 			}
 		});
-		
-		
-		
-		
-		
-		
-		
-		
 
 		// button_1_1.setBounds(508, 36, 24, 23);
 		// button_1_1.setText("+");
 		// button_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
 		TabItem tbtmNewItem_2 = new TabItem(tabFolder, 0);
 		tbtmNewItem_2.setText("Cart");
-		
+
 		Composite CartComposite = new Composite(tabFolder, SWT.NONE);
 		tbtmNewItem_2.setControl(CartComposite);
 		CartComposite.setLayout(new GridLayout(3, false));
@@ -969,14 +963,14 @@ public class GenerateUI {
 
 		ItemTotalCost = new Text(cartItemsComp, SWT.BORDER);
 		// TODO remove below line
-		cartPageList = InventoryDao.generateQueryInventory("Michelin", "", "", "", "", true);
+		// cartPageList = InventoryDao.generateQueryInventory("Michelin", "", "", "", "", true);
 		fillCartItemsGridLayout();
 
 		TabItem tbtmNewItem_3 = new TabItem(tabFolder, 0);
 		tbtmNewItem_3.setText("Inventory");
 
 		Composite InventoryComposite = new Composite(tabFolder, SWT.NONE);
-		//InventoryComposite.setLocation(-48, -329);
+		// InventoryComposite.setLocation(-48, -329);
 		tbtmNewItem_3.setControl(InventoryComposite);
 		InventoryComposite.setLayout(new GridLayout(2, false));
 
@@ -1068,9 +1062,6 @@ public class GenerateUI {
 
 		Button btnEditInventory = new Button(Inv2ButtonComp, SWT.NONE);
 		btnEditInventory.setText("Edit Inventory");
-
-
-
 
 		Composite composite_6 = new Composite(InventoryComposite, SWT.NONE);
 		composite_6.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
@@ -1224,8 +1215,6 @@ public class GenerateUI {
 		Button btnAddInvSubmit = new Button(AddInvComp, SWT.NONE);
 		btnAddInvSubmit.setText("Submit");
 
-
-
 		Button btnClearAddInv = new Button(AddInvComp, SWT.NONE);
 		btnClearAddInv.setText("Clear");
 
@@ -1259,7 +1248,7 @@ public class GenerateUI {
 
 		Composite composite_2 = new Composite(tabFolder_1, SWT.NONE);
 		tbtmPending.setControl(composite_2);
-		composite_2.setLayout(new GridLayout(1, false));
+		composite_2.setLayout(new GridLayout(3, false));
 
 		tablePending = new Table(composite_2, SWT.BORDER | SWT.FULL_SELECTION);
 		tablePending.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -1271,7 +1260,7 @@ public class GenerateUI {
 
 		Composite composite_3 = new Composite(tabFolder_1, SWT.NONE);
 		tbtmCompleted.setControl(composite_3);
-		composite_3.setLayout(new GridLayout(1, false));
+		composite_3.setLayout(new GridLayout(2, false));
 
 		tableCompleted = new Table(composite_3, SWT.BORDER | SWT.FULL_SELECTION);
 		tableCompleted.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -1279,7 +1268,15 @@ public class GenerateUI {
 		tableCompleted.setLinesVisible(true);
 
 		createAndNameColumns(tablePending, workOrderColumns);
+
+		Button btnViewPendingOrderDetail = new Button(composite_2, SWT.NONE);
+
+		btnViewPendingOrderDetail.setText("View selected Order Details");
+		new Label(composite_2, SWT.NONE);
 		createAndNameColumns(tableCompleted, workOrderColumns);
+
+		Button btnViewCompletedOrderDetail = new Button(composite_3, SWT.NONE);
+		btnViewCompletedOrderDetail.setText("View selected Order Details");
 
 		Composite composite_4 = new Composite(WorkOrderComposite, SWT.NONE);
 		composite_4.setLayout(new GridLayout(3, false));
@@ -1289,26 +1286,32 @@ public class GenerateUI {
 		lblCustomerName.setText("Customer Name:");
 
 		Label customerNameValue = new Label(composite_4, SWT.NONE);
+		customerNameValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		customerNameValue.setText("name");
 
-		Button btnMarkForReview = new Button(composite_4, SWT.NONE);
-		btnMarkForReview.setText("Mark for Review");
+		Button btnSwitchStatus = new Button(composite_4, SWT.NONE);
+
+		btnSwitchStatus.setText("Change Status (Pending / Completed)");
 
 		Label lblCustomerPhone = new Label(composite_4, SWT.NONE);
 		lblCustomerPhone.setText("Customer Phone:");
 
 		Label customerPhoneValue = new Label(composite_4, SWT.NONE);
+		customerPhoneValue.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		customerPhoneValue.setText("phone #");
-
-		Button btnMarkAsComplete = new Button(composite_4, SWT.NONE);
-		btnMarkAsComplete.setText("Mark as Complete");
+		new Label(composite_4, SWT.NONE);
 		new Label(composite_4, SWT.NONE);
 
 		orderDetailsTable = new Table(composite_4, SWT.BORDER | SWT.FULL_SELECTION);
 		orderDetailsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		orderDetailsTable.setHeaderVisible(true);
 		orderDetailsTable.setLinesVisible(true);
-		new Label(composite_4, SWT.NONE);
+
+		Label statusLabel = new Label(composite_4, SWT.NONE);
+		statusLabel.setAlignment(SWT.CENTER);
+		statusLabel.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
+		statusLabel.setText("Ipsum dolor sit amet consectutor");
+		statusLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
 		Label lblOrderNotes = new Label(composite_4, SWT.NONE);
 		lblOrderNotes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -1319,24 +1322,13 @@ public class GenerateUI {
 
 		createAndNameColumns(orderDetailsTable, ordProdColumns);
 		// TEST
-		fillOrderDetailsTable(orderDetailsTable, OrderProductDetailsDao.getDetailsFromOrderNum(2));
+		fillOrderDetailsTable(orderDetailsTable, 2);
 		Button btnSaveNote = new Button(composite_4, SWT.NONE);
-		btnSaveNote.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
+
 		btnSaveNote.setText("Save Notes");
 
-		Button btnBackOutOfOrder = new Button(composite_4, SWT.NONE);
-		btnBackOutOfOrder.setText("<- Back");
-		new Label(composite_4, SWT.NONE);
-		new Label(composite_4, SWT.NONE);
-		
-		
 		inventorySideLayout.topControl = EditInvComp;
-		
-		
+
 		btnAddInv.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1344,17 +1336,16 @@ public class GenerateUI {
 				switchStackLayoutToShowArgument(AddInvComp);
 			}
 		});
-		
-		
+
 		btnEditInventory.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Edit Inventory");
-				//populate
+				// populate
 				if (tableInv.getSelectionCount() < 1) {
 					System.out.println("no customer selected");
-					custCompButtonsErrorField.setText(
-							"You must select an item from the table before attempting to edit that item.");
+					custCompButtonsErrorField
+							.setText("You must select an item from the table before attempting to edit that item.");
 				} else if (tableInv.getSelectionCount() > 1) {
 					System.out.println("too many items selected");
 					custCompButtonsErrorField.setText(
@@ -1363,9 +1354,9 @@ public class GenerateUI {
 					int row = tableInv.getSelectionIndex();
 					invPageSelected = invPageList.get(row);
 					/*
-//					System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)");
-//					System.out.println("customer id " + String.valueOf(invPageSelecteed.getId()) + " and Name is "
-							+ String.valueOf(customerPageList.get(row).getName())); */
+					 * // System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)"); // System.out.println("customer id " + String.valueOf(invPageSelecteed.getId()) + " and Name is " +
+					 * String.valueOf(customerPageList.get(row).getName()));
+					 */
 					editInvBrand.setText(invPageSelected.getBrand());
 					editInvModel.setText(invPageSelected.getModel_number());
 					editInvSize.setText(invPageSelected.getSize());
@@ -1377,9 +1368,7 @@ public class GenerateUI {
 				}
 			}
 		});
-		
-		
-		
+
 		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1423,7 +1412,7 @@ public class GenerateUI {
 				}
 			}
 		});
-		
+
 		btnEditInvSubmit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1468,38 +1457,79 @@ public class GenerateUI {
 				}
 			}
 		});
-	
-		
 
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(tabFolder.getSelection()[0].getText().equals("Cart")) {
+				if (tabFolder.getSelection()[0].getText().equals("Cart")) {
 					fillCartItemsGridLayout();
+					if (activeCustomer != null) {
+						currentCustomerText.setText(activeCustomer.getName());
+					}
+				}
+				if (tabFolder.getSelection()[0].getText().equals("Work Orders")) {
+					updateWorkOrderTables();
 				}
 			}
 		});
-	}
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		btnViewPendingOrderDetail.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// populate the details section based on the pending table row selected (using List thing)
+				activeDetails = pendingOrders.get(tablePending.getSelectionIndex());
+				fillOrderDetailsTable(orderDetailsTable, activeDetails.getOrdNumber());
+				customerNameValue.setText(activeDetails.getCust_name());
+				customerPhoneValue.setText(activeDetails.getCust_phone());
+				if (activeDetails.getNote() == null) {
+					textOrderNote.setText("");
+				} else {
+					textOrderNote.setText(activeDetails.getNote());
+				}
+				statusLabel.setText(activeDetails.getStatus());
+			}
+		});
+
+		btnViewCompletedOrderDetail.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// populate the details section based on the completed table row selected (using List thing)
+				activeDetails = completedOrders.get(tableCompleted.getSelectionIndex());
+				fillOrderDetailsTable(orderDetailsTable, activeDetails.getOrdNumber());
+				customerNameValue.setText(activeDetails.getCust_name());
+				customerPhoneValue.setText(activeDetails.getCust_phone());
+				textOrderNote.setText(activeDetails.getNote());
+				statusLabel.setText(activeDetails.getStatus());
+			}
+		});
+
+		btnSaveNote.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WorkOrder myOrder = WorkOrderDao.getOrder(activeDetails.getOrdNumber());
+				myOrder.setNote(textOrderNote.getText());
+				WorkOrderDao.updateOrder(myOrder);
+			}
+		});
+
+		btnSwitchStatus.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (activeDetails.getStatus().equals("pending")) {
+					WorkOrder myOrder = WorkOrderDao.getOrder(activeDetails.getOrdNumber());
+					myOrder.setStatus("pending");
+					WorkOrderDao.updateOrder(myOrder);
+					statusLabel.setText("Pending...");
+				} else {
+					WorkOrder myOrder = WorkOrderDao.getOrder(activeDetails.getOrdNumber());
+					myOrder.setStatus("completed");
+					WorkOrderDao.updateOrder(myOrder);
+					statusLabel.setText("Completed!");
+				}
+			}
+		});
+
+	}
 
 	public void switchStackLayoutToShowArgument(Composite showThis) {
 		((StackLayout) showThis.getParent().getLayout()).topControl = showThis;
@@ -1658,16 +1688,24 @@ public class GenerateUI {
 		}
 	}
 
-	public void fillOrderTable(Table table, List<WorkOrder> myOrders) {
+	private void updateWorkOrderTables() {
+		pendingOrders = OrdCustDao.getPendingOrdCust();
+		completedOrders = OrdCustDao.getCompletedOrdCust();
+		fillOrderTable(tablePending, pendingOrders);
+		fillOrderTable(tableCompleted, completedOrders);
+	}
+
+	public void fillOrderTable(Table table, List<OrdCust> myOrders) {
 		table.removeAll();
-		for (WorkOrder ord : myOrders) {
+		for (OrdCust ord : myOrders) {
 			TableItem tableItem = new TableItem(table, SWT.NONE);
-			tableItem.setText(new String[] { String.valueOf(ord.getNumber()), String.valueOf(ord.getCustomer_id()),
-					ord.getTime_create().toString(), ord.getTime_update().toString(), ord.getNote() });
+			tableItem.setText(new String[] { String.valueOf(ord.getOrdNumber()), String.valueOf(ord.getCust_name()),
+					ord.getTime_create().toString(), ord.getTime_update_status().toString(), ord.getNote() });
 		}
 	}
 
-	public void fillOrderDetailsTable(Table table, List<OrderProductDetails> details) {
+	public void fillOrderDetailsTable(Table table, int orderNum) {
+		List<OrderProductDetails> details = OrderProductDetailsDao.getDetailsFromOrderNum(orderNum);
 		table.removeAll();
 		System.out.println(details);
 		for (OrderProductDetails detail : details) {
@@ -1776,7 +1814,7 @@ public class GenerateUI {
 		} // end for loop
 		cartItemsComp.layout();
 	}
-	
+
 	private int getCartCountFromID(int id) {
 		if (mapCart.get(id) == null) {
 			return 0;
@@ -1787,7 +1825,7 @@ public class GenerateUI {
 	private Inventory getCartObjectFromID(int id) {
 		return mapCart.get(id);
 	}
-	
+
 	private int getInventoryCountFromID(int id) {
 		if (mapInventory.get(id) == null) {
 			return 0;

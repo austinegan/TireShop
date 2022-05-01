@@ -31,7 +31,7 @@ public class CustomerDao {
 		}
 	}
 
-	public void addCustomer(Customer cus) {
+	public static void addCustomer(Customer cus) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
@@ -45,7 +45,7 @@ public class CustomerDao {
 		}
 	}
 	
-	public void deleteCustomer(Customer cus) {
+	public static void deleteCustomer(Customer cus) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
@@ -59,7 +59,7 @@ public class CustomerDao {
 		}
 	}
 	
-	public void updateCustomer(Customer cus) {
+	public static void updateCustomer(Customer cus) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();

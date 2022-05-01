@@ -11,6 +11,21 @@ import seniorproject.model.WorkOrder;
 import seniorproject.util.HibernateUtil;
 
 public class WorkOrderDao {
+	
+	public static void updateOrder(WorkOrder ord) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.update(ord);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+	}
+	
 	public static WorkOrder getOrder(int id) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
