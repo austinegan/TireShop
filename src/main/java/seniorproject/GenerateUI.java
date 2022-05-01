@@ -467,16 +467,15 @@ public class GenerateUI {
 		new Label(EditCustComp, SWT.NONE);
 
 		Button btnEditCustDeleteCustomer = new Button(EditCustComp, SWT.NONE);
-		
+
 		btnEditCustDeleteCustomer.setText("Delete Customer");
 
 		Button btnEditCustSaveChanges = new Button(EditCustComp, SWT.NONE);
-		
+
 		btnEditCustSaveChanges.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 		btnEditCustSaveChanges.setText("Save Changes");
 
-		
-		//btnClear_1.setText("Clear");
+		// btnClear_1.setText("Clear");
 		new Label(EditCustComp, SWT.NONE);
 		new Label(EditCustComp, SWT.NONE);
 		new Label(EditCustComp, SWT.NONE);
@@ -521,7 +520,8 @@ public class GenerateUI {
 					int row = customerTable.getSelectionIndex();
 					Customer editingCustomer = customerPageList.get(row);
 					System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)");
-					System.out.println("customer id " + String.valueOf(editingCustomer.getId()) + " and Name is " + String.valueOf(customerPageList.get(row).getName()));
+					System.out.println("customer id " + String.valueOf(editingCustomer.getId()) + " and Name is "
+							+ String.valueOf(customerPageList.get(row).getName()));
 					textEditCustName.setText(editingCustomer.getName());
 					textEditCustPhone.setText(editingCustomer.getPhone());
 					textEditCustAddress.setText(editingCustomer.getAddress());
@@ -549,7 +549,8 @@ public class GenerateUI {
 					int row = customerTable.getSelectionIndex();
 					Customer editingCustomer = customerPageList.get(row);
 					System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)");
-					System.out.println("customer id " + String.valueOf(editingCustomer.getId()) + " and Name is " + String.valueOf(customerPageList.get(row).getName()));
+					System.out.println("customer id " + String.valueOf(editingCustomer.getId()) + " and Name is "
+							+ String.valueOf(customerPageList.get(row).getName()));
 					textEditCustName.setText(editingCustomer.getName());
 					textEditCustPhone.setText(editingCustomer.getPhone());
 					textEditCustAddress.setText(editingCustomer.getAddress());
@@ -599,20 +600,20 @@ public class GenerateUI {
 				}
 			}
 		});
-		
+
 		btnEditCustDeleteCustomer.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Delete Customer");
-				//TODO remove from DB. possibly ask for confirmation
+				// TODO remove from DB. possibly ask for confirmation
 			}
 		});
-		
+
 		btnEditCustSaveChanges.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Button : Save Changes (Customer)");
-				//TODO edit DB entry. possibly ask for confirmation
+				// TODO edit DB entry. possibly ask for confirmation
 			}
 		});
 
@@ -632,23 +633,23 @@ public class GenerateUI {
 		Composite SearchMenuComp_1 = new Composite(composite_5, SWT.NONE);
 		SearchMenuComp_1.setLayout(new GridLayout(7, false));
 		SearchMenuComp_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		
+
 		Label lblBrand_1 = new Label(SearchMenuComp_1, SWT.NONE);
 		lblBrand_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblBrand_1.setText("Brand");
-		
+
 		Label lblModel_1 = new Label(SearchMenuComp_1, SWT.NONE);
 		lblModel_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblModel_1.setText("Model");
-		
+
 		Label lblTireWidth = new Label(SearchMenuComp_1, SWT.NONE);
 		lblTireWidth.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblTireWidth.setText("Tire Width");
-		
+
 		Label lblAspectRatio = new Label(SearchMenuComp_1, SWT.NONE);
 		lblAspectRatio.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblAspectRatio.setText("Aspect Ratio");
-		
+
 		Label lblDiameter = new Label(SearchMenuComp_1, SWT.NONE);
 		lblDiameter.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblDiameter.setText("Diameter");
@@ -658,11 +659,9 @@ public class GenerateUI {
 		BrandCombo = new Combo(SearchMenuComp_1, SWT.NONE);
 		BrandCombo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		// BrandCombo.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
-		
 
 		ModelCombo = new Combo(SearchMenuComp_1, SWT.NONE);
 		ModelCombo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-
 
 		WidthCombo = new Combo(SearchMenuComp_1, SWT.NONE);
 		WidthCombo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
@@ -684,12 +683,13 @@ public class GenerateUI {
 			public void widgetSelected(SelectionEvent e) {
 				productsTable.clearAll();
 				productsPageList = InventoryDao.generateQueryInventory(BrandCombo.getText(), ModelCombo.getText(),
-						WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), btnProductsBroadSearch.getSelection(), " ORDER BY id");
+						WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(),
+						btnProductsBroadSearch.getSelection(), " ORDER BY id");
 				fillTableProductsSimple(productsTable, productsPageList);
 			}
 		});
 		ProdBtnSearch.setText("Search");
-		
+
 		btnProductsBroadSearch = new Button(SearchMenuComp_1, SWT.CHECK);
 		btnProductsBroadSearch.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		btnProductsBroadSearch.setText("Enable Broad Search");
@@ -705,6 +705,10 @@ public class GenerateUI {
 		productsTable.setLinesVisible(true);
 
 		createAndNameColumns(productsTable, someProductColumns);
+		
+		Button btnProductsPageEditCartCount = new Button(composite_5, SWT.NONE);
+		btnProductsPageEditCartCount.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		btnProductsPageEditCartCount.setText("New Edit Cart Count for Selected Product");
 
 		Composite CartPopupComp = new Composite(ProductsComposite_1, SWT.NONE);
 		CartPopupComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true, 1, 1));
@@ -903,23 +907,23 @@ public class GenerateUI {
 
 		Composite SearchMenuComp_1_1 = new Composite(Inv2ButtonComp, SWT.NONE);
 		SearchMenuComp_1_1.setLayout(new GridLayout(7, false));
-		
+
 		Label lblBrand_2 = new Label(SearchMenuComp_1_1, SWT.NONE);
 		lblBrand_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblBrand_2.setText("Brand");
-		
+
 		Label lblModel_2 = new Label(SearchMenuComp_1_1, SWT.NONE);
 		lblModel_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblModel_2.setText("Model");
-		
+
 		Label lblTireWidth_1 = new Label(SearchMenuComp_1_1, SWT.NONE);
 		lblTireWidth_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblTireWidth_1.setText("Tire Width");
-		
+
 		Label lblNewLabel = new Label(SearchMenuComp_1_1, SWT.NONE);
 		lblNewLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblNewLabel.setText("Aspect Ratio");
-		
+
 		Label lblDiameter_1 = new Label(SearchMenuComp_1_1, SWT.NONE);
 		lblDiameter_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		lblDiameter_1.setText("Diameter");
@@ -929,23 +933,19 @@ public class GenerateUI {
 		BrandComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		BrandComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		// BrandComboInventory.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
-		
 
 		ModelComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		ModelComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		
 
 		WidthComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		WidthComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		
 
 		RatioComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		RatioComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		
 
 		DiameterComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
 		DiameterComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		
+
 		/*
 		 * fillBrandCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY brand"), BrandComboInventory); fillModelCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY model_number"),
 		 * ModelComboInventory); fillWidthCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY width"), WidthComboInventory);
@@ -955,7 +955,7 @@ public class GenerateUI {
 		Button ProdBtnSearchInventory = new Button(SearchMenuComp_1_1, SWT.NONE);
 		ProdBtnSearchInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		ProdBtnSearchInventory.setText("Search");
-		
+
 		btnInventoryBroadSearch = new Button(SearchMenuComp_1_1, SWT.CHECK);
 		btnInventoryBroadSearch.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		btnInventoryBroadSearch.setText("Enable Broad Search");
@@ -963,15 +963,21 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				tableInv.clearAll();
-				fillTableProductsExtensive(tableInv,
-						InventoryDao.generateQueryInventory(BrandComboInventory.getText(), ModelComboInventory.getText(),
-								WidthComboInventory.getText(), RatioComboInventory.getText(), DiameterComboInventory.getText(), btnInventoryBroadSearch.getSelection()));
+				fillTableProductsExtensive(tableInv, InventoryDao.generateQueryInventory(BrandComboInventory.getText(),
+						ModelComboInventory.getText(), WidthComboInventory.getText(), RatioComboInventory.getText(),
+						DiameterComboInventory.getText(), btnInventoryBroadSearch.getSelection()));
 			}
 		});
 
 		new Label(Inv2ButtonComp, SWT.NONE);
 
-		tableInv = new Table(Inv2ButtonComp, SWT.BORDER | SWT.FULL_SELECTION);
+		Composite SearchResultsComp_1 = new Composite(Inv2ButtonComp, SWT.NONE);
+		SearchResultsComp_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		SearchResultsComp_1.setVisible(true);
+		SearchResultsComp_1.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		tableInv = new Table(SearchResultsComp_1, SWT.BORDER | SWT.FULL_SELECTION | SWT.VIRTUAL);
+		tableInv.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
 		tableInv.setHeaderVisible(true);
 		tableInv.setLinesVisible(true);
 
@@ -992,71 +998,76 @@ public class GenerateUI {
 				Inv2ButtonComp.setEnabled(false);
 			}
 		});
-		new Label(InventoryComposite, SWT.NONE);
 
-		Composite AddInvComp_1 = new Composite(InventoryComposite, SWT.NONE);
-		AddInvComp_1.setVisible(true);
-		AddInvComp_1.setLayout(new GridLayout(4, true));
-		new Label(AddInvComp_1, SWT.NONE);
 
-		Label lblAddInventory_1 = new Label(AddInvComp_1, SWT.NONE);
+		Composite composite_6 = new Composite(InventoryComposite, SWT.NONE);
+		composite_6.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		StackLayout inventorySideLayout = new StackLayout();
+		composite_6.setLayout(inventorySideLayout);
+
+		Composite EditInvComp = new Composite(composite_6, SWT.NONE);
+		EditInvComp.setVisible(true);
+		EditInvComp.setLayout(new GridLayout(4, true));
+		new Label(EditInvComp, SWT.NONE);
+
+		Label lblAddInventory_1 = new Label(EditInvComp, SWT.NONE);
 
 		lblAddInventory_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 2, 1));
 		lblAddInventory_1.setText("Edit Inventory");
-		Label label_2 = new Label(AddInvComp_1, SWT.NONE);
+		Label label_2 = new Label(EditInvComp, SWT.NONE);
 		label_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 
-		Label lblEditInvBrand = new Label(AddInvComp_1, SWT.NONE);
+		Label lblEditInvBrand = new Label(EditInvComp, SWT.NONE);
 		lblEditInvBrand.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditInvBrand.setText("Brand:");
 
-		editInvBrand = new Text(AddInvComp_1, SWT.BORDER);
+		editInvBrand = new Text(EditInvComp, SWT.BORDER);
 		editInvBrand.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
-		Label lblEditInvModel = new Label(AddInvComp_1, SWT.NONE);
+		Label lblEditInvModel = new Label(EditInvComp, SWT.NONE);
 		lblEditInvModel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditInvModel.setText("Model:");
 
-		editInvModel = new Text(AddInvComp_1, SWT.BORDER);
+		editInvModel = new Text(EditInvComp, SWT.BORDER);
 		editInvModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
-		Label lblEditInvSize = new Label(AddInvComp_1, SWT.NONE);
+		Label lblEditInvSize = new Label(EditInvComp, SWT.NONE);
 		lblEditInvSize.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditInvSize.setText("Size:");
 
-		editInvSize = new Text(AddInvComp_1, SWT.BORDER);
+		editInvSize = new Text(EditInvComp, SWT.BORDER);
 		editInvSize.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
-		Label lblEditInvQuantity = new Label(AddInvComp_1, SWT.NONE);
+		Label lblEditInvQuantity = new Label(EditInvComp, SWT.NONE);
 		lblEditInvQuantity.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditInvQuantity.setText("Quantity:");
 
-		editInvQuantity = new Text(AddInvComp_1, SWT.BORDER);
+		editInvQuantity = new Text(EditInvComp, SWT.BORDER);
 		GridData gd_editInvQuantity = new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1);
 		gd_editInvQuantity.widthHint = 325;
 		editInvQuantity.setLayoutData(gd_editInvQuantity);
 
-		Label lblEditInvPurchasePrice = new Label(AddInvComp_1, SWT.NONE);
+		Label lblEditInvPurchasePrice = new Label(EditInvComp, SWT.NONE);
 		lblEditInvPurchasePrice.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditInvPurchasePrice.setText("Purchase Price:");
 
-		editInvPurchasePrice = new Text(AddInvComp_1, SWT.BORDER);
+		editInvPurchasePrice = new Text(EditInvComp, SWT.BORDER);
 		editInvPurchasePrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
 
-		Label lblEditInvSalePrice = new Label(AddInvComp_1, SWT.NONE);
+		Label lblEditInvSalePrice = new Label(EditInvComp, SWT.NONE);
 		lblEditInvSalePrice.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblEditInvSalePrice.setText("Sale Price:");
 
-		editInvSalePrice = new Text(AddInvComp_1, SWT.BORDER);
+		editInvSalePrice = new Text(EditInvComp, SWT.BORDER);
 		editInvSalePrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-		new Label(AddInvComp_1, SWT.NONE);
+		new Label(EditInvComp, SWT.NONE);
 
-		editInvError = new Text(AddInvComp_1, SWT.BORDER);
+		editInvError = new Text(EditInvComp, SWT.BORDER);
 		editInvError.setEditable(false);
 		editInvError.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-		new Label(AddInvComp_1, SWT.NONE);
+		new Label(EditInvComp, SWT.NONE);
 
-		Button btnClearEditInv = new Button(AddInvComp_1, SWT.NONE);
+		Button btnClearEditInv = new Button(EditInvComp, SWT.NONE);
 		btnClearEditInv.setText("Clear");
 
 		btnClearEditInv.addSelectionListener(new SelectionAdapter() {
@@ -1072,11 +1083,11 @@ public class GenerateUI {
 			}
 		});
 
-		Button btnEditInvSubmit = new Button(AddInvComp_1, SWT.NONE);
+		Button btnEditInvSubmit = new Button(EditInvComp, SWT.NONE);
 		btnEditInvSubmit.setText("Submit");
-		new Label(AddInvComp_1, SWT.NONE);
+		new Label(EditInvComp, SWT.NONE);
 
-		Composite AddInvComp = new Composite(InventoryComposite, SWT.NONE);
+		Composite AddInvComp = new Composite(composite_6, SWT.NONE);
 		AddInvComp.setVisible(true);
 		AddInvComp.setLayout(new GridLayout(4, true));
 		new Label(AddInvComp, SWT.NONE);
@@ -1343,10 +1354,13 @@ public class GenerateUI {
 //				allWorkOrders.setEnabled(true);
 //			}
 //		});
-	}
-	
-	public void sortColumnBy(int columnNo) {
 		
+		
+		inventorySideLayout.topControl = EditInvComp;
+	}
+
+	public void sortColumnBy(int columnNo) {
+
 	}
 
 	public void switchStackLayoutToShowArgument(Composite showThis) {
@@ -1362,39 +1376,33 @@ public class GenerateUI {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					System.out.println("column  " + column.getText());
-					if(table == customerTable) {
+					if (table == customerTable) {
 						System.out.println("Sorting Customer table by " + column.getText());
 						sortCustomerTable(column.getText());
-					}else if(table == productsTable) {
+					} else if (table == productsTable) {
 						System.out.println("Sorting products table by " + column.getText());
 						sortProductsTable(column.getText());
-					}else if(table == tableInv) {
+					} else if (table == tableInv) {
 						System.out.println("Sorting Inventory table by " + column.getText());
 						sortInventoryTable(column.getText());
 					}
-					/*else if(table == tablePending) {
-						System.out.println("Sorting pending orders table by " + column.getText());
-						sortOrderPendingTable(column.getText());
-					}else if(table == tableCompleted) {
-						System.out.println("Sorting completed orders table by " + column.getText());
-						sortOrderCompletedTable(column.getText());
-					}else if(table == orderDetailsTable) {
-						System.out.println("Sorting order details table by " + column.getText());
-						sortOrderDetailsTable(column.getText());
-					}*/
-					//sortTable(table, column.getText());
+					/*
+					 * else if(table == tablePending) { System.out.println("Sorting pending orders table by " + column.getText()); sortOrderPendingTable(column.getText()); }else if(table == tableCompleted) {
+					 * System.out.println("Sorting completed orders table by " + column.getText()); sortOrderCompletedTable(column.getText()); }else if(table == orderDetailsTable) {
+					 * System.out.println("Sorting order details table by " + column.getText()); sortOrderDetailsTable(column.getText()); }
+					 */
+					// sortTable(table, column.getText());
 				}
 			});
 
-			
 			// TODO: make table columns resize their width automatically instead of being 100 px wide :)
 			column.setWidth(125);
 		}
 	}
-	
+
 	private void sortCustomerTable(String columnHeader) {
 		String orderBy = " ORDER BY ";
-		switch(columnHeader) {
+		switch (columnHeader) {
 		case "Name":
 			orderBy += "name";
 			break;
@@ -1415,10 +1423,10 @@ public class GenerateUI {
 				searchAddress.getText(), searchEmail.getText(), customerBroadSearch.getSelection(), orderBy);
 		fillTableCustomer(customerTable, customerPageList);
 	}
-	
+
 	private String prodInvSwitch(String columnHeader) {
 		String orderBy = " ORDER BY ";
-		switch(columnHeader) {
+		switch (columnHeader) {
 		case "Brand":
 			orderBy += "brand";
 			break;
@@ -1457,86 +1465,33 @@ public class GenerateUI {
 		}
 		return orderBy;
 	}
-	
+
 	private void sortProductsTable(String columnHeader) {
 		String orderBy = prodInvSwitch(columnHeader);
 		productsTable.clearAll();
 		productsPageList = InventoryDao.generateQueryInventory(BrandCombo.getText(), ModelCombo.getText(),
-				WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), btnProductsBroadSearch.getSelection(), orderBy);
+				WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(),
+				btnProductsBroadSearch.getSelection(), orderBy);
 		fillTableProductsSimple(productsTable, productsPageList);
 	}
 
-	
 	private void sortInventoryTable(String columnHeader) {
 		String orderBy = prodInvSwitch(columnHeader);
 		tableInv.clearAll();
 		invPageList = InventoryDao.generateQueryInventory(BrandComboInventory.getText(), ModelComboInventory.getText(),
-				WidthComboInventory.getText(), RatioComboInventory.getText(), DiameterComboInventory.getText(), btnInventoryBroadSearch.getSelection(), orderBy);
+				WidthComboInventory.getText(), RatioComboInventory.getText(), DiameterComboInventory.getText(),
+				btnInventoryBroadSearch.getSelection(), orderBy);
 		fillTableProductsExtensive(tableInv, invPageList);
 	}
-	
+
 	/*
-	private void sortOrderPendingTable(String columnHeader) {
-		String orderBy = " ORDER BY ";
-		switch(columnHeader) {
-		case "Name":
-			orderBy += "name";
-			break;
-		case "Phone":
-			orderBy += "phone";
-			break;
-		case "Address":
-			orderBy += "address";
-			break;
-		case "Email":
-			orderBy += "email";
-			break;
-		default:
-			System.out.println("There has been an error in the column name switch");
-			return;
-		}
-	}
-	private void sortOrderCompletedTable(String columnHeader) {
-		String orderBy = " ORDER BY ";
-		switch(columnHeader) {
-		case "Name":
-			orderBy += "name";
-			break;
-		case "Phone":
-			orderBy += "phone";
-			break;
-		case "Address":
-			orderBy += "address";
-			break;
-		case "Email":
-			orderBy += "email";
-			break;
-		default:
-			System.out.println("There has been an error in the column name switch");
-			return;
-		}
-	}
-	private void sortOrderDetailsTable(String columnHeader) {
-		String orderBy = " ORDER BY ";
-		switch(columnHeader) {
-		case "Name":
-			orderBy += "name";
-			break;
-		case "Phone":
-			orderBy += "phone";
-			break;
-		case "Address":
-			orderBy += "address";
-			break;
-		case "Email":
-			orderBy += "email";
-			break;
-		default:
-			System.out.println("There has been an error in the column name switch");
-			return;
-		}
-	}
-*/
+	 * private void sortOrderPendingTable(String columnHeader) { String orderBy = " ORDER BY "; switch(columnHeader) { case "Name": orderBy += "name"; break; case "Phone": orderBy += "phone"; break; case "Address":
+	 * orderBy += "address"; break; case "Email": orderBy += "email"; break; default: System.out.println("There has been an error in the column name switch"); return; } } private void sortOrderCompletedTable(String
+	 * columnHeader) { String orderBy = " ORDER BY "; switch(columnHeader) { case "Name": orderBy += "name"; break; case "Phone": orderBy += "phone"; break; case "Address": orderBy += "address"; break; case
+	 * "Email": orderBy += "email"; break; default: System.out.println("There has been an error in the column name switch"); return; } } private void sortOrderDetailsTable(String columnHeader) { String orderBy =
+	 * " ORDER BY "; switch(columnHeader) { case "Name": orderBy += "name"; break; case "Phone": orderBy += "phone"; break; case "Address": orderBy += "address"; break; case "Email": orderBy += "email"; break;
+	 * default: System.out.println("There has been an error in the column name switch"); return; } }
+	 */
 	public static void fillTableCustomer(Table table, List<Customer> myCustomers) {
 		table.removeAll();
 		for (Customer cust : myCustomers) {
