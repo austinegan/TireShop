@@ -762,6 +762,31 @@ public class GenerateUI {
 		new Label(CartPopupComp, SWT.NONE);
 		new Label(CartPopupComp, SWT.NONE);
 
+		
+		
+		btnProductsPageEditCartCount.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Button : Edit Cart Count");
+                if (productsTable.getSelectionCount() < 1) {
+                    System.out.println("No item selected");
+                    addRemoveCartError.setText(
+                            "You must select an item from the table before attempting to edit an inventory item.");
+                } else if (productsTable.getSelectionCount() > 1) {
+                    System.out.println("Too many items selected");
+                    addRemoveCartError.setText(
+                            "Too many items selected in the table. Please select only one item before attempting to edit an inventory item.");
+                } else {
+                    int row = productsTable.getSelectionIndex();
+                    Inventory editingInventory = productsPageList.get(row);
+                    System.out.println("Editing item in row " + String.valueOf(row) + " (zero indexed)");
+                    System.out.println("Inventory id " + String.valueOf(editingInventory.getId()) + " and Brand is " + String.valueOf(productsPageList.get(row).getBrand()) + " and Model is " + String.valueOf(productsPageList.get(row).getModel_number()));
+                    lblBrandHere.setText(editingInventory.getBrand());
+                    lblModelHere.setText(editingInventory.getModel_number());
+                    cartCountLbl.setText(Integer.toString(editingInventory.getCount()));
+                }
+            }
+        });
 
 		// button_1_1.setBounds(508, 36, 24, 23);
 		// button_1_1.setText("+");
@@ -1146,49 +1171,7 @@ public class GenerateUI {
 		Button btnAddInvSubmit = new Button(AddInvComp, SWT.NONE);
 		btnAddInvSubmit.setText("Submit");
 
-		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Submit (Add Inventory)");
-				Session session = HibernateUtil.getSessionFactory().openSession();
-				session.beginTransaction();
-				Inventory inv = new Inventory();
-				inv.setBrand(addInvBrand.getText());
-				inv.setModel_number(addInvModel.getText());
-				inv.setSize(addInvSize.getText());
-				String msg = "";
-				try {
-					int intQuantity = Integer.parseInt(addInvQuantity.getText());
-					inv.setCount(intQuantity);
-				} catch (NumberFormatException nfe) {
-					msg += "Quantity must be an integer. ";
-				}
-				try {
-					Double purchasePrice = Double.parseDouble(addInvPurchasePrice.getText());
-					inv.setPurchase_price(purchasePrice);
-				} catch (NumberFormatException nfe) {
-					msg += "Purchase price must be a double. ";
-				}
-				try {
-					Double salePrice = Double.parseDouble(addInvSalePrice.getText());
-					inv.setSale_price(salePrice);
-				} catch (NumberFormatException nfe) {
-					msg += "Sale price must be a double. ";
-				}
-				if (Validation.inventoryIsValid(inv, addInvError, msg)) {
-					int width = Integer.parseInt(addInvSize.getText().substring(0, 3));
-					inv.setWidth(width);
-					int aspectRatio = Integer.parseInt(addInvSize.getText().substring(4, 6));
-					inv.setAspectratio(aspectRatio);
-					int diameter = Integer.parseInt(addInvSize.getText().substring(7, 9));
-					inv.setDiameter(diameter);
-					session.save(inv);
-					session.getTransaction().commit();
-				} else {
-					session.close();
-				}
-			}
-		});
+
 
 		Button btnClearAddInv = new Button(AddInvComp, SWT.NONE);
 		btnClearAddInv.setText("Clear");
@@ -1339,7 +1322,52 @@ public class GenerateUI {
 					// TODO populate
 					switchStackLayoutToShowArgument(EditCustComp);
 				}
-				switchStackLayoutToShowArgument(EditInvComp);
+			}
+		});
+		
+		
+		
+		btnAddInvSubmit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Submit (Add Inventory)");
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+				Inventory inv = new Inventory();
+				inv.setBrand(addInvBrand.getText());
+				inv.setModel_number(addInvModel.getText());
+				inv.setSize(addInvSize.getText());
+				String msg = "";
+				try {
+					int intQuantity = Integer.parseInt(addInvQuantity.getText());
+					inv.setCount(intQuantity);
+				} catch (NumberFormatException nfe) {
+					msg += "Quantity must be an integer. ";
+				}
+				try {
+					Double purchasePrice = Double.parseDouble(addInvPurchasePrice.getText());
+					inv.setPurchase_price(purchasePrice);
+				} catch (NumberFormatException nfe) {
+					msg += "Purchase price must be a double. ";
+				}
+				try {
+					Double salePrice = Double.parseDouble(addInvSalePrice.getText());
+					inv.setSale_price(salePrice);
+				} catch (NumberFormatException nfe) {
+					msg += "Sale price must be a double. ";
+				}
+				if (Validation.inventoryIsValid(inv, addInvError, msg)) {
+					int width = Integer.parseInt(addInvSize.getText().substring(0, 3));
+					inv.setWidth(width);
+					int aspectRatio = Integer.parseInt(addInvSize.getText().substring(4, 6));
+					inv.setAspectratio(aspectRatio);
+					int diameter = Integer.parseInt(addInvSize.getText().substring(7, 9));
+					inv.setDiameter(diameter);
+					session.save(inv);
+					session.getTransaction().commit();
+				} else {
+					session.close();
+				}
 			}
 		});
 		
