@@ -1470,7 +1470,7 @@ public class GenerateUI {
 		});
 	
 		
-<<<<<<< HEAD
+
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1482,9 +1482,6 @@ public class GenerateUI {
 	}
 	
 	
-	
-	
-	
 
 	
 	
@@ -1496,10 +1493,13 @@ public class GenerateUI {
 	
 	
 	
-
-=======
-	}	
->>>>>>> branch 'main' of https://github.com/austinegan/TireShop.git
+	
+	
+	
+	
+	
+	
+	
 
 	public void switchStackLayoutToShowArgument(Composite showThis) {
 		((StackLayout) showThis.getParent().getLayout()).topControl = showThis;
