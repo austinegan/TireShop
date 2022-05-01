@@ -81,6 +81,9 @@ public class GenerateUI {
 	int plusCounter = 0;
 	private Table orderDetailsTable;
 	private Table productsTable;
+	private Button customerBroadSearch;
+	private Button btnProductsBroadSearch;
+	private Button btnInventoryBroadSearch;
 
 	private static String[] allProductColumns;
 	private static String[] someProductColumns;
@@ -100,7 +103,7 @@ public class GenerateUI {
 	private static List<Customer> customerPageList;
 	private static List<Inventory> productsPageList;
 	private static List<Inventory> cartPageList;
-	private static List<Inventory> InvPageList;
+	private static List<Inventory> invPageList;
 	private static List<WorkOrder> workOrdersPageList;
 
 	private static List<Customer> allCustomers;
@@ -310,7 +313,7 @@ public class GenerateUI {
 
 		selectCustomerBtn.setText("Select Customer");
 
-		Button customerBroadSearch = new Button(SearchCustomerEverythingElseComposite, SWT.CHECK);
+		customerBroadSearch = new Button(SearchCustomerEverythingElseComposite, SWT.CHECK);
 		customerBroadSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -627,43 +630,69 @@ public class GenerateUI {
 		composite_5.setLayout(new GridLayout(1, false));
 
 		Composite SearchMenuComp_1 = new Composite(composite_5, SWT.NONE);
+		SearchMenuComp_1.setLayout(new GridLayout(7, false));
 		SearchMenuComp_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		RowLayout rl_SearchMenuComp_1 = new RowLayout(SWT.HORIZONTAL);
-		rl_SearchMenuComp_1.justify = true;
-		rl_SearchMenuComp_1.fill = true;
-		SearchMenuComp_1.setLayout(rl_SearchMenuComp_1);
+		
+		Label lblBrand_1 = new Label(SearchMenuComp_1, SWT.NONE);
+		lblBrand_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblBrand_1.setText("Brand");
+		
+		Label lblModel_1 = new Label(SearchMenuComp_1, SWT.NONE);
+		lblModel_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblModel_1.setText("Model");
+		
+		Label lblTireWidth = new Label(SearchMenuComp_1, SWT.NONE);
+		lblTireWidth.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblTireWidth.setText("Tire Width");
+		
+		Label lblAspectRatio = new Label(SearchMenuComp_1, SWT.NONE);
+		lblAspectRatio.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblAspectRatio.setText("Aspect Ratio");
+		
+		Label lblDiameter = new Label(SearchMenuComp_1, SWT.NONE);
+		lblDiameter.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblDiameter.setText("Diameter");
+		new Label(SearchMenuComp_1, SWT.NONE);
+		new Label(SearchMenuComp_1, SWT.NONE);
 
 		BrandCombo = new Combo(SearchMenuComp_1, SWT.NONE);
+		BrandCombo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		// BrandCombo.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
-		BrandCombo.setText("Brand");
+		
 
 		ModelCombo = new Combo(SearchMenuComp_1, SWT.NONE);
-		ModelCombo.setText("Model");
+		ModelCombo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+
 
 		WidthCombo = new Combo(SearchMenuComp_1, SWT.NONE);
-		WidthCombo.setText("Tire Width");
+		WidthCombo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
 		RatioCombo = new Combo(SearchMenuComp_1, SWT.NONE);
-		RatioCombo.setText("Aspect Ratio");
+		RatioCombo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
 		DiameterCombo = new Combo(SearchMenuComp_1, SWT.NONE);
-		DiameterCombo.setText("Diameter");
+		DiameterCombo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		/*
 		 * fillBrandCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY brand"), BrandCombo); fillModelCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY model_number"), ModelCombo);
 		 * fillWidthCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY width"), WidthCombo); fillAspectRatioCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY aspectratio"), RatioCombo);
 		 * fillDiameterCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY diameter"), DiameterCombo);
 		 */
 		Button ProdBtnSearch = new Button(SearchMenuComp_1, SWT.NONE);
+		ProdBtnSearch.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		ProdBtnSearch.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				productsTable.clearAll();
 				fillTableProductsSimple(productsTable,
 						InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(),
-								WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
+								WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), btnProductsBroadSearch.getSelection()));
 			}
 		});
 		ProdBtnSearch.setText("Search");
+		
+		btnProductsBroadSearch = new Button(SearchMenuComp_1, SWT.CHECK);
+		btnProductsBroadSearch.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		btnProductsBroadSearch.setText("Enable Broad Search");
 
 		Composite SearchResultsComp = new Composite(composite_5, SWT.NONE);
 		SearchResultsComp.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -873,26 +902,50 @@ public class GenerateUI {
 		Inv2ButtonComp.setLayout(new GridLayout(2, false));
 
 		Composite SearchMenuComp_1_1 = new Composite(Inv2ButtonComp, SWT.NONE);
-		RowLayout rl_SearchMenuComp_1_1 = new RowLayout(SWT.HORIZONTAL);
-		rl_SearchMenuComp_1_1.justify = true;
-		rl_SearchMenuComp_1_1.fill = true;
-		SearchMenuComp_1_1.setLayout(rl_SearchMenuComp_1_1);
+		SearchMenuComp_1_1.setLayout(new GridLayout(7, false));
+		
+		Label lblBrand_2 = new Label(SearchMenuComp_1_1, SWT.NONE);
+		lblBrand_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblBrand_2.setText("Brand");
+		
+		Label lblModel_2 = new Label(SearchMenuComp_1_1, SWT.NONE);
+		lblModel_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblModel_2.setText("Model");
+		
+		Label lblTireWidth_1 = new Label(SearchMenuComp_1_1, SWT.NONE);
+		lblTireWidth_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblTireWidth_1.setText("Tire Width");
+		
+		Label lblNewLabel = new Label(SearchMenuComp_1_1, SWT.NONE);
+		lblNewLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblNewLabel.setText("Aspect Ratio");
+		
+		Label lblDiameter_1 = new Label(SearchMenuComp_1_1, SWT.NONE);
+		lblDiameter_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		lblDiameter_1.setText("Diameter");
+		new Label(SearchMenuComp_1_1, SWT.NONE);
+		new Label(SearchMenuComp_1_1, SWT.NONE);
 
 		BrandComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
+		BrandComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		// BrandComboInventory.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
-		BrandComboInventory.setText("Brand");
+		
 
 		ModelComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
-		ModelComboInventory.setText("Model");
+		ModelComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		
 
 		WidthComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
-		WidthComboInventory.setText("Tire Width");
+		WidthComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		
 
 		RatioComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
-		RatioComboInventory.setText("Aspect Ratio");
+		RatioComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		
 
 		DiameterComboInventory = new Combo(SearchMenuComp_1_1, SWT.NONE);
-		DiameterComboInventory.setText("Diameter");
+		DiameterComboInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		
 		/*
 		 * fillBrandCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY brand"), BrandComboInventory); fillModelCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY model_number"),
 		 * ModelComboInventory); fillWidthCombo(InventoryDao.getInventory("SELECT * FROM inventory ORDER BY width"), WidthComboInventory);
@@ -900,14 +953,19 @@ public class GenerateUI {
 		 * DiameterComboInventory);
 		 */
 		Button ProdBtnSearchInventory = new Button(SearchMenuComp_1_1, SWT.NONE);
+		ProdBtnSearchInventory.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 		ProdBtnSearchInventory.setText("Search");
+		
+		btnInventoryBroadSearch = new Button(SearchMenuComp_1_1, SWT.CHECK);
+		btnInventoryBroadSearch.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		btnInventoryBroadSearch.setText("Enable Broad Search");
 		ProdBtnSearchInventory.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				tableInv.clearAll();
-				fillTableProductsSimple(tableInv,
-						InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(),
-								WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), true));
+				fillTableProductsExtensive(tableInv,
+						InventoryDao.generateQueryInventoryCombos(BrandComboInventory.getText(), ModelComboInventory.getText(),
+								WidthComboInventory.getText(), RatioComboInventory.getText(), DiameterComboInventory.getText(), btnInventoryBroadSearch.getSelection()));
 			}
 		});
 
@@ -1303,8 +1361,28 @@ public class GenerateUI {
 			column.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					// TODO confirmation dialogue
 					System.out.println("column  " + column.getText());
+					if(table == customerTable) {
+						System.out.println("Sorting Customer table by " + column.getText());
+						sortCustomerTable(column.getText());
+					}else if(table == productsTable) {
+						System.out.println("Sorting products table by " + column.getText());
+						sortProductsTable(column.getText());
+					}else if(table == tableInv) {
+						System.out.println("Sorting Inventory table by " + column.getText());
+						sortInventoryTable(column.getText());
+					}
+					/*else if(table == tablePending) {
+						System.out.println("Sorting pending orders table by " + column.getText());
+						sortOrderPendingTable(column.getText());
+					}else if(table == tableCompleted) {
+						System.out.println("Sorting completed orders table by " + column.getText());
+						sortOrderCompletedTable(column.getText());
+					}else if(table == orderDetailsTable) {
+						System.out.println("Sorting order details table by " + column.getText());
+						sortOrderDetailsTable(column.getText());
+					}*/
+					//sortTable(table, column.getText());
 				}
 			});
 
@@ -1313,7 +1391,135 @@ public class GenerateUI {
 			column.setWidth(125);
 		}
 	}
+	
+	private void sortCustomerTable(String columnHeader) {
+		String orderBy = " ORDER BY ";
+		switch(columnHeader) {
+		case "Name":
+			orderBy += "name";
+			break;
+		case "Phone":
+			orderBy += "phone";
+			break;
+		case "Address":
+			orderBy += "address";
+			break;
+		case "Email":
+			orderBy += "email";
+			break;
+		default:
+			System.out.println("There has been an error in the column name switch");
+			return;
+		}
+		customerPageList = CustomerDao.generateQueryCustomer(searchName.getText(), searchPhone.getText(),
+				searchAddress.getText(), searchEmail.getText(), customerBroadSearch.getSelection(), orderBy);
+		fillTableCustomer(customerTable, customerPageList);
+	}
+	
+	private String prodInvSwitch(String columnHeader) {
+		String orderBy = " ORDER BY ";
+		switch(columnHeader) {
+		case "Brand":
+			orderBy += "brand";
+			break;
+		case "Model":
+			orderBy += "model_number";
+			break;
+		case "Size":
+			orderBy += "size";
+			break;
+		case "Quantity":
+			orderBy += "count";
+			break;
+		case "Sale Price":
+			orderBy += "sale_price";
+			break;
+		default:
+			System.out.println("There has been an error in the column name switch");
+			return " AHHHHHHHHHHHHHHH";
+		}
+		return orderBy;
+	}
+	
+	private void sortProductsTable(String columnHeader) {
+		String orderBy = prodInvSwitch(columnHeader);
+		productsTable.clearAll();
+		productsPageList = InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(),
+				WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), btnProductsBroadSearch.getSelection(), orderBy);
+		fillTableProductsSimple(productsTable, productsPageList);
+	}
 
+	
+	private void sortInventoryTable(String columnHeader) {
+		String orderBy = prodInvSwitch(columnHeader);
+		tableInv.clearAll();
+		invPageList = InventoryDao.generateQueryInventoryCombos(BrandComboInventory.getText(), ModelComboInventory.getText(),
+				WidthComboInventory.getText(), RatioComboInventory.getText(), DiameterComboInventory.getText(), btnInventoryBroadSearch.getSelection(), orderBy);
+		fillTableProductsExtensive(productsTable, invPageList);
+	}
+	
+	/*
+	private void sortOrderPendingTable(String columnHeader) {
+		String orderBy = " ORDER BY ";
+		switch(columnHeader) {
+		case "Name":
+			orderBy += "name";
+			break;
+		case "Phone":
+			orderBy += "phone";
+			break;
+		case "Address":
+			orderBy += "address";
+			break;
+		case "Email":
+			orderBy += "email";
+			break;
+		default:
+			System.out.println("There has been an error in the column name switch");
+			return;
+		}
+	}
+	private void sortOrderCompletedTable(String columnHeader) {
+		String orderBy = " ORDER BY ";
+		switch(columnHeader) {
+		case "Name":
+			orderBy += "name";
+			break;
+		case "Phone":
+			orderBy += "phone";
+			break;
+		case "Address":
+			orderBy += "address";
+			break;
+		case "Email":
+			orderBy += "email";
+			break;
+		default:
+			System.out.println("There has been an error in the column name switch");
+			return;
+		}
+	}
+	private void sortOrderDetailsTable(String columnHeader) {
+		String orderBy = " ORDER BY ";
+		switch(columnHeader) {
+		case "Name":
+			orderBy += "name";
+			break;
+		case "Phone":
+			orderBy += "phone";
+			break;
+		case "Address":
+			orderBy += "address";
+			break;
+		case "Email":
+			orderBy += "email";
+			break;
+		default:
+			System.out.println("There has been an error in the column name switch");
+			return;
+		}
+	}
+*/
 	public static void fillTableCustomer(Table table, List<Customer> myCustomers) {
 		table.removeAll();
 		for (Customer cust : myCustomers) {
@@ -1369,19 +1575,19 @@ public class GenerateUI {
 	}
 
 	public void fillProductCombos() {
-		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandCombo, "Brand");
-		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelCombo, "Model");
-		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthCombo, "Tire Width");
-		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioCombo, "Aspect Ratio");
-		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterCombo, "Diameter");
+		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandCombo, "");
+		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelCombo, "");
+		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthCombo, "");
+		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioCombo, "");
+		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterCombo, "");
 	}
 
 	public void fillInventoryCombos() {
-		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandComboInventory, "Brand");
-		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelComboInventory, "Model");
-		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthComboInventory, "Tire Width");
-		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioComboInventory, "Aspect Ratio");
-		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterComboInventory, "Diameter");
+		fillCombo(brandList = InventoryDao.comboQuery("brand"), BrandComboInventory, "");
+		fillCombo(modelList = InventoryDao.comboQuery("model_number"), ModelComboInventory, "");
+		fillCombo(widthList = InventoryDao.comboQuery("width"), WidthComboInventory, "");
+		fillCombo(ratioList = InventoryDao.comboQuery("aspectratio"), RatioComboInventory, "");
+		fillCombo(diameterList = InventoryDao.comboQuery("diameter"), DiameterComboInventory, "");
 	}
 
 	public void fillAllCombos() {
