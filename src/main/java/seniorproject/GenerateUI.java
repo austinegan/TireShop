@@ -197,8 +197,10 @@ public class GenerateUI {
 //			System.out.println(wo.getNumber());
 //		}
 		updateAllInventory();
-		fillTableProductsSimple(productsTable, allInventory);
-		fillTableProductsExtensive(tableInv, allInventory);
+		productsPageList = allInventory;
+		fillTableProductsSimple(productsTable, productsPageList);
+		invPageList = allInventory;
+		fillTableProductsExtensive(tableInv, invPageList);
 		fillOrderTable(tablePending, WorkOrderDao.getAllOrders(" ORDER BY time_create ASC"));
 		fillOrderTable(tableCompleted, WorkOrderDao.getAllOrders(" ORDER BY time_update_status DESC"));
 		fillAllCombos();
@@ -990,14 +992,7 @@ public class GenerateUI {
 		Button btnEditInventory = new Button(Inv2ButtonComp, SWT.NONE);
 		btnEditInventory.setText("Edit Inventory");
 
-		btnAddInv.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Button : Add Inventory");
-				// AddInvComp.setVisible(true);
-				Inv2ButtonComp.setEnabled(false);
-			}
-		});
+
 
 
 		Composite composite_6 = new Composite(InventoryComposite, SWT.NONE);
@@ -1301,67 +1296,69 @@ public class GenerateUI {
 		btnBackOutOfOrder.setText("<- Back");
 		new Label(composite_4, SWT.NONE);
 		new Label(composite_4, SWT.NONE);
-
-//				TabItem tbtmNewItem_5 = new TabItem(tabFolder, SWT.NONE);
-//				tbtmNewItem_5.setText("New Item");
-//				
-//				Composite stackCompositeParent = new Composite(tabFolder, SWT.NONE);
-//				tbtmNewItem_5.setControl(stackCompositeParent);
-//				StackLayout exampleLayout = new StackLayout();
-//				stackCompositeParent.setLayout(exampleLayout);
-//				
-//				Composite stackCompositeA = new Composite(stackCompositeParent, SWT.NONE);
-//				stackCompositeA.setLayout(new FillLayout(SWT.HORIZONTAL));
-//				
-//				Button compAButton = new Button(stackCompositeA, SWT.NONE);
-//				
-//				compAButton.setText("This is Composite A");
-//				
-//				Composite stackCompositeB = new Composite(stackCompositeParent, SWT.NONE);
-//				stackCompositeB.setLayout(new FillLayout(SWT.HORIZONTAL));
-//				
-//				Button compBButton = new Button(stackCompositeB, SWT.NONE);
-//				compBButton.setText("This is composite B");
-//				
-//				exampleLayout.topControl = stackCompositeA;
-//				
-//				compAButton.addSelectionListener(new SelectionAdapter() {
-//					@Override
-//					public void widgetSelected(SelectionEvent e) {
-//						System.out.println("Selected Button A");
-//						exampleLayout.topControl = stackCompositeB;
-//						stackCompositeParent.layout();
-//					}
-//				});
-//				
-//				compBButton.addSelectionListener(new SelectionAdapter() {
-//					@Override
-//					public void widgetSelected(SelectionEvent e) {
-//						System.out.println("Selected Button B");
-//						((StackLayout) stackCompositeParent.getLayout()).topControl = stackCompositeA;
-//						//exampleLayout.topControl = stackCompositeA;
-//						//stackCompositeParent.layout();
-//						stackCompositeA.getParent().layout();
-//						
-//					}
-//				});
-
-//		btnXSpecificWorkOrders.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				System.out.println("Button : X (Specific Work Orders)");
-//				specificWorkOrders.setVisible(false);
-//				allWorkOrders.setEnabled(true);
-//			}
-//		});
 		
 		
 		inventorySideLayout.topControl = EditInvComp;
+		
+		
+		btnAddInv.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Add Inventory");
+				switchStackLayoutToShowArgument(AddInvComp);
+			}
+		});
+		
+		
+		btnEditInventory.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Edit Inventory");
+				//populate
+				if (tableInv.getSelectionCount() < 1) {
+					System.out.println("no customer selected");
+					custCompButtonsErrorField.setText(
+							"You must select an item from the table before attempting to edit that item.");
+				} else if (tableInv.getSelectionCount() > 1) {
+					System.out.println("too many items selected");
+					custCompButtonsErrorField.setText(
+							"Too many items selected in the table. Please select only one item before attempting to edit.");
+				} else {
+					int row = tableInv.getSelectionIndex();
+					Inventory thisItem = invPageList.get(row);
+					/*
+//					System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)");
+//					System.out.println("customer id " + String.valueOf(thisItem.getId()) + " and Name is "
+							+ String.valueOf(customerPageList.get(row).getName())); */
+					editInvBrand.setText(thisItem.getBrand());
+					editInvModel.setText(thisItem.getModel_number());
+					editInvSize.setText(thisItem.getSize());
+					editInvQuantity.setText(String.valueOf(thisItem.getCount()));
+					editInvPurchasePrice.setText(String.valueOf(thisItem.getPurchase_price()));
+					editInvSalePrice.setText(String.valueOf(thisItem.getSale_price()));
+					// TODO populate
+					switchStackLayoutToShowArgument(EditCustComp);
+				}
+				switchStackLayoutToShowArgument(EditInvComp);
+			}
+		});
+		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-	public void sortColumnBy(int columnNo) {
-
-	}
 
 	public void switchStackLayoutToShowArgument(Composite showThis) {
 		((StackLayout) showThis.getParent().getLayout()).topControl = showThis;
