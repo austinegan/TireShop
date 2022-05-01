@@ -791,88 +791,94 @@ public class GenerateUI {
 		decreaseBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(selectedProduct != null)  {
-				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
-				double subtotal = 0;
-				double tax = 0;
-				double total = 0;
-				if (cartReference != null && cartReference.getCount() > 0) {
-					cartReference.setCount(cartReference.getCount() - 1);
-					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
-
-					for (Inventory inv : cartPageList) {
-						subtotal += (inv.getSale_price() * inv.getCount());
-						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
-						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
-					}
-					total = Math.round(total * 100.0) / 100.0;
-					SubtotalText.setText(Double.toString(subtotal));
-					TaxText.setText(Double.toString(tax));
-					CartTotalText.setText(Double.toString(total));
-					if(cartReference.getCount() == 0) {
-						//remove from map and from List
-
-						mapCart.remove(cartReference.getId());
-						cartPageList.remove(cartReference);
-
-					
+				if (selectedProduct != null) {
+					Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
+					double subtotal = 0;
+					double tax = 0;
+					double total = 0;
+					if (cartReference != null && cartReference.getCount() > 0) {
+						cartReference.setCount(cartReference.getCount() - 1);
+						cartCountLbl.setText(String.valueOf(cartReference.getCount()));
 
 						for (Inventory inv : cartPageList) {
 							subtotal += (inv.getSale_price() * inv.getCount());
 							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
-							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+							total += ((inv.getSale_price() * inv.getCount())
+									+ ((inv.getSale_price() * inv.getCount()) * 0.075));
 						}
-					}					
+						total = Math.round(total * 100.0) / 100.0;
+						SubtotalText.setText(Double.toString(subtotal));
+						TaxText.setText(Double.toString(tax));
+						CartTotalText.setText(Double.toString(total));
+						if (cartReference.getCount() == 0) {
+							// remove from map and from List
 
-				} else {
-					System.out.println("cannot decrement. not enought items");
-					// TODO put in error field
+							mapCart.remove(cartReference.getId());
+							cartPageList.remove(cartReference);
+
+							for (Inventory inv : cartPageList) {
+								subtotal += (inv.getSale_price() * inv.getCount());
+								tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+								total += ((inv.getSale_price() * inv.getCount())
+										+ ((inv.getSale_price() * inv.getCount()) * 0.075));
+							}
+						}
+
+					} else {
+						System.out.println("cannot decrement. not enought items");
+						// TODO put in error field
+					}
 				}
-			}
 			}
 		});
 
 		increaseBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(selectedProduct != null)  {
-				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
-				double subtotal = 0;
-				double tax = 0;
-				double total = 0;
-				//were there 0? add to list and map
-				
-				if(cartReference == null) {
-					if(selectedProduct.getCount() > 0) {	//create map and List indices for this cart item w/ count of 1
-						cartReference = new Inventory(selectedProduct.getBrand(), selectedProduct.getModel_number(), selectedProduct.getSale_price(), selectedProduct.getPurchase_price(), 1, selectedProduct.getSize(), selectedProduct.getWidth(), selectedProduct.getAspectratio(), selectedProduct.getDiameter());
-						cartPageList.add(cartReference);
-						cartReference.setId(selectedProduct.getId());
-						mapCart.put(cartReference.getId(), cartReference);
+				if (selectedProduct != null) {
+					Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
+					double subtotal = 0;
+					double tax = 0;
+					double total = 0;
+					// were there 0? add to list and map
+
+					if (cartReference == null) {
+						if (selectedProduct.getCount() > 0) {	// create map and List indices for this cart item w/ count of 1
+							cartReference = new Inventory(selectedProduct.getBrand(), selectedProduct.getModel_number(),
+									selectedProduct.getSale_price(), selectedProduct.getPurchase_price(), 1,
+									selectedProduct.getSize(), selectedProduct.getWidth(),
+									selectedProduct.getAspectratio(), selectedProduct.getDiameter());
+							cartPageList.add(cartReference);
+							cartReference.setId(selectedProduct.getId());
+							mapCart.put(cartReference.getId(), cartReference);
+							cartCountLbl.setText(String.valueOf(cartReference.getCount()));
+							for (Inventory inv : cartPageList) {
+								subtotal += (inv.getSale_price() * inv.getCount());
+								tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+								total += ((inv.getSale_price() * inv.getCount())
+										+ ((inv.getSale_price() * inv.getCount()) * 0.075));
+							}
+						}
+					} else if (cartReference.getCount() == selectedProduct.getCount()) {
+						System.out.println("Cannot increment item " + cartReference.getBrand() + " "
+								+ cartReference.getModel_number()
+								+ "\tTotal in cart is equal to total in inventory :)");
+						// TODO error field
+					} else { // not null and not == inv.count. So increment cart
+						cartReference.setCount(cartReference.getCount() + 1);
 						cartCountLbl.setText(String.valueOf(cartReference.getCount()));
 						for (Inventory inv : cartPageList) {
 							subtotal += (inv.getSale_price() * inv.getCount());
 							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
-							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+							total += ((inv.getSale_price() * inv.getCount())
+									+ ((inv.getSale_price() * inv.getCount()) * 0.075));
 						}
+						total = Math.round(total * 100.0) / 100.0;
+						SubtotalText.setText(Double.toString(subtotal));
+						TaxText.setText(Double.toString(tax));
+						CartTotalText.setText(Double.toString(total));
 					}
-				} else if (cartReference.getCount() == selectedProduct.getCount()) {
-					System.out.println("Cannot increment item " + cartReference.getBrand() + " "
-							+ cartReference.getModel_number() + "\tTotal in cart is equal to total in inventory :)");
-					// TODO error field
-				} else { // not null and not == inv.count. So increment cart
-					cartReference.setCount(cartReference.getCount() + 1);
-					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
-					for (Inventory inv : cartPageList) {
-						subtotal += (inv.getSale_price() * inv.getCount());
-						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
-						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
-					}
-					total = Math.round(total * 100.0) / 100.0;
-					SubtotalText.setText(Double.toString(subtotal));
-					TaxText.setText(Double.toString(tax));
-					CartTotalText.setText(Double.toString(total));
 				}
-			}
 			}
 		});
 
@@ -904,120 +910,120 @@ public class GenerateUI {
 		lblNewLabel_9.setText("Cart:");
 		new Label(CheckoutComp, SWT.NONE);
 		new Label(CheckoutComp, SWT.NONE);
-		
-				cartItemsComp = new Composite(CheckoutComp, SWT.NONE);
-				cartItemsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-				cartItemsComp.setLayout(new GridLayout(9, false));
-				new Label(cartItemsComp, SWT.NONE);
-				
-						txtBrand = new Text(cartItemsComp, SWT.BORDER);
-						txtBrand.setText("Brand");
-						txtBrand.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-						
-								txtModel = new Text(cartItemsComp, SWT.BORDER);
-								txtModel.setText("Model");
-								txtModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-								
-										txtSize = new Text(cartItemsComp, SWT.BORDER);
-										txtSize.setText("Size");
-										txtSize.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-										
-												txtPurchasePrice = new Text(cartItemsComp, SWT.BORDER);
-												txtPurchasePrice.setText("Purchase Price");
-												txtPurchasePrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-												new Label(cartItemsComp, SWT.NONE);
-												new Label(cartItemsComp, SWT.NONE);
-												new Label(cartItemsComp, SWT.NONE);
-												new Label(cartItemsComp, SWT.NONE);
-												
-														Button btnXSearchAccount_1 = new Button(cartItemsComp, SWT.NONE);
-														btnXSearchAccount_1.setText("X");
-														
-																btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
-																	@Override
-																	public void widgetSelected(SelectionEvent e) {
-																		System.out.println("Button : Close Cart Item");
-																		// TireDescriptionText.setText(" ");
-																		ItemTotalCost.setText(" ");
-																		QuantityText.setText(" ");
-																	}
-																});
-																new Label(cartItemsComp, SWT.NONE);
-																new Label(cartItemsComp, SWT.NONE);
-																new Label(cartItemsComp, SWT.NONE);
-																new Label(cartItemsComp, SWT.NONE);
-																
-																		Button button_1_2 = new Button(cartItemsComp, SWT.NONE);
-																		button_1_2.setText("-");
-																		button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
-																		
-																				QuantityText = new Text(cartItemsComp, SWT.BORDER);
-																				
-																						Button button_1_1_1 = new Button(cartItemsComp, SWT.NONE);
-																						button_1_1_1.setText("+");
-																						button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
-																						
-																								ItemTotalCost = new Text(cartItemsComp, SWT.BORDER);
-																								new Label(cartItemsComp, SWT.NONE);
-																								new Label(cartItemsComp, SWT.NONE).setText("Brand");
-																								new Label(cartItemsComp, SWT.NONE).setText("Model");
-																								new Label(cartItemsComp, SWT.NONE).setText("Size");
-																								new Label(cartItemsComp, SWT.NONE).setText("Purchase Price");
-																								new Label(cartItemsComp, SWT.NONE);
-																								new Label(cartItemsComp, SWT.NONE);
-																								new Label(cartItemsComp, SWT.NONE);
-																								new Label(cartItemsComp, SWT.NONE);
+
+		cartItemsComp = new Composite(CheckoutComp, SWT.NONE);
+		cartItemsComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		cartItemsComp.setLayout(new GridLayout(9, false));
+		new Label(cartItemsComp, SWT.NONE);
+
+		txtBrand = new Text(cartItemsComp, SWT.BORDER);
+		txtBrand.setText("Brand");
+		txtBrand.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+		txtModel = new Text(cartItemsComp, SWT.BORDER);
+		txtModel.setText("Model");
+		txtModel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+		txtSize = new Text(cartItemsComp, SWT.BORDER);
+		txtSize.setText("Size");
+		txtSize.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
+		txtPurchasePrice = new Text(cartItemsComp, SWT.BORDER);
+		txtPurchasePrice.setText("Purchase Price");
+		txtPurchasePrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+
+		Button btnXSearchAccount_1 = new Button(cartItemsComp, SWT.NONE);
+		btnXSearchAccount_1.setText("X");
+
+		btnXSearchAccount_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Close Cart Item");
+				// TireDescriptionText.setText(" ");
+				ItemTotalCost.setText(" ");
+				QuantityText.setText(" ");
+			}
+		});
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+
+		Button button_1_2 = new Button(cartItemsComp, SWT.NONE);
+		button_1_2.setText("-");
+		button_1_2.setFont(SWTResourceManager.getFont("Segoe UI", 20, SWT.NORMAL));
+
+		QuantityText = new Text(cartItemsComp, SWT.BORDER);
+
+		Button button_1_1_1 = new Button(cartItemsComp, SWT.NONE);
+		button_1_1_1.setText("+");
+		button_1_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
+
+		ItemTotalCost = new Text(cartItemsComp, SWT.BORDER);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE).setText("Brand");
+		new Label(cartItemsComp, SWT.NONE).setText("Model");
+		new Label(cartItemsComp, SWT.NONE).setText("Size");
+		new Label(cartItemsComp, SWT.NONE).setText("Purchase Price");
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
+		new Label(cartItemsComp, SWT.NONE);
 		new Label(CheckoutComp, SWT.NONE);
 		new Label(CheckoutComp, SWT.NONE);
-		
-				Composite composite = new Composite(CheckoutComp, SWT.NONE);
-				composite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-				composite.setLayout(new GridLayout(2, false));
-				
-						Label lblNewLabel_11 = new Label(composite, SWT.NONE);
-						lblNewLabel_11.setText("Subtotal:");
-						
-								SubtotalText = new Text(composite, SWT.BORDER);
-								
-										Label lblNewLabel_11_1 = new Label(composite, SWT.NONE);
-										lblNewLabel_11_1.setText("Tax(7.5%)");
-										
-												TaxText = new Text(composite, SWT.BORDER);
-												
-														Label lblNewLabel_11_1_1 = new Label(composite, SWT.NONE);
-														lblNewLabel_11_1_1.setText("Total:");
-														
-																CartTotalText = new Text(composite, SWT.BORDER);
-																
-																		Button btnClearCart = new Button(composite, SWT.NONE);
-																		btnClearCart.addSelectionListener(new SelectionAdapter() {
-																			@Override
-																			public void widgetSelected(SelectionEvent e) {
-																				System.out.println("Button : Clear Cart");
-																				cartPageList.clear();
-																				SubtotalText.setText("");
-																				TaxText.setText("");
-																				CartTotalText.setText("");
-																			}
-																		});
-																		btnClearCart.setText("Clear Cart");
-																		
-																				Button btnNewButton = new Button(composite, SWT.NONE);
-																				btnNewButton.setText("Checkout");
-																				new Label(CheckoutComp, SWT.NONE);
-																				new Label(CheckoutComp, SWT.NONE);
-																				new Label(CheckoutComp, SWT.NONE);
-																				
-																						btnNewButton.addSelectionListener(new SelectionAdapter() {
-																							@Override
-																							public void widgetSelected(SelectionEvent e) {
-																								checkoutAmount = (long) (Double.parseDouble(CartTotalText.getText()) * 100);
-																								System.out.println("Amount in cents is " + checkoutAmount);
-																								SpendMoney.initialize();
-																								SpendMoney.payWithTerminal(checkoutAmount);
-																				
-																							}
-																						});
+
+		Composite composite = new Composite(CheckoutComp, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		composite.setLayout(new GridLayout(2, false));
+
+		Label lblNewLabel_11 = new Label(composite, SWT.NONE);
+		lblNewLabel_11.setText("Subtotal:");
+
+		SubtotalText = new Text(composite, SWT.BORDER);
+
+		Label lblNewLabel_11_1 = new Label(composite, SWT.NONE);
+		lblNewLabel_11_1.setText("Tax(7.5%)");
+
+		TaxText = new Text(composite, SWT.BORDER);
+
+		Label lblNewLabel_11_1_1 = new Label(composite, SWT.NONE);
+		lblNewLabel_11_1_1.setText("Total:");
+
+		CartTotalText = new Text(composite, SWT.BORDER);
+
+		Button btnClearCart = new Button(composite, SWT.NONE);
+		btnClearCart.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear Cart");
+				cartPageList.clear();
+				SubtotalText.setText("");
+				TaxText.setText("");
+				CartTotalText.setText("");
+			}
+		});
+		btnClearCart.setText("Clear Cart");
+
+		Button btnNewButton = new Button(composite, SWT.NONE);
+		btnNewButton.setText("Checkout");
+		new Label(CheckoutComp, SWT.NONE);
+		new Label(CheckoutComp, SWT.NONE);
+		new Label(CheckoutComp, SWT.NONE);
+
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				checkoutAmount = (long) (Double.parseDouble(CartTotalText.getText()) * 100);
+				System.out.println("Amount in cents is " + checkoutAmount);
+				SpendMoney.initialize();
+				SpendMoney.payWithTerminal(checkoutAmount);
+
+			}
+		});
 		// TODO remove below line
 		// cartPageList = InventoryDao.generateQueryInventory("Michelin", "", "", "", "", true);
 		fillCartItemsGridLayout();
@@ -1820,7 +1826,8 @@ public class GenerateUI {
 					for (Inventory inv : cartPageList) {
 						subtotal += (inv.getSale_price() * inv.getCount());
 						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
-						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+						total += ((inv.getSale_price() * inv.getCount())
+								+ ((inv.getSale_price() * inv.getCount()) * 0.075));
 					}
 					total = Math.round(total * 100.0) / 100.0;
 					SubtotalText.setText(Double.toString(subtotal));
@@ -1857,13 +1864,14 @@ public class GenerateUI {
 						for (Inventory inv : cartPageList) {
 							subtotal += (inv.getSale_price() * inv.getCount());
 							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
-							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+							total += ((inv.getSale_price() * inv.getCount())
+									+ ((inv.getSale_price() * inv.getCount()) * 0.075));
 						}
 						total = Math.round(total * 100.0) / 100.0;
 						SubtotalText.setText(Double.toString(subtotal));
 						TaxText.setText(Double.toString(tax));
 						CartTotalText.setText(Double.toString(total));
-						
+
 					} else {
 						System.out.println("cannot decrement. not enought items");
 						// TODO put in error field
@@ -1883,7 +1891,8 @@ public class GenerateUI {
 						for (Inventory inv : cartPageList) {
 							subtotal += (inv.getSale_price() * inv.getCount());
 							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
-							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+							total += ((inv.getSale_price() * inv.getCount())
+									+ ((inv.getSale_price() * inv.getCount()) * 0.075));
 						}
 						total = Math.round(total * 100.0) / 100.0;
 						SubtotalText.setText(Double.toString(subtotal));
