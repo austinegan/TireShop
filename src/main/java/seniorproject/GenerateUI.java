@@ -714,7 +714,7 @@ public class GenerateUI {
 		
 		Button btnProductsPageEditCartCount = new Button(composite_5, SWT.NONE);
 		btnProductsPageEditCartCount.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		btnProductsPageEditCartCount.setText("New Edit Cart Count for Selected Product");
+		btnProductsPageEditCartCount.setText("Edit Cart Count for Selected Product");
 
 		Composite CartPopupComp = new Composite(ProductsComposite_1, SWT.NONE);
 		CartPopupComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, true, 1, 1));
@@ -1424,22 +1424,53 @@ public class GenerateUI {
 			}
 		});
 		
-		
 		btnEditInvSubmit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//TODO error checking maybe
-				invPageSelected.setBrand(editInvBrand.getText());
-				invPageSelected.setModel_number(editInvModel.getText());
-				invPageSelected.setSize(editInvModel.getText());
-				invPageSelected.setCount(Integer.parseInt(editInvQuantity.getText()));
-				invPageSelected.setPurchase_price(Double.parseDouble(editInvPurchasePrice.getText()));
-				invPageSelected.setSale_price(Double.parseDouble(editInvSalePrice.getText()));
-				InventoryDao.updateInventory(invPageSelected);
+				System.out.println("Button : Edit Inventory");
+				Session session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+				int row = tableInv.getSelectionIndex();
+				Inventory inv = invPageList.get(row);
+				inv.setBrand(editInvBrand.getText());
+				inv.setModel_number(editInvModel.getText());
+				inv.setSize(editInvSize.getText());
+				String msg = "";
+				try {
+					int intQuantity = Integer.parseInt(editInvQuantity.getText());
+					inv.setCount(intQuantity);
+				} catch (NumberFormatException nfe) {
+					msg += "Quantity must be an integer. ";
+				}
+				try {
+					Double purchasePrice = Double.parseDouble(editInvPurchasePrice.getText());
+					inv.setPurchase_price(purchasePrice);
+				} catch (NumberFormatException nfe) {
+					msg += "Purchase price must be a double. ";
+				}
+				try {
+					Double salePrice = Double.parseDouble(editInvSalePrice.getText());
+					inv.setSale_price(salePrice);
+				} catch (NumberFormatException nfe) {
+					msg += "Sale price must be a double. ";
+				}
+				if (Validation.inventoryIsValid(inv, editInvError, msg)) {
+					int width = Integer.parseInt(editInvSize.getText().substring(0, 3));
+					inv.setWidth(width);
+					int aspectRatio = Integer.parseInt(editInvSize.getText().substring(4, 6));
+					inv.setAspectratio(aspectRatio);
+					int diameter = Integer.parseInt(editInvSize.getText().substring(7, 9));
+					inv.setDiameter(diameter);
+					session.update(inv);
+					session.getTransaction().commit();
+				} else {
+					session.close();
+				}
 			}
 		});
 	
 		
+<<<<<<< HEAD
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -1466,6 +1497,9 @@ public class GenerateUI {
 	
 	
 
+=======
+	}	
+>>>>>>> branch 'main' of https://github.com/austinegan/TireShop.git
 
 	public void switchStackLayoutToShowArgument(Composite showThis) {
 		((StackLayout) showThis.getParent().getLayout()).topControl = showThis;
