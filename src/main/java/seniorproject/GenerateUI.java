@@ -1079,6 +1079,7 @@ public class GenerateUI {
 		});
 
 		Button btnEditInvSubmit = new Button(EditInvComp, SWT.NONE);
+
 		btnEditInvSubmit.setText("Submit");
 		new Label(EditInvComp, SWT.NONE);
 
@@ -1340,6 +1341,15 @@ public class GenerateUI {
 					switchStackLayoutToShowArgument(EditCustComp);
 				}
 				switchStackLayoutToShowArgument(EditInvComp);
+			}
+		});
+		
+		
+		btnEditInvSubmit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//TODO error checking maybe
+				
 			}
 		});
 		
