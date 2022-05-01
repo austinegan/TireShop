@@ -791,38 +791,69 @@ public class GenerateUI {
 		decreaseBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if(selectedProduct != null)  {
 				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
+				double subtotal = 0;
+				double tax = 0;
+				double total = 0;
 				if (cartReference != null && cartReference.getCount() > 0) {
 					cartReference.setCount(cartReference.getCount() - 1);
 					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
-					if (cartReference.getCount() == 0) {
-						// remove from map and from List
+
+					for (Inventory inv : cartPageList) {
+						subtotal += (inv.getSale_price() * inv.getCount());
+						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+					}
+					total = Math.round(total * 100.0) / 100.0;
+					SubtotalText.setText(Double.toString(subtotal));
+					TaxText.setText(Double.toString(tax));
+					CartTotalText.setText(Double.toString(total));
+					if(cartReference.getCount() == 0) {
+						//remove from map and from List
+
 						mapCart.remove(cartReference.getId());
 						cartPageList.remove(cartReference);
-					}
+
+					
+
+						for (Inventory inv : cartPageList) {
+							subtotal += (inv.getSale_price() * inv.getCount());
+							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+						}
+					}					
+
 				} else {
 					System.out.println("cannot decrement. not enought items");
 					// TODO put in error field
 				}
+			}
 			}
 		});
 
 		increaseBtn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if(selectedProduct != null)  {
 				Inventory cartReference = getCartObjectFromID(selectedProduct.getId());
-				// were there 0? add to list and map
-
-				if (cartReference == null) {
-					if (selectedProduct.getCount() > 0) {	// create map and List indices for this cart item w/ count of 1
-						cartReference = new Inventory(selectedProduct.getBrand(), selectedProduct.getModel_number(),
-								selectedProduct.getSale_price(), selectedProduct.getPurchase_price(), 1,
-								selectedProduct.getSize(), selectedProduct.getWidth(), selectedProduct.getAspectratio(),
-								selectedProduct.getDiameter());
+				double subtotal = 0;
+				double tax = 0;
+				double total = 0;
+				//were there 0? add to list and map
+				
+				if(cartReference == null) {
+					if(selectedProduct.getCount() > 0) {	//create map and List indices for this cart item w/ count of 1
+						cartReference = new Inventory(selectedProduct.getBrand(), selectedProduct.getModel_number(), selectedProduct.getSale_price(), selectedProduct.getPurchase_price(), 1, selectedProduct.getSize(), selectedProduct.getWidth(), selectedProduct.getAspectratio(), selectedProduct.getDiameter());
 						cartPageList.add(cartReference);
 						cartReference.setId(selectedProduct.getId());
 						mapCart.put(cartReference.getId(), cartReference);
 						cartCountLbl.setText(String.valueOf(cartReference.getCount()));
+						for (Inventory inv : cartPageList) {
+							subtotal += (inv.getSale_price() * inv.getCount());
+							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+						}
 					}
 				} else if (cartReference.getCount() == selectedProduct.getCount()) {
 					System.out.println("Cannot increment item " + cartReference.getBrand() + " "
@@ -831,7 +862,17 @@ public class GenerateUI {
 				} else { // not null and not == inv.count. So increment cart
 					cartReference.setCount(cartReference.getCount() + 1);
 					cartCountLbl.setText(String.valueOf(cartReference.getCount()));
+					for (Inventory inv : cartPageList) {
+						subtotal += (inv.getSale_price() * inv.getCount());
+						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+					}
+					total = Math.round(total * 100.0) / 100.0;
+					SubtotalText.setText(Double.toString(subtotal));
+					TaxText.setText(Double.toString(tax));
+					CartTotalText.setText(Double.toString(total));
 				}
+			}
 			}
 		});
 
@@ -893,6 +934,16 @@ public class GenerateUI {
 		CartTotalText = new Text(composite, SWT.BORDER);
 
 		Button btnClearCart = new Button(composite, SWT.NONE);
+		btnClearCart.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Button : Clear Cart");
+				cartPageList.clear();
+				SubtotalText.setText("");
+				TaxText.setText("");
+				CartTotalText.setText("");
+			}
+		});
 		btnClearCart.setText("Clear Cart");
 
 		Button btnNewButton = new Button(composite, SWT.NONE);
@@ -901,7 +952,7 @@ public class GenerateUI {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				checkoutAmount = Long.parseLong(CartTotalText.getText()) * 100;
+				checkoutAmount = (long) (Double.parseDouble(CartTotalText.getText()) * 100);
 				System.out.println("Amount in cents is " + checkoutAmount);
 				SpendMoney.initialize();
 				SpendMoney.payWithTerminal(checkoutAmount);
@@ -1767,6 +1818,18 @@ public class GenerateUI {
 				public void widgetSelected(SelectionEvent e) {
 					// TODO confirmation dialogue
 					cartPageList.remove(inv);
+					double subtotal = 0;
+					double tax = 0;
+					double total = 0;
+					for (Inventory inv : cartPageList) {
+						subtotal += (inv.getSale_price() * inv.getCount());
+						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+					}
+					total = Math.round(total * 100.0) / 100.0;
+					SubtotalText.setText(Double.toString(subtotal));
+					TaxText.setText(Double.toString(tax));
+					CartTotalText.setText(Double.toString(total));
 					fillCartItemsGridLayout();
 				}
 			});
@@ -1792,6 +1855,19 @@ public class GenerateUI {
 						inv.setCount(inv.getCount() - 1);
 						QuantityText.setText(String.valueOf(inv.getCount()));
 						ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
+						double subtotal = 0;
+						double tax = 0;
+						double total = 0;
+						for (Inventory inv : cartPageList) {
+							subtotal += (inv.getSale_price() * inv.getCount());
+							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+						}
+						total = Math.round(total * 100.0) / 100.0;
+						SubtotalText.setText(Double.toString(subtotal));
+						TaxText.setText(Double.toString(tax));
+						CartTotalText.setText(Double.toString(total));
+						
 					} else {
 						System.out.println("cannot decrement. not enought items");
 						// TODO put in error field
@@ -1805,6 +1881,18 @@ public class GenerateUI {
 						inv.setCount(inv.getCount() + 1);
 						QuantityText.setText(String.valueOf(inv.getCount()));
 						ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
+						double subtotal = 0;
+						double tax = 0;
+						double total = 0;
+						for (Inventory inv : cartPageList) {
+							subtotal += (inv.getSale_price() * inv.getCount());
+							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+						}
+						total = Math.round(total * 100.0) / 100.0;
+						SubtotalText.setText(Double.toString(subtotal));
+						TaxText.setText(Double.toString(tax));
+						CartTotalText.setText(Double.toString(total));
 					} else {
 						System.out.println("cannot increment. we're up against the inventory limit");
 						// TODO put in error field
