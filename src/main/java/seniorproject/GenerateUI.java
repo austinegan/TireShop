@@ -177,7 +177,7 @@ public class GenerateUI {
 
 	public static void initialize() {
 		allProductColumns = new String[] { "ID", "Brand", "Model Number", "Sale Price", "Purchase Price", "Count",
-				"Width", "Size", "Aspect Ration", "Diameter" };
+				"Width", "Size", "Aspect Ratio", "Diameter" };
 		someProductColumns = new String[] { "Brand", "Model", "Size", "Quantity", "Sale Price" };
 		customerColumns = new String[] { "Name", "Phone", "Address", "Email" };
 		cartColumns = new String[] { "Brand", "Model", "Size", "Sale Price" };
@@ -683,9 +683,9 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				productsTable.clearAll();
-				fillTableProductsSimple(productsTable,
-						InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(),
-								WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), btnProductsBroadSearch.getSelection()));
+				productsPageList = InventoryDao.generateQueryInventory(BrandCombo.getText(), ModelCombo.getText(),
+						WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), btnProductsBroadSearch.getSelection(), " ORDER BY id");
+				fillTableProductsSimple(productsTable, productsPageList);
 			}
 		});
 		ProdBtnSearch.setText("Search");
@@ -964,7 +964,7 @@ public class GenerateUI {
 			public void widgetSelected(SelectionEvent e) {
 				tableInv.clearAll();
 				fillTableProductsExtensive(tableInv,
-						InventoryDao.generateQueryInventoryCombos(BrandComboInventory.getText(), ModelComboInventory.getText(),
+						InventoryDao.generateQueryInventory(BrandComboInventory.getText(), ModelComboInventory.getText(),
 								WidthComboInventory.getText(), RatioComboInventory.getText(), DiameterComboInventory.getText(), btnInventoryBroadSearch.getSelection()));
 			}
 		});
@@ -1422,20 +1422,37 @@ public class GenerateUI {
 		case "Brand":
 			orderBy += "brand";
 			break;
+		case "Model Number":
 		case "Model":
 			orderBy += "model_number";
 			break;
 		case "Size":
 			orderBy += "size";
 			break;
+		case "Count":
 		case "Quantity":
 			orderBy += "count";
 			break;
 		case "Sale Price":
 			orderBy += "sale_price";
 			break;
+		case "ID":
+			orderBy += "id";
+			break;
+		case "Purchase Price":
+			orderBy += "purchase_price";
+			break;
+		case "Width":
+			orderBy += "width";
+			break;
+		case "Aspect Ratio":
+			orderBy += "aspectratio";
+			break;
+		case "Diameter":
+			orderBy += "diameter";
+			break;
 		default:
-			System.out.println("There has been an error in the column name switch");
+			System.out.println("There has been an error in the column name switch for " + columnHeader);
 			return " AHHHHHHHHHHHHHHH";
 		}
 		return orderBy;
@@ -1444,7 +1461,7 @@ public class GenerateUI {
 	private void sortProductsTable(String columnHeader) {
 		String orderBy = prodInvSwitch(columnHeader);
 		productsTable.clearAll();
-		productsPageList = InventoryDao.generateQueryInventoryCombos(BrandCombo.getText(), ModelCombo.getText(),
+		productsPageList = InventoryDao.generateQueryInventory(BrandCombo.getText(), ModelCombo.getText(),
 				WidthCombo.getText(), RatioCombo.getText(), DiameterCombo.getText(), btnProductsBroadSearch.getSelection(), orderBy);
 		fillTableProductsSimple(productsTable, productsPageList);
 	}
@@ -1453,9 +1470,9 @@ public class GenerateUI {
 	private void sortInventoryTable(String columnHeader) {
 		String orderBy = prodInvSwitch(columnHeader);
 		tableInv.clearAll();
-		invPageList = InventoryDao.generateQueryInventoryCombos(BrandComboInventory.getText(), ModelComboInventory.getText(),
+		invPageList = InventoryDao.generateQueryInventory(BrandComboInventory.getText(), ModelComboInventory.getText(),
 				WidthComboInventory.getText(), RatioComboInventory.getText(), DiameterComboInventory.getText(), btnInventoryBroadSearch.getSelection(), orderBy);
-		fillTableProductsExtensive(productsTable, invPageList);
+		fillTableProductsExtensive(tableInv, invPageList);
 	}
 	
 	/*
