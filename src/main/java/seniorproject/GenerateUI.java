@@ -1771,6 +1771,17 @@ public class GenerateUI {
 				public void widgetSelected(SelectionEvent e) {
 					// TODO confirmation dialogue
 					cartPageList.remove(inv);
+					double subtotal = 0;
+					double tax = 0;
+					double total = 0;
+					for (Inventory inv : cartPageList) {
+						subtotal += (inv.getSale_price() * inv.getCount());
+						tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+						total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+					}
+					SubtotalText.setText(Double.toString(subtotal));
+					TaxText.setText(Double.toString(tax));
+					CartTotalText.setText(Double.toString(total));
 					fillCartItemsGridLayout();
 				}
 			});
@@ -1796,6 +1807,18 @@ public class GenerateUI {
 						inv.setCount(inv.getCount() - 1);
 						QuantityText.setText(String.valueOf(inv.getCount()));
 						ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
+						double subtotal = 0;
+						double tax = 0;
+						double total = 0;
+						for (Inventory inv : cartPageList) {
+							subtotal += (inv.getSale_price() * inv.getCount());
+							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+						}
+						SubtotalText.setText(Double.toString(subtotal));
+						TaxText.setText(Double.toString(tax));
+						CartTotalText.setText(Double.toString(total));
+						
 					} else {
 						System.out.println("cannot decrement. not enought items");
 						// TODO put in error field
@@ -1809,6 +1832,17 @@ public class GenerateUI {
 						inv.setCount(inv.getCount() + 1);
 						QuantityText.setText(String.valueOf(inv.getCount()));
 						ItemTotalCost.setText(String.valueOf(inv.getCount() * inv.getSale_price()));
+						double subtotal = 0;
+						double tax = 0;
+						double total = 0;
+						for (Inventory inv : cartPageList) {
+							subtotal += (inv.getSale_price() * inv.getCount());
+							tax += ((inv.getSale_price() * inv.getCount()) * 0.075);
+							total += ((inv.getSale_price() * inv.getCount()) + ((inv.getSale_price() * inv.getCount()) * 0.075));
+						}
+						SubtotalText.setText(Double.toString(subtotal));
+						TaxText.setText(Double.toString(tax));
+						CartTotalText.setText(Double.toString(total));
 					} else {
 						System.out.println("cannot increment. we're up against the inventory limit");
 						// TODO put in error field
