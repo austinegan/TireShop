@@ -158,6 +158,7 @@ public class GenerateUI {
 	private int cartTotal;
 	private long checkoutAmount;
 	private Customer activeCustomer;
+	private Inventory invPageSelected;
 
 	/**
 	 * Launch the application.
@@ -761,9 +762,7 @@ public class GenerateUI {
 		new Label(CartPopupComp, SWT.NONE);
 		new Label(CartPopupComp, SWT.NONE);
 
-		Text[][] text = new Text[50][50];
-		Button[][] button = new Button[50][50];
-		int[][] plusInt = new int[50][50];
+
 		// button_1_1.setBounds(508, 36, 24, 23);
 		// button_1_1.setText("+");
 		// button_1_1.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
@@ -899,7 +898,7 @@ public class GenerateUI {
 		tbtmNewItem_3.setText("Inventory");
 
 		Composite InventoryComposite = new Composite(tabFolder, SWT.NONE);
-		InventoryComposite.setLocation(-48, -329);
+		//InventoryComposite.setLocation(-48, -329);
 		tbtmNewItem_3.setControl(InventoryComposite);
 		InventoryComposite.setLayout(new GridLayout(2, false));
 
@@ -1326,17 +1325,17 @@ public class GenerateUI {
 							"Too many items selected in the table. Please select only one item before attempting to edit.");
 				} else {
 					int row = tableInv.getSelectionIndex();
-					Inventory thisItem = invPageList.get(row);
+					invPageSelected = invPageList.get(row);
 					/*
 //					System.out.println("Editing customer in row " + String.valueOf(row) + " (zero indexed)");
-//					System.out.println("customer id " + String.valueOf(thisItem.getId()) + " and Name is "
+//					System.out.println("customer id " + String.valueOf(invPageSelecteed.getId()) + " and Name is "
 							+ String.valueOf(customerPageList.get(row).getName())); */
-					editInvBrand.setText(thisItem.getBrand());
-					editInvModel.setText(thisItem.getModel_number());
-					editInvSize.setText(thisItem.getSize());
-					editInvQuantity.setText(String.valueOf(thisItem.getCount()));
-					editInvPurchasePrice.setText(String.valueOf(thisItem.getPurchase_price()));
-					editInvSalePrice.setText(String.valueOf(thisItem.getSale_price()));
+					editInvBrand.setText(invPageSelected.getBrand());
+					editInvModel.setText(invPageSelected.getModel_number());
+					editInvSize.setText(invPageSelected.getSize());
+					editInvQuantity.setText(String.valueOf(invPageSelected.getCount()));
+					editInvPurchasePrice.setText(String.valueOf(invPageSelected.getPurchase_price()));
+					editInvSalePrice.setText(String.valueOf(invPageSelected.getSale_price()));
 					// TODO populate
 					switchStackLayoutToShowArgument(EditCustComp);
 				}
@@ -1349,7 +1348,13 @@ public class GenerateUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//TODO error checking maybe
-				
+				invPageSelected.setBrand(editInvBrand.getText());
+				invPageSelected.setModel_number(editInvModel.getText());
+				invPageSelected.setSize(editInvModel.getText());
+				invPageSelected.setCount(Integer.parseInt(editInvQuantity.getText()));
+				invPageSelected.setPurchase_price(Double.parseDouble(editInvPurchasePrice.getText()));
+				invPageSelected.setSale_price(Double.parseDouble(editInvSalePrice.getText()));
+				InventoryDao.updateInventory(invPageSelected);
 			}
 		});
 		
@@ -1357,15 +1362,7 @@ public class GenerateUI {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 

@@ -30,7 +30,7 @@ public class InventoryDao {
 		}
 	}
 
-	public void addInventory(Inventory inv) {
+	public static void addInventory(Inventory inv) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
@@ -44,7 +44,7 @@ public class InventoryDao {
 		}
 	}
 	
-	public void deleteInventory(Inventory inv) {
+	public static void deleteInventory(Inventory inv) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
@@ -58,7 +58,7 @@ public class InventoryDao {
 		}
 	}
 	
-	public void updateInventory(Inventory inv) {
+	public static void updateInventory(Inventory inv) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
